@@ -1,4 +1,4 @@
-/* .App {
+.App {
   text-align: center;
 }
 
@@ -27,10 +27,15 @@
 .App-link {
   color: #61dafb;
 }
-body {
+
+ body {
   text-align: center;
-  padding: 200px;
-} */
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+} 
+
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 * {
@@ -54,7 +59,7 @@ body {
 .button {
   display: inline-block;
   background: #4285f4;
-  color: #282c34;
+  color: #323428;
   text-transform: uppercase;
   padding: 20px 30px;
   border-radius: 5px;
@@ -65,22 +70,37 @@ body {
 }
 .button:hover {
   box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
-  -webkit-transform: translate(0px, -5px) scale(1.1);
-          transform: translate(0px, -5px) scale(1.1);
+  -webkit-transform: translate(0px, -5px) scale(1.05);
+          transform: translate(0px, -5px) scale(1.05);
+}
+
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 
 
 
-
 .body {
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background: linear-gradient(-45deg, #071A2E, #011E3C, #004C99);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 	height: 100vh;
 }
 .navbar{
     padding: 20px;
+}
+
+card {
+  background-color: #004C99;
+  color: #004C99;
 }
 
 @keyframes gradient {
@@ -104,4 +124,24 @@ h1 {
   background: -webkit-linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.link-underline {
+  text-decoration: none;
+}
+
+.Jumbotron {
+  padding-bottom: 10px;
+  margin:0px auto;
+  background: #071A2E ;
+}
+
+h2 {
+  background: -webkit-linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.minilogo {
+  padding-top: 10px;
 }

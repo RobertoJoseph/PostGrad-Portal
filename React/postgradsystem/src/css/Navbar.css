@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #060b26;
+    background-color: #071A2E;
     height: 80px;
     display: flex;
     justify-content: start;
@@ -13,7 +13,7 @@
   }
   
   .nav-menu {
-    background-color: #060b26;
+    background-color: #071A2E;
     width: 250px;
     height: 100vh;
     display: flex;
@@ -59,7 +59,7 @@
   }
   
   .navbar-toggle {
-    background-color: #060b26;
+    background-color: #071A2E;
     width: 100%;
     height: 80px;
     display: flex;

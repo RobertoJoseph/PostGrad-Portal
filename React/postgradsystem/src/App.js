@@ -11,6 +11,7 @@ import ExaminerNavbar from './components/ExaminerNavbar';
 function App() {
   return (
     <BrowserRouter>
+    <StudentNavbar></StudentNavbar>
     </BrowserRouter>
 
   );
