@@ -6,7 +6,6 @@ import Main from './components/RegisterComponent'
 function App() {
   return (
     
-   
      <div>
        <Main></Main>
      </div>

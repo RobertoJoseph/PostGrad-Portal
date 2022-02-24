@@ -3,12 +3,16 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  import { faSignIn,faUserPlus } from '@fortawesome/free-solid-svg-icons'
  const Register = (props) => {
     return (
         <div className="container">
-            <div className="row justify-content-center align-items-center">
+            <div className="row">
                 <div className="col-12 col-md-6">
-                    <Card >
+
+                    <Card className="button" >
+                <FontAwesomeIcon icon={faSignIn} size="10x"></FontAwesomeIcon>
                         <CardBody>
                             <CardTitle>Hablozlo</CardTitle>
                             <CardText>KakaMe3eze</CardText>
@@ -16,7 +20,10 @@ import {
                     </Card>
                 </div>
                 <div className="col-12 col-md-6">
-                    <Card >
+                    <Card className="button" >
+                        
+                <FontAwesomeIcon icon={faUserPlus} size="10x"></FontAwesomeIcon>
+                  
                         <CardBody>
                             <CardTitle>Hablozlo</CardTitle>
                             <CardText>KakaMe3eze</CardText>
@@ -24,6 +31,7 @@ import {
                     </Card>
                 </div>
             </div>
+           
 
         </div>
     );
