@@ -1,14 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
-import Main from './components/RegisterComponent'
+import Main from './components/MainComponent'
+import Header from './components/HeaderComponent'
+import { BrowserRouter } from 'react-router-dom';
 
 
 function App() {
   return (
-    
-     <div>
-       <Main></Main>
-     </div>
+    <BrowserRouter>
+      <div>
+        <Main></Main>
+      </div>
+    </BrowserRouter>
+
 
   );
 }
