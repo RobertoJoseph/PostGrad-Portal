@@ -9,8 +9,7 @@ const Home = (props) => {
         <div className="container">
             <div className="row">
                 <div className="col-12 col-md-6">
-                    <Link to="/register">
-
+                    <Link to="/login">
                         <Card className="button" >
                             <FontAwesomeIcon icon={faSignIn} size="10x" className='icons'></FontAwesomeIcon>
                             <CardBody>
@@ -20,7 +19,7 @@ const Home = (props) => {
                     </Link>
                 </div>
                 <div className="col-12 col-md-6">
-                    <Link to="/login">
+                    <Link to="/Register">
                         <Card className="button" >
 
                             <FontAwesomeIcon icon={faUserPlus} size="10x" className='icons'></FontAwesomeIcon>

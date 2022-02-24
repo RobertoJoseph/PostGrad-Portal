@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -30,6 +30,25 @@
 body {
   text-align: center;
   padding: 200px;
+} */
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.thesis,
+.courses,
+.reports,
+.publications {
+  display: flex;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
 }
 
 .button {
@@ -50,26 +69,18 @@ body {
           transform: translate(0px, -5px) scale(1.1);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-.cardTitle-register {
-  text-align: center;
-  font-family: Tahoma, sans-serif;
-  font-size: large;
-}
+
+
 
 .body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 	height: 100vh;
+}
+.navbar{
+    padding: 20px;
 }
 
 @keyframes gradient {
