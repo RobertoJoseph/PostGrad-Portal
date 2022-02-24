@@ -15,12 +15,11 @@ class Main extends Component {
     render() {
         return (
             <div>
-
                 <Switch>
                     <Route path="/home" component={Home}></Route>
                     <Route path="/login" component={StudentNavbar}></Route>
                     <Route path="/register" component={Register}></Route>
-
+                
                 </Switch>
 
 

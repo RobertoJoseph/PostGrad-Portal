@@ -10,30 +10,36 @@ const Home = (props) => {
     return (
         <>
             <Header></Header>
-        <div className="container ">
+            <div className="container ">
 
-            <div className="row m-5">
-                <div className="col-12 col-md-6">
+                <div className="row m-5">
+                    <div className="col-12 col-md-6">
+                        <Link to="/login" className='link-underline'>
+                            <Card className="button" style={{ background: '	#071A2E' }} >
+                                <FontAwesomeIcon icon={faSignIn} size="10x" className='icons'></FontAwesomeIcon>
 
-                    <Button className='home-button'> <FontAwesomeIcon icon={faSignIn} size="10x" className='icons'></FontAwesomeIcon> <br/><br></br><br></br><h1>Login In</h1> </Button>
+                                <CardBody style={{ background: '	#071A2E' }} >
+                                    <CardTitle className="cardTitle-register"><br></br><br></br><h1>Log In</h1></CardTitle>
+                                </CardBody>
+                            </Card>
+                        </Link>                    </div>
+                    <div className="col-12 col-md-6">
+
+                        <Link to="/register" className='link-underline'>
+                            <Card className="button" style={{ background: '	#071A2E' }} >
+                                <FontAwesomeIcon icon={faUserPlus} size="10x" className='icons'></FontAwesomeIcon>
+
+                                <CardBody style={{ background: '#071A2E' }} >
+                                    <CardTitle className="cardTitle-register"><br></br><br></br><h1>Sign Up</h1></CardTitle>
+                                </CardBody>
+                            </Card>
+                        </Link>
+                    </div>
                 </div>
-                <div className="col-12 col-md-6">
-                    <Link to="/login" className='link-underline'>
-                        <Card className="button" >
 
-                            <FontAwesomeIcon icon={faUserPlus} size="10x" className='icons'></FontAwesomeIcon>
 
-                            <CardBody>
-                                <CardTitle className="cardTitle-register"><br></br><br></br><h1>Sign Up</h1></CardTitle>
-                            </CardBody>
-                        </Card>
-                    </Link>
-                </div>
+
             </div>
-
-
-
-        </div>
         </>
     );
 

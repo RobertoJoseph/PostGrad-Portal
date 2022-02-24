@@ -6,12 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import StudentNavbar from './components/StudentNavbar';
 import SupervisorNavbar from './components/SupervisorNavbar';
 import ExaminerNavbar from './components/ExaminerNavbar';
+import Home from './components/HomeComponent';
 
 
 function App() {
   return (
     <BrowserRouter>
-    <StudentNavbar></StudentNavbar>
+      <Home></Home>
     </BrowserRouter>
 
   );
