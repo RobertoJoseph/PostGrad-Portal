@@ -46,8 +46,8 @@ body {
 }
 .button:hover {
   box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
-  -webkit-transform: translate(0px, -10px) scale(1.2);
-          transform: translate(0px, -10px) scale(1.2);
+  -webkit-transform: translate(0px, -5px) scale(1.1);
+          transform: translate(0px, -5px) scale(1.1);
 }
 
 @keyframes App-logo-spin {
@@ -57,4 +57,40 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+.cardTitle-register {
+  text-align: center;
+  font-family: Tahoma, sans-serif;
+  font-size: large;
+}
+
+body {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.icons {
+  color: #23a6d5 ;
+}
+
+h1 {
+  font-size: 72px;
+  background: -webkit-linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
