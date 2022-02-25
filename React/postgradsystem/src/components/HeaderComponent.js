@@ -1,8 +1,6 @@
-import React, { Component } from 'react'
-import { Nav, Navbar, Container, NavbarBrand, NavbarText, NavbarToggler, Col, Collapse, NavItem, ModalFooter, Modal, ModalBody, Button, ModalHeader, Form, FormGroup, Label, Input } from 'reactstrap';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfo } from '@fortawesome/free-solid-svg-icons'
+
 
 
 class Header extends Component {
@@ -29,17 +27,22 @@ class Header extends Component {
                 <div className="Jumbotron">
                     <div className="container">
                         <div className="row">
-                            <div className="col col-sm-1 minilogo">
+                                <div className="col col-sm-1 minilogo">
+                            <Link to="/home" style={{textDecoration: 'none'}}>
+                                    <img src='assets/images/minilogo.png' alt="GUC" height="30" width="30" />
+                                    </Link>
 
-                                <img src='assets/images/minilogo.png' alt="GUC" height="30" width="30"  />
+                                </div>
+                                <div className="col col-sm-8">
+                                <Link to="/home" style={{textDecoration: 'none'}}>
 
-                            </div>
-                            <div className="col col-sm-8">
-                                <h2>German University in Cairo   /   <small>Post-Grad Office</small> </h2>
-                            </div>
+                                    <h2 style={{ color: 'white', fontWeight: '400' }}>German University in Cairo   /   <small style={{ fontWeight: '100', fontSize: '25px' }}>Post-Grad Office</small> </h2>
+                            </Link>
+                                </div>
                             <div className='col col-sm-3'>
 
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import Header from './HeaderComponent'
+import React, { Component } from 'react';
 import Home from './HomeComponent';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Register from './RegisterComponent'
@@ -19,6 +18,7 @@ class Main extends Component {
                     <Route path="/home" component={Home}></Route>
                     <Route path="/login" component={StudentNavbar}></Route>
                     <Route path="/register" component={Register}></Route>
+                    <Redirect to="/home"></Redirect>
                 
                 </Switch>
 

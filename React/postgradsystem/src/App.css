@@ -30,7 +30,7 @@
 
  body {
   text-align: center;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background: linear-gradient(-45deg, #071A2E, #011E3C, #1338BE);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 	height: 100vh;
@@ -99,10 +99,7 @@
     padding: 20px;
 }
 
-card {
-  background-color: #004C99;
-  color: #004C99;
-}
+
 
 @keyframes gradient {
 	0% {
@@ -120,12 +117,7 @@ card {
   color: #fff ;
 }
 
-h1 {
-  font-size: 72px;
-  background: -webkit-linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+
 
 .link-underline {
   text-decoration: none;
@@ -137,12 +129,9 @@ h1 {
   background: #071A2E ;
 }
 
-h2 {
-  background: -webkit-linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+
 
 .minilogo {
   padding-top: 10px;
 }
+
