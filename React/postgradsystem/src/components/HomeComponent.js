@@ -6,6 +6,8 @@ import { Button } from 'reactstrap';
 import { faSignIn, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
 import * as FaIcons from "react-icons/fa";
+import Login from './LoginComponent';
+import Register from './RegisterComponent';
 
 
 
@@ -34,16 +36,10 @@ export default function Home() {
             <div className="container">
                 <div className="row">
                     <div className=" col-12 col-md-6">
-                    <Link to="register">
-
-                        <Button className="bt1 bg-primary button"><FaIcons.FaUserPlus></FaIcons.FaUserPlus> Sign Up</Button>
-                        </Link>
-
+                        <Register></Register>
                     </div>
                     <div className="col-12 col-md-6">
-                        <Link to="login">
-                            <Button className="bt2 bg-success button "><FaIcons.FaSignInAlt></FaIcons.FaSignInAlt> Login</Button>
-                        </Link>
+                        <Login></Login>
                     </div>
 
                 </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardTitle, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignIn, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { faIcons, faSignIn, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
 import Header from './HeaderComponent';
 import Home from './HomeComponent';
@@ -9,6 +9,7 @@ import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 import * as RiIcons from "react-icons/ri";
 import { IconContext } from 'react-icons';
+import * as FaIcons from "react-icons/fa";
 import { Nav, Navbar, NavbarBrand, NavbarToggler, Col, Collapse, NavItem, ModalFooter, Modal, ModalBody, ModalHeader, Form, FormGroup, Label, Input } from 'reactstrap';
 
 
@@ -18,9 +19,11 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModalOpen: true
+            isModalOpen: false
         }
-        this.toggleModal = this.toggleModal.bind(this)
+        this.toggleModal = this.toggleModal.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+
     }
 
     toggleModal() {
@@ -28,38 +31,45 @@ class Login extends Component {
             isModalOpen: !this.state.isModalOpen
         })
     }
+    handleLogin(event) {
+        this.toggleModal();
+        alert("Username: " + this.username.value + " Password: " + this.password.value
+            + " Remember: " + this.remember.checked);
+        event.preventDefault();
+
+    }
 
     render() {
         return (
             <IconContext.Provider value={{ color: '#fff' }}>
                 <div>
-                    <Home></Home>
+
+                    <Button className="bt2 bg-success button " onClick={this.toggleModal}><FaIcons.FaSignInAlt></FaIcons.FaSignInAlt> Login</Button>
+
                     <Modal centered isOpen={this.state.isModalOpen} >
-                        <ModalHeader className="modal-header-color" close={<a className="close link-underline" onClick={this.toggleModal}>X</a>} ><span className="modal-title">Log In</span></ModalHeader>
+                        <ModalHeader className="modal-header-color" close={<a className="close link-underline" onClick={this.toggleModal}>
+                            <i class="fa fa-times" aria-hidden="true"></i></a>} ><span className="modal-title">Log In</span>
+                        </ModalHeader>
                         <ModalBody>
-                            <Form >
+                            <Form onSubmit={this.handleLogin}>
                                 <FormGroup>
                                     <Label htmlFor="username">Username</Label>
-                                    <Input id="username" name="username" type="text"
-                                    ></Input>
+                                    <Input type="text" id="username" name="username"
+                                        innerRef={(input) => this.username = input} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" name="password" type="password"
-                                    ></Input>
+                                    <Input type="password" id="password" name="password"
+                                        innerRef={(input) => this.password = input} />
                                 </FormGroup>
                                 <FormGroup check>
                                     <Label check>
-                                        <Input type="checkbox" id="remember" name="remember"
-                                        ></Input>
-                                        Remember Me
+                                        <Input type="checkbox" name="remember"
+                                            innerRef={(input) => this.remember = input} />
+                                        Remember me
                                     </Label>
                                 </FormGroup>
-                                <ModalFooter>
-                                    <Button type="submit" value="submit" style={{ backgroundColor: '#071A2E' }}
-                                    >Login </Button>
-                                </ModalFooter>
-
+                                <Button type="submit" value="submit" color="primary" className='offset-md-10'>Login</Button>
                             </Form>
                         </ModalBody>
                     </Modal>
