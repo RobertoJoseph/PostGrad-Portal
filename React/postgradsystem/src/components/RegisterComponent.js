@@ -1,92 +1,147 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Home from './HomeComponent';
-import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import {
+    Button, Modal, ModalHeader, ModalBody, Label, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink,
+    Form, FormGroup, Input
+} from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { IconContext } from 'react-icons';
 import classnames from 'classnames';
 
 
 
-class Register extends Component {
+function Register() {
+    const [showModal, setShowModal] = useState(true);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isModalOpen: true,
-            currentActiveTab: '1'
-        }
-        this.toggleModal = this.toggleModal.bind(this);
-        this.toggle = this.toggle.bind(this);
+    const [activeTab, setActiveTab] = useState("1")
 
+    const changeTab = tab => {
+        if (activeTab !== tab) setActiveTab(tab);
     }
 
-    
-    toggleModal() {
-        this.setState({
-            isModalOpen: !this.state.isModalOpen
-        })
+
+    const openModal = () => {
+        setShowModal(prev => !prev)
+
     }
+    return (
+        <React.Fragment>
 
-    toggle = tab => {
-        if (this.state.currentActiveTab !== tab) {
-            this.setState({
-                currentActiveTab: tab
-            })
-        } 
-    }
-
-    render() {
-        this.toggle = this.toggle.bind(this);
-        return (
-            <React.Fragment>
-
-
-
-                <IconContext.Provider value={{ color: '#fff' }}>
-                    <div>
-                        <Home></Home>
-                        <Modal centered isOpen={this.state.isModalOpen} >
-                            <ModalHeader className="modal-header-color" close={<a className="close link-underline" onClick={this.toggleModal}>X</a>} ><span className="modal-title">Sign Up</span></ModalHeader>
-                            <ModalBody>
-                                <div>
-                                    <Nav tabs>
-                                        <NavItem>
-                                            <NavLink className={classnames({ active: this.state.currentActiveTab === '1' })} onClick={() => { this.toggle('1'); }} >
-                                                Tab1
+            <IconContext.Provider value={{ color: '#fff' }}>
+                <div>
+                    <Home></Home>
+                    <Modal centered isOpen={showModal} >
+                        <ModalHeader className="modal-header-color" close={<a className="close link-underline" onClick={openModal}>X</a>} ><span className="modal-title">Sign Up</span></ModalHeader>
+                        <ModalBody>
+                            <div>
+                                <Nav tabs >
+                                    <Col md={6}>
+                                        <NavItem >
+                                            <NavLink
+                                                className={classnames({
+                                                    active:
+                                                        activeTab === '1'
+                                                })}
+                                                onClick={() => { changeTab('1'); }}
+                                            >
+                                                Student
                                             </NavLink>
                                         </NavItem>
+                                    </Col>
+                                    <Col md={6}>
                                         <NavItem>
-                                            <NavLink className={classnames({ active: this.state.currentActiveTab === '2' })} onClick={() => { this.toggle('2'); }} >
-                                                Tab2
+                                            <NavLink
+                                                className={classnames({
+                                                    active:
+                                                        activeTab === '2'
+                                                })}
+                                                onClick={() => { changeTab('2'); }}
+                                            >
+                                                Supervisor
                                             </NavLink>
                                         </NavItem>
-                                    </Nav>
-                                    <TabContent currentActiveTab={this.state.currentActiveTab}>                                        
-                                        <TabPane tabId="1">
-                                            <Row>
-                                                <Col sm="12">
-                                                { this.state.currentActiveTab === '1' ? <h4>Tab 1 Contents</h4> : null }
-                                                </Col>
-                                            </Row>
-                                        </TabPane>
-                                        <TabPane tabId="2">
-                                            <Row>
-                                                <Col sm="12">
-                                                { this.state.currentActiveTab === '2' ? <h4>Tab 2 Contents</h4> : null }
-                                                </Col>
-                                            </Row>
-                                        </TabPane>
-                                    </TabContent>
-                                </div>
-                            </ModalBody>
-                        </Modal>
+                                    </Col>
+                                </Nav>
+                                <TabContent activeTab={activeTab} >
+                                    <TabPane tabId="1">
+                                        <Row>
+                                            <Col>
+                                                <Form className="mt-3" >
+                                                    <FormGroup>
+                                                        <Label htmlFor="lastname">Firstname</Label>
+                                                        <Input id="firstname" name="firstname" type="text"
+                                                        ></Input>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <Label htmlFor="lastname">Lastname</Label>
+                                                        <Input id="lastname" name="lastname" type="text"
+                                                        ></Input>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <Label htmlFor="password">Password</Label>
+                                                        <Input id="password" name="password" type="password"
+                                                        ></Input>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <Label htmlFor="faculty">Faculty</Label>
+                                                        <Input id="lastname" name="lastname" type="text"
+                                                        ></Input>
+                                                    </FormGroup>
+                                                    <FormGroup check>
+                                                        <Label check>
+                                                            <Input type="checkbox" id="remember" name="remember"
+                                                            ></Input>
+                                                            Gucian
+                                                        </Label>
+                                                    </FormGroup>
 
-                    </div>
 
-                </IconContext.Provider>
+                                                </Form>
 
-            </React.Fragment>
-        );
-    }
+
+                                            </Col>
+                                        </Row>
+                                    </TabPane>
+                                    <TabPane tabId="2">
+                                        <Row>
+                                            <Col>
+
+                                                <Form className="mt-3" >
+                                                    <FormGroup>
+                                                        <Label htmlFor="username">Username</Label>
+                                                        <Input id="username" name="username" type="text"
+                                                        ></Input>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <Label htmlFor="password">Password</Label>
+                                                        <Input id="password" name="password" type="password"
+                                                        ></Input>
+                                                    </FormGroup>
+                                                    <FormGroup check>
+                                                        <Label check>
+                                                            <Input type="checkbox" id="remember" name="remember"
+                                                            ></Input>
+                                                            Remember Me
+                                                        </Label>
+                                                    </FormGroup>
+
+
+                                                </Form>
+
+                                            </Col>
+                                        </Row>
+                                    </TabPane>
+                                </TabContent>
+                            </div>
+                        </ModalBody>
+                    </Modal>
+
+                </div>
+
+            </IconContext.Provider>
+
+        </React.Fragment>
+    );
 }
+
 export default Register;

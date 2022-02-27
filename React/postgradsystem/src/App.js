@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import StudentNavbar from './components/StudentNavbar';
 import SupervisorNavbar from './components/SupervisorNavbar';
 import ExaminerNavbar from './components/ExaminerNavbar';
+import Tabs from './components/RegisterComponent';
 
 
 function App() {
