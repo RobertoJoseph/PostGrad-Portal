@@ -34,11 +34,14 @@ export default function Home() {
             <div className="container">
                 <div className="row">
                     <div className=" col-12 col-md-6">
+                    <Link to="register">
+
                         <Button className="bt1 bg-primary button"><FaIcons.FaUserPlus></FaIcons.FaUserPlus> Sign Up</Button>
+                        </Link>
 
                     </div>
                     <div className="col-12 col-md-6">
-                        <Link to="/supervisor">
+                        <Link to="login">
                             <Button className="bt2 bg-success button "><FaIcons.FaSignInAlt></FaIcons.FaSignInAlt> Login</Button>
                         </Link>
                     </div>

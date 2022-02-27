@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignIn, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
 import Header from './HeaderComponent';
+import Home from './HomeComponent';
 import * as MdIcons from "react-icons/md";
 import * as GrIcons from "react-icons/gr";
 import * as RiIcons from "react-icons/ri";
@@ -32,9 +33,9 @@ class Login extends Component {
         return (
             <IconContext.Provider value={{ color: '#fff' }}>
                 <div>
-                    <Header></Header>
+                    <Home></Home>
                     <Modal centered isOpen={this.state.isModalOpen} >
-                        <ModalHeader className="modal-header-color" close={<a className="close link-underline" onClick={this.toggleModal}>X</a>} ><span className="modal-title">Supervisor</span></ModalHeader>
+                        <ModalHeader className="modal-header-color" close={<a className="close link-underline" onClick={this.toggleModal}>X</a>} ><span className="modal-title">Log In</span></ModalHeader>
                         <ModalBody>
                             <Form >
                                 <FormGroup>
