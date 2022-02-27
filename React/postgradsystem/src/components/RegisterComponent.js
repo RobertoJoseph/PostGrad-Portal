@@ -91,7 +91,7 @@ function Register() {
                                 <TabPane tabId="1">
                                     <Row>
                                         <Col>
-                                            <Form className="mt-3"  onClick={handleStudentRegister} >
+                                            <Form className="mt-3"  onSubmit={handleStudentRegister} >
                                                 <FormGroup>
                                                     <Row>
                                                         <Label htmlFor="firstName" md={3}>First Name</Label>
