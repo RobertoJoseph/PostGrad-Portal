@@ -21,6 +21,7 @@ class Main extends Component {
                     <Route path="/login" component={Login}></Route>
                     <Route path="/register" component={Register}></Route>
                     <Route path="/supervisor" component={SupervisorNavbar}></Route>
+                    <Route exact path="/student" component={StudentNavbar}></Route>
                     <Redirect to="/home"></Redirect>
                 
                 </Switch>
