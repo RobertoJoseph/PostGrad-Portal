@@ -1,15 +1,14 @@
 const config={
-    user:"sa",
-    password:"Password.1",
-    server:"localhost",
-    database:"kaka",
+    user:"test",
+    password:"test",
+    server:"SALAH-HEIDAR-LA\\SQLEXPRESS03",
+    database:"postgradsystem",
     options:{
-        trustedConnection:true,
-        enableArithAbort:true,
-
+        trustedConnection:true
     },
-    port:1433,
-    trustServerCertificate: true
+    port:55980,
+    trustServerCertificate: true,
+    connectionTimeout: 30000
 
 }
 
