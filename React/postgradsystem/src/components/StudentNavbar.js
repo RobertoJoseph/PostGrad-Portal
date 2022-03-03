@@ -30,7 +30,7 @@ function StudentNavbar() {
               </Link>
             </li>
             <span className="nav-text ss">Student Profile</span>
-            {StudentData.map((item, index) => {
+            {this.props.data.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
                   <Link to={item.path}>
