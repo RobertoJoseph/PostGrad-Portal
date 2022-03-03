@@ -7,13 +7,9 @@ var cors = require("cors");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var testAPIRouter = require('./routes/testApi')
-const dbOperations = require('./dboperations')
-const adminoperations = require('./adminoperations') 
-const examineroperations = require('./examineroperations') 
+const dbOperations = require('./dboperations') 
 
-
-examineroperations.searchThesis("speed");
-//dbOperations.getOrders();
+dbOperations.getOrders();
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
