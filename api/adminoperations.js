@@ -47,7 +47,6 @@ async function AdminViewAllTheses() {
 
 async function AdminViewOnGOingTheses() {
     try {
-        var x = -1; 
         let pool = await sql.connect(config);
         const result = (await pool.request().output("ThesisCount",sql.Int,0).execute(`AdminViewOnGOingTheses`));
         console.log(result.output.ThesisCount);
