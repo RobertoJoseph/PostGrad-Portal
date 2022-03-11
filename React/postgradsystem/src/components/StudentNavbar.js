@@ -6,7 +6,7 @@ import { StudentData } from "../data/StudentData";
 import "../css/Navbar.css";
 import { IconContext } from "react-icons";
 import { useLocation } from "react-router-dom";
-function StudentNavbar() {
+function StudentNavbar(props) {
   const [sidebar, setSidebar] = useState(false);
   const location = useLocation();
   const showSidebar = () => setSidebar(!sidebar);
@@ -35,6 +35,7 @@ function StudentNavbar() {
                     <span>{item.title}</span>
                   </Link>
                 </li>
+          
               );
             })}
           </ul>

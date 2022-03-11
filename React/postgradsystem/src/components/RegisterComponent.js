@@ -13,11 +13,9 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Form,
   FormGroup,
-  Input,
 } from "reactstrap";
-import { Control, LocalForm, Errors } from "react-redux-form";
+import { Control, Form, Errors, actions } from "react-redux-form";
 import { IconContext } from "react-icons";
 import classnames from "classnames";
 import * as FaIcons from "react-icons/fa";
@@ -33,39 +31,12 @@ class Register extends Component {
     this.state = {
       isModalOpen: false,
       intialTab: "1",
-      allStudents: [],
-      student: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        faculty: "",
-        address: "",
-        isGucian: false,
-      },
-      supervisor: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        faculty: "",
-      },
-      examiner: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        fieldOfWork: "",
-        isEgyptian: false,
-      },
     };
 
     this.changeTab = this.changeTab.bind(this);
     this.openModal = this.openModal.bind(this);
-    this.handleStudentRegister = this.handleStudentRegister.bind(this);
-    this.handleSupervisorRegister = this.handleSupervisorRegister.bind(this);
-    this.handleExaminerRegister = this.handleExaminerRegister.bind(this);
-    this.handleStudentChange = this.handleStudentChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    
   }
 
   changeTab = (tab) => {
@@ -82,66 +53,25 @@ class Register extends Component {
     });
     console.log("After" + this.state.isModalOpen);
   }
-  handleStudentChange = (event) => {
-    const target = event.target;
-    const value = target === "checked" ? target.checked : target.value;
-    const name = target.name;
-    this.setState({
-      student: {
-        ...this.state.student,
-        [name]: value,
-      },
-    });
-  };
- 
 
-  handleSupervisorRegister = (event) => {
-    var newSupervisor = {
-      firstName: event.target.firstName.value,
-      lastName: event.target.lastName.value,
-      email: event.target.email.value,
-      password: event.target.password.value,
-      faculty: event.target.faculty.value,
-    };
-    this.setState({ supervisor: newSupervisor }, () => {
-      console.log(this.state.supervisor);
-    });
-    event.preventDefault();
-  };
-  handleStudentRegister = (event) => {
-  
-    Axios.post("http://localhost:9000/testApi", this.state.student)
-      .then((response) => {
-        console.log(response);
-        alert("Succesful Insert" + JSON.stringify(response));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  handleExaminerRegister = (event) => {
-    var newExaminer = {
-      firstName: event.target.firstName.value,
-      lastName: event.target.lastName.value,
-      email: event.target.email.value,
-      password: event.target.password.value,
-      fieldOfWork: event.target.fieldOfWork.value,
-      isEgyptian: event.target.isEgyptian.checked,
-    };
-    this.setState({ examiner: newExaminer }, () => {
-      console.log(this.state.examiner);
-    });
-
-    event.preventDefault();
-  };
- 
+  handleSubmit(values) {
+    this.props.addStudent(
+      values.firstName,
+      values.lastName,
+      values.email,
+      values.password,
+      values.faculty,
+      values.address,
+      values.isGucian
+    );
+    // this.props.resetFeedBackForm();
+  }
 
   render() {
+    
     return (
       <IconContext.Provider value={{ color: "#fff" }}>
         <div>
-        
           <Button className="bt1 bg-primary button" onClick={this.openModal}>
             <FaIcons.FaUserPlus></FaIcons.FaUserPlus> Sign Up
           </Button>
@@ -207,8 +137,9 @@ class Register extends Component {
                     <Row>
                       <Col>
                         <Form
+                          model="studentForm"
+                          onSubmit={(values) => this.handleSubmit(values)}
                           className="mt-3"
-                          onSubmit={this.handleStudentRegister}
                         >
                           <FormGroup>
                             <Row>
@@ -216,13 +147,13 @@ class Register extends Component {
                                 First Name
                               </Label>
                               <Col md={9}>
-                                <Input
+                                <Control.text
                                   id="firstName"
                                   name="firstName"
                                   type="text"
-                                  onChange={this.handleStudentChange}
-                                  value={this.state.student.firstName}
-                                ></Input>
+                                  model=".firstName"
+                                  placeholder="First Name"
+                                ></Control.text>
                               </Col>
                             </Row>
                           </FormGroup>
@@ -232,13 +163,13 @@ class Register extends Component {
                                 Last Name
                               </Label>
                               <Col md={9}>
-                                <Input
+                                <Control.text
                                   id="lastName"
                                   name="lastName"
                                   type="text"
-                                  onChange={this.handleStudentChange}
-                                  value={this.state.student.lastName}
-                                ></Input>
+                                  model=".lastName"
+                                  placeholder="Last Name"
+                                ></Control.text>
                               </Col>
                             </Row>
                           </FormGroup>
@@ -248,13 +179,13 @@ class Register extends Component {
                                 Email
                               </Label>
                               <Col md={9}>
-                                <Input
+                                <Control.text
                                   id="email"
                                   name="email"
                                   type="email"
-                                  onChange={this.handleStudentChange}
-                                  value={this.state.student.email}
-                                ></Input>
+                                  model=".email"
+                                  placeholder="Email"
+                                ></Control.text>
                               </Col>
                             </Row>
                           </FormGroup>
@@ -264,13 +195,13 @@ class Register extends Component {
                                 Password
                               </Label>
                               <Col md={9}>
-                                <Input
+                                <Control.text
                                   id="password"
                                   name="password"
                                   type="password"
-                                  onChange={this.handleStudentChange}
-                                  value={this.state.student.password}
-                                ></Input>
+                                  model=".password"
+                                  placeholder="Password"
+                                ></Control.text>
                               </Col>
                             </Row>
                           </FormGroup>
@@ -280,12 +211,11 @@ class Register extends Component {
                                 Faculty
                               </Label>
                               <Col md={9}>
-                                <Input
+                                <Control.select
                                   id="faculty"
                                   name="faculty"
                                   type="select"
-                                  onChange={this.handleStudentChange}
-                                  value={this.state.student.faculty}
+                                  model=".faculty"
                                 >
                                   <option selected value="art">
                                     Arts
@@ -296,7 +226,7 @@ class Register extends Component {
                                   <option value="mngt">Management</option>
                                   <option value="med">Medicine</option>
                                   <option value="phar">Pharmacy</option>
-                                </Input>
+                                </Control.select>
                               </Col>
                             </Row>
                           </FormGroup>
@@ -306,49 +236,44 @@ class Register extends Component {
                                 Address
                               </Label>
                               <Col md={9}>
-                                <Input
+                                <Control.text
                                   id="address"
                                   name="address"
                                   type="textarea"
-                                  onChange={this.handleStudentChange}
-                                  value={this.state.student.address}
-                                ></Input>
+                                  model=".address"
+                                  placeholder="Address"
+                                ></Control.text>
                               </Col>
                             </Row>
                           </FormGroup>
                           <FormGroup check>
                             <Row>
                               <Label check md={{ offset: 3 }}>
-                                <Input
+                                <Control.checkbox
                                   type="checkbox"
                                   id="gucian"
                                   name="isGucian"
-                                  onChange={this.handleStudentChange}
-                                  value={this.state.student.isGucian}
-                                ></Input>
+                                  model=".isGucian"
+                                ></Control.checkbox>
                                 <strong>GUCian</strong>
                               </Label>
                             </Row>
                           </FormGroup>
-                          <Link to={
-                            {
-                              pathname: "/student",
-                              state: {
-                                student: this.state.student,
-                              },
-                              
-                            }
-                          }>Submit</Link>
-                          {/* // <Button
-                          //   type="submit"
-                          //   value="submit"
-                          //   color="primary"
-                          //   className="offset-md-10"
-                          //   id="studentForm"
-                          //   onClick={this.handleOnClick}
-                          // >
-                          //   Submit
-                          // </Button> */}
+                          {/* <Link to="/student" className="link-underline">
+                            Submit
+                          </Link> */}
+                          {
+                            <Button
+                              type="submit"
+                              value="submit"
+                              color="primary"
+                              className="offset-md-10"
+                              id="studentForm"
+                             
+                            >
+                              Submit
+                            </Button>
+                          }
                         </Form>
                       </Col>
                     </Row>

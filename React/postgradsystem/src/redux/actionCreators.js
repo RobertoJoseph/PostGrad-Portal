@@ -1,8 +1,6 @@
 import Axios from "axios";
 
-export const getStudents = () => (dispatch) => {
-  console.log("Action creator get callsdsded");
-
+export const getStudents = () => async (dispatch) => {
   return Axios.get("http://localhost:9000/students")
     .then((response) => {
       console.log(response.data);
@@ -18,6 +16,27 @@ export const showStudents = (students) => ({
   payload: students,
 });
 
-export const addUser = ()=>(dispatch)=>{
-    
-}
+export const addStudent =
+  (firstName, lastName, email, password, faculty, address, isGucian) =>
+  (dispatch) => {
+    console.log("Iam in the action");
+    const newStudent = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      faculty: faculty,
+      address: address,
+      isGucian: isGucian,
+    };
+    return Axios.post("http://localhost:9000/addStudent", newStudent)
+      .then((res) => {
+        alert("Successfuly Added an Student");
+     
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
