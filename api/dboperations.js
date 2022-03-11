@@ -4,8 +4,7 @@ async function getOrders() {
     try {
         let pool = await sql.connect(config);
         let users = await pool.request()
-        .input('input_parameter',sql.VarChar,"Roger")
-        .query("Select * from Supervisor where firstName = @input_parameter");
+        .query("Select * from GucianStudent");
         console.log(users.recordsets)
         return users.recordsets;
        
