@@ -33,6 +33,7 @@ async function StudentRegister(
 
 /* GET users listing. */
 router.post("/", function (req, res, next) {
+  console.log("Iam in posting")
 
   StudentRegister(
     req.body.firstName,
