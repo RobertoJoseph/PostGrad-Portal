@@ -278,7 +278,6 @@ class Register extends Component {
                               color="primary"
                               className="offset-md-10"
                               id="studentForm"
-                              onSubmit={this.goSite}
                             >
                               Submit
                             </Button>
