@@ -9,6 +9,8 @@ var usersRouter = require("./routes/users");
 var students = require("./routes/students");
 const bodyParser = require("body-parser");
 var addStudent = require("./routes/addStudent");
+const login = require("./routes/login");
+
 
 // dbOperations.getOrders();
 var app = express();
@@ -28,6 +30,8 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/students", students);
 app.use("/addStudent", addStudent);
+app.use("/login", login);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
