@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Home from "./HomeComponent";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Route, Redirect, withRouter, Routes, Switch } from "react-router-dom";
 import Register from "./RegisterComponent";
 import StudentNavbar from "./StudentNavbar";
 import Login from "./LoginComponent";
@@ -12,18 +12,13 @@ import { getStudents, addStudent } from "../redux/actionCreators";
 const mapStateToProps = (state) => {
   return {
     students: state.students,
+    
   };
 };
 const mapDispatchToProps = (dispatch) => ({
   getStudents: () => dispatch(getStudents()),
   resetFeedBackForm: () => {
     dispatch(actions.reset("studentForm"));
-  },
-  post: (id) => {
-    dispatch({
-      type: "DELETE",
-      id: id,
-    });
   },
   addStudent: (
     firstName,
@@ -33,7 +28,7 @@ const mapDispatchToProps = (dispatch) => ({
     faculty,
     address,
     isGucian
-  ) => {
+  ) =>
     dispatch(
       addStudent(
         firstName,
@@ -44,8 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
         address,
         isGucian
       )
-    );
-  },
+    ),
 });
 
 class Main extends Component {
@@ -58,24 +52,27 @@ class Main extends Component {
   }
 
   render() {
-   
     return (
       <div>
         <Switch>
-          <Route path="/home" component={Home}></Route>
-          <Route path="/login" component={Login}></Route>
+        <Route exact path="/student" component={StudentNavbar}></Route>
+
           <Route
-            path="/register"
+            path="/"
             component={() => (
-              <Register
-                resetFeedBackForm={this.props.resetFeedBackForm}
+              <Home
                 addStudent={this.props.addStudent}
-              ></Register>
+                resetFeedBackForm={this.props.resetFeedBackForm}
+              ></Home>
             )}
           ></Route>
+          <Route
+            path="/home"
+            component={() => <Home addStudent={this.props.addStudent}></Home>}
+          ></Route>
+          <Route path="/login" component={Login}></Route>
+
           <Route path="/supervisor" component={SupervisorNavbar}></Route>
-          <Route exact path="/student" component={StudentNavbar}></Route>
-          <Redirect to="/home"></Redirect>
         </Switch>
       </div>
     );

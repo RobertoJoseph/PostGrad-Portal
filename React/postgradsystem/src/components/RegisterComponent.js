@@ -36,7 +36,6 @@ class Register extends Component {
     this.changeTab = this.changeTab.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    
   }
 
   changeTab = (tab) => {
@@ -64,11 +63,14 @@ class Register extends Component {
       values.address,
       values.isGucian
     );
+
+  
+
+    alert("HEY ");
     // this.props.resetFeedBackForm();
   }
 
   render() {
-    
     return (
       <IconContext.Provider value={{ color: "#fff" }}>
         <div>
@@ -153,6 +155,7 @@ class Register extends Component {
                                   type="text"
                                   model=".firstName"
                                   placeholder="First Name"
+                                  className="form-control"
                                 ></Control.text>
                               </Col>
                             </Row>
@@ -169,6 +172,7 @@ class Register extends Component {
                                   type="text"
                                   model=".lastName"
                                   placeholder="Last Name"
+                                  className="form-control"
                                 ></Control.text>
                               </Col>
                             </Row>
@@ -185,6 +189,7 @@ class Register extends Component {
                                   type="email"
                                   model=".email"
                                   placeholder="Email"
+                                  className="form-control"
                                 ></Control.text>
                               </Col>
                             </Row>
@@ -201,6 +206,7 @@ class Register extends Component {
                                   type="password"
                                   model=".password"
                                   placeholder="Password"
+                                  className="form-control"
                                 ></Control.text>
                               </Col>
                             </Row>
@@ -216,6 +222,8 @@ class Register extends Component {
                                   name="faculty"
                                   type="select"
                                   model=".faculty"
+                                  placeholder="Faculty"
+                                  className="form-control"
                                 >
                                   <option selected value="art">
                                     Arts
@@ -242,6 +250,7 @@ class Register extends Component {
                                   type="textarea"
                                   model=".address"
                                   placeholder="Address"
+                                  className="form-control"
                                 ></Control.text>
                               </Col>
                             </Row>
@@ -269,7 +278,7 @@ class Register extends Component {
                               color="primary"
                               className="offset-md-10"
                               id="studentForm"
-                             
+                              onSubmit={this.goSite}
                             >
                               Submit
                             </Button>

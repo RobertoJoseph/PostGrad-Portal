@@ -19,7 +19,7 @@ export const showStudents = (students) => ({
 export const addStudent =
   (firstName, lastName, email, password, faculty, address, isGucian) =>
   (dispatch) => {
-    console.log("Iam in the action");
+    console.log("HAHAHAHahh in the action");
     const newStudent = {
       firstName: firstName,
       lastName: lastName,
@@ -38,5 +38,6 @@ export const addStudent =
         console.log(err);
       });
   };
+ 
 
 
