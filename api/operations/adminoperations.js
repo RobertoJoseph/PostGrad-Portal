@@ -34,7 +34,7 @@ async function AdminViewAllTheses() {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request().execute(`AdminViewAllTheses`)).recordset;
-        console.log(result);
+        //console.log(result);
         sql.close();
         return result;
 

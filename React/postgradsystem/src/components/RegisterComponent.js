@@ -1,14 +1,31 @@
 import React, { Component, useState } from "react";
 import Home from "./HomeComponent";
-import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink, Form, FormGroup, Input } from "reactstrap";
-import { Control, LocalForm, Errors, actions } from "react-redux-form";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Label,
+  Row,
+  Col,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Form,
+  FormGroup,
+  Input,
+} from "reactstrap";
+import { Control, LocalForm, Errors } from "react-redux-form";
 import { IconContext } from "react-icons";
 import classnames from "classnames";
 import * as FaIcons from "react-icons/fa";
 import { MdHeight } from "react-icons/md";
 import { faThumbsDown } from "@fortawesome/free-solid-svg-icons";
+import { Link, withRouter } from "react-router-dom";
+import Axios from "axios";
 
-<<<<<<< HEAD
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +33,7 @@ class Register extends Component {
     this.state = {
       isModalOpen: false,
       intialTab: "1",
+      allStudents: [],
       student: {
         firstName: "",
         lastName: "",
@@ -48,21 +66,6 @@ class Register extends Component {
     this.handleSupervisorRegister = this.handleSupervisorRegister.bind(this);
     this.handleExaminerRegister = this.handleExaminerRegister.bind(this);
     this.handleStudentChange = this.handleStudentChange.bind(this);
-=======
-
-
-
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isModalOpen: false,
-      intialTab: "1",
-    };
-    this.changeTab = this.changeTab.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.handleStudentRegister = this.handleStudentRegister.bind(this);
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
   }
 
   changeTab = (tab) => {
@@ -70,9 +73,9 @@ class Register extends Component {
       this.setState({
         intialTab: tab,
       });
-<<<<<<< HEAD
   };
   openModal() {
+    console.log("Here is the props" + " " + this.props.dishes);
     console.log("Before " + this.state.isModalOpen);
     this.setState({
       isModalOpen: !this.state.isModalOpen,
@@ -83,25 +86,15 @@ class Register extends Component {
     const target = event.target;
     const value = target === "checked" ? target.checked : target.value;
     const name = target.name;
-
     this.setState({
       student: {
         ...this.state.student,
         [name]: value,
       },
     });
-=======
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
   };
-  openModal() {
-    console.log("Before " + this.state.isModalOpen);
-    this.setState({
-      isModalOpen: !this.state.isModalOpen,
-    });
-    console.log("After" + this.state.isModalOpen);
-  }
+ 
 
-<<<<<<< HEAD
   handleSupervisorRegister = (event) => {
     var newSupervisor = {
       firstName: event.target.firstName.value,
@@ -116,20 +109,15 @@ class Register extends Component {
     event.preventDefault();
   };
   handleStudentRegister = (event) => {
-    fetch("http://localhost:9000/testApi", {
-      method: "POST",
-      body: JSON.stringify(this.state.student),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "same-origin",
-    })
-      .then((response) => response.json())
-      .then((response) => alert("HE" + JSON.stringify(response)))
-      .catch(error=>console.log(error));
- 
-
-
+  
+    Axios.post("http://localhost:9000/testApi", this.state.student)
+      .then((response) => {
+        console.log(response);
+        alert("Succesful Insert" + JSON.stringify(response));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   handleExaminerRegister = (event) => {
@@ -147,21 +135,13 @@ class Register extends Component {
 
     event.preventDefault();
   };
-=======
+ 
 
-  handleStudentRegister (values) {
-    console.log('Current State is: ' + JSON.stringify(values));
-    alert('Current State is: ' + JSON.stringify(values));
-    this.props.addStudent(values.firstName, values.lastName, values.email, values.password, values.faculty, values.address, values.gucian);
-    this.props.resetStudentForm();
-    
-
-  }
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
   render() {
     return (
       <IconContext.Provider value={{ color: "#fff" }}>
         <div>
+        
           <Button className="bt1 bg-primary button" onClick={this.openModal}>
             <FaIcons.FaUserPlus></FaIcons.FaUserPlus> Sign Up
           </Button>
@@ -169,14 +149,8 @@ class Register extends Component {
             <ModalHeader
               className="modal-header-color"
               close={
-<<<<<<< HEAD
                 <a className="close link-underline" onClick={this.openModal}>
                   <i className="fa fa-times" aria-hidden="true"></i>
-=======
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                <a className="close link-underline" onClick={this.openModal}>
-                  <i class="fa fa-times" aria-hidden="true"></i>
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                 </a>
               }
             >
@@ -232,14 +206,10 @@ class Register extends Component {
                   <TabPane tabId="1">
                     <Row>
                       <Col>
-<<<<<<< HEAD
                         <Form
                           className="mt-3"
                           onSubmit={this.handleStudentRegister}
                         >
-=======
-                        <Form className="mt-3" model="studentForm" onSubmit={(values) => this.handleStudentRegister(values)}>
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                           <FormGroup>
                             <Row>
                               <Label htmlFor="firstName" md={3}>
@@ -249,14 +219,9 @@ class Register extends Component {
                                 <Input
                                   id="firstName"
                                   name="firstName"
-<<<<<<< HEAD
                                   type="text"
                                   onChange={this.handleStudentChange}
                                   value={this.state.student.firstName}
-=======
-                                  model=".firstName"
-                                  type="text"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                                 ></Input>
                               </Col>
                             </Row>
@@ -270,14 +235,9 @@ class Register extends Component {
                                 <Input
                                   id="lastName"
                                   name="lastName"
-<<<<<<< HEAD
                                   type="text"
                                   onChange={this.handleStudentChange}
                                   value={this.state.student.lastName}
-=======
-                                  model=".lastName"
-                                  type="text"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                                 ></Input>
                               </Col>
                             </Row>
@@ -291,14 +251,9 @@ class Register extends Component {
                                 <Input
                                   id="email"
                                   name="email"
-<<<<<<< HEAD
                                   type="email"
                                   onChange={this.handleStudentChange}
                                   value={this.state.student.email}
-=======
-                                  model=".email"
-                                  type="email"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                                 ></Input>
                               </Col>
                             </Row>
@@ -312,14 +267,9 @@ class Register extends Component {
                                 <Input
                                   id="password"
                                   name="password"
-<<<<<<< HEAD
                                   type="password"
                                   onChange={this.handleStudentChange}
                                   value={this.state.student.password}
-=======
-                                  model=".password"
-                                  type="password"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                                 ></Input>
                               </Col>
                             </Row>
@@ -330,7 +280,6 @@ class Register extends Component {
                                 Faculty
                               </Label>
                               <Col md={9}>
-<<<<<<< HEAD
                                 <Input
                                   id="faculty"
                                   name="faculty"
@@ -338,9 +287,6 @@ class Register extends Component {
                                   onChange={this.handleStudentChange}
                                   value={this.state.student.faculty}
                                 >
-=======
-                                <Input id="faculty" name="faculty" type="select" model=".faculty">
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                                   <option selected value="art">
                                     Arts
                                   </option>
@@ -364,12 +310,8 @@ class Register extends Component {
                                   id="address"
                                   name="address"
                                   type="textarea"
-<<<<<<< HEAD
                                   onChange={this.handleStudentChange}
                                   value={this.state.student.address}
-=======
-                                  model=".address"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                                 ></Input>
                               </Col>
                             </Row>
@@ -380,295 +322,33 @@ class Register extends Component {
                                 <Input
                                   type="checkbox"
                                   id="gucian"
-<<<<<<< HEAD
                                   name="isGucian"
                                   onChange={this.handleStudentChange}
                                   value={this.state.student.isGucian}
-=======
-                                  name="gucian"
-                                  model=".gucian"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
                                 ></Input>
                                 <strong>GUCian</strong>
                               </Label>
                             </Row>
                           </FormGroup>
-
-                          <Button
-                            type="submit"
-                            value="submit"
-                            color="primary"
-                            className="offset-md-10"
-                            id="studentForm"
-                          >
-                            Submit
-                          </Button>
-                        </Form>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId="2">
-                    <Row>
-                      <Col>
-<<<<<<< HEAD
-                        <Form
-                          className="mt-3"
-                          onSubmit={this.handleSupervisorRegister}
-                        >
-=======
-                        <Form className="mt-3">
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="firstName" md={3}>
-                                First Name
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="firstName"
-                                  name="firstName"
-<<<<<<< HEAD
-                                  type="text"
-                                  value={this.state.supervisor.firstName}
-=======
-                                  model=".firstName"
-                                  type="text"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="lastName" md={3}>
-                                Last Name
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="lastName"
-                                  name="lastName"
-<<<<<<< HEAD
-                                  type="text"
-                                  value={this.state.supervisor.lastName}
-=======
-                                  model=".lastName"
-                                  type="text"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="email" md={3}>
-                                Email
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="email"
-                                  name="email"
-<<<<<<< HEAD
-                                  type="email"
-                                  value={this.state.supervisor.email}
-=======
-                                  model=".email"
-                                  type="email"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="password" md={3}>
-                                Password
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="password"
-                                  name="password"
-<<<<<<< HEAD
-                                  type="password"
-                                  value={this.state.supervisor.password}
-=======
-                                  model=".password"
-                                  type="password"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="faculty" md={3}>
-                                Faculty
-                              </Label>
-                              <Col md={9}>
-<<<<<<< HEAD
-                                <Input
-                                  id="faculty"
-                                  name="faculty"
-                                  type="select"
-                                  value={this.state.supervisor.faculty}
-                                >
-=======
-                                <Input id="faculty" name="faculty" type="select" model=".faculty">
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                  <option selected value="art">
-                                    Arts
-                                  </option>
-                                  <option value="cs">Computer Science</option>
-                                  <option value="eng">Engineering</option>
-                                  <option value="law">Law</option>
-                                  <option value="mngt">Management</option>
-                                  <option value="med">Medicine</option>
-                                  <option value="phar">Pharmacy</option>
-                                </Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-
-                          <Button
-                            type="submit"
-                            value="submit"
-                            color="primary"
-                            className="offset-md-10"
-                            id="supervisorForm"
-                          >
-                            Submit
-                          </Button>
-                        </Form>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId="3">
-                    <Row>
-                      <Col>
-<<<<<<< HEAD
-                        <Form
-                          className="mt-3"
-                          onSubmit={this.handleExaminerRegister}
-                        >
-=======
-                        <Form className="mt-3">
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="firstName" md={3}>
-                                First Name
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="firstName"
-                                  name="firstName"
-                                  type="text"
-<<<<<<< HEAD
-                                  value={this.state.examiner.firstName}
-=======
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="lastName" md={3}>
-                                Last Name
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="lastName"
-                                  name="lastName"
-                                  type="text"
-<<<<<<< HEAD
-                                  value={this.state.examiner.lastName}
-=======
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="email" md={3}>
-                                Email
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="email"
-                                  name="email"
-                                  type="email"
-<<<<<<< HEAD
-                                  value={this.state.examiner.email}
-=======
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="password" md={3}>
-                                Password
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="password"
-                                  name="password"
-                                  type="password"
-<<<<<<< HEAD
-                                  value={this.state.examiner.password}
-=======
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup>
-                            <Row>
-                              <Label htmlFor="fieldOfWork" md={3}>
-                                Field of work
-                              </Label>
-                              <Col md={9}>
-                                <Input
-                                  id="fieldOfWork"
-                                  name="fieldOfWork"
-                                  type="text"
-<<<<<<< HEAD
-                                  value={this.state.examiner.fieldOfWork}
-=======
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                              </Col>
-                            </Row>
-                          </FormGroup>
-                          <FormGroup check>
-                            <Row>
-                              <Label check md={{ offset: 3 }}>
-                                <Input
-                                  type="checkbox"
-                                  id="national"
-<<<<<<< HEAD
-                                  name="isEgyptian"
-                                  value={this.state.examiner.isEgyptian}
-=======
-                                  name="gucian"
->>>>>>> 70782a98407ca8fa1d7e99b73b0571018595e598
-                                ></Input>
-                                <strong>Egyptian</strong>
-                              </Label>
-                            </Row>
-                          </FormGroup>
-
-                          <Button
-                            type="submit"
-                            value="submit"
-                            color="primary"
-                            className="offset-md-10"
-                            id="examinerForm"
-                          >
-                            Submit
-                          </Button>
+                          <Link to={
+                            {
+                              pathname: "/student",
+                              state: {
+                                student: this.state.student,
+                              },
+                              
+                            }
+                          }>Submit</Link>
+                          {/* // <Button
+                          //   type="submit"
+                          //   value="submit"
+                          //   color="primary"
+                          //   className="offset-md-10"
+                          //   id="studentForm"
+                          //   onClick={this.handleOnClick}
+                          // >
+                          //   Submit
+                          // </Button> */}
                         </Form>
                       </Col>
                     </Row>
@@ -683,4 +363,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default withRouter(Register);
