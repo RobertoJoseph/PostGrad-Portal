@@ -10,8 +10,9 @@ var students = require("./routes/students");
 const bodyParser = require("body-parser");
 var addStudent = require("./routes/addStudent");
 const login = require("./routes/login");
+const studentoperations = require('./operations/studentoperations');
 
-
+studentoperations.editMyProfile("Mark","Zuckerberg","mark123","mark@examp","USA");
 // dbOperations.getOrders();
 var app = express();
 // view engine setup
