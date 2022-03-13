@@ -24,6 +24,7 @@ async function StudentRegister(
       .input("email", sql.VarChar, email)
       .input("address", sql.VarChar, address)
       .execute(`StudentRegister`);
+     
     sql.close();
   } catch (erorr) {
     console.log(erorr);
@@ -34,7 +35,6 @@ async function StudentRegister(
 /* GET users listing. */
 router.post("/", function (req, res, next) {
   console.log("Iam in posting")
-
   StudentRegister(
     req.body.firstName,
     req.body.lastName,

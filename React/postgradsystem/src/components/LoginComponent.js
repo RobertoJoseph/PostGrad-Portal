@@ -48,6 +48,7 @@ class Login extends Component {
     });
   }
   handleLogin(event) {
+
     this.toggleModal();
     alert(
       "Username: " +
@@ -57,6 +58,8 @@ class Login extends Component {
         " Remember: " +
         this.remember.checked
     );
+    
+
     event.preventDefault();
   }
 
