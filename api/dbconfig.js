@@ -1,12 +1,12 @@
 const config={
     user:"test",
     password:"test",
-    server:"SALAH-HEIDAR-LA\\SQLEXPRESS03",
-    database:"postgradsystem",
+    server:"DESKTOP-FLM4B5O\\SQLEXPRESS",
+    database:"PostGradSystem",
     options:{
         trustedConnection:true
     },
-    port:55980,
+    port:1433,
     trustServerCertificate: true,
     connectionTimeout: 30000
 

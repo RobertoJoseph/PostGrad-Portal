@@ -1,5 +1,23 @@
 import Axios from "axios";
 
+export const userLogin = (email, password) => async (dispatch) => {
+  return Axios.post("http://localhost:9000/login", email, password)
+    .then((response) => {
+      console.log(response.data);
+      dispatch(isLogged(response.data));
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const isLogged = (LoginFlag) => ({
+  type: "IS_LOGGED",
+  payload: LoginFlag,
+});
+
+
 export const getStudents = () => async (dispatch) => {
   return Axios.get("http://localhost:9000/students")
     .then((response) => {
@@ -11,6 +29,7 @@ export const getStudents = () => async (dispatch) => {
     });
 };
 
+
 export const showStudents = (students) => ({
   type: "SHOW_STUDENTS",
   payload: students,
@@ -18,25 +37,25 @@ export const showStudents = (students) => ({
 
 export const addStudent =
   (firstName, lastName, email, password, faculty, address, isGucian) =>
-  (dispatch) => {
-    console.log("Iam in the action");
-    const newStudent = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      faculty: faculty,
-      address: address,
-      isGucian: isGucian,
+    (dispatch) => {
+      console.log("Iam in the action");
+      const newStudent = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        faculty: faculty,
+        address: address,
+        isGucian: isGucian,
+      };
+      return Axios.post("http://localhost:9000/addStudent", newStudent)
+        .then((res) => {
+          alert("Successfuly Added an Student");
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
-    return Axios.post("http://localhost:9000/addStudent", newStudent)
-      .then((res) => {
-        alert("Successfuly Added an Student");
-     
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
 

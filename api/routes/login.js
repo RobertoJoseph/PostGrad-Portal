@@ -4,7 +4,7 @@ var config = require("../dbconfig");
 const sql = require("mssql");
 const loginoperations = require('../operations/loginoperations');
 
-router.get("/", async function (req, res) {
+router.post("/", async function (req, res) {
 
     console.log("I am in the router");
 

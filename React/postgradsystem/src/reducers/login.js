@@ -1,12 +1,12 @@
 import * as ActionTypes from "../redux/actionTypes";
-const Students = (state = [], action) => {
+const isLogged = (state = [], action) => {
  
-  console.log("Iam in the stuereducer");
+  console.log("Checking for Credentials");
   switch (action.type) {
-    case ActionTypes.SHOW_STUDENTS:
+    case ActionTypes.IS_LOGGED:
       return state.concat(action.payload);
     default:
       return state;
   }
 };
-export default Students;
+export default isLogged;
