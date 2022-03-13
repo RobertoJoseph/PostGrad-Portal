@@ -7,7 +7,6 @@ const adminoperations = require('../adminoperations');
 router.get("/", async function (req, res) {
 
     console.log("I am in the router and get all students");
-
     adminoperations.AdminViewAllTheses().then(function (result) {
         res.send(result);
     })

@@ -10,9 +10,9 @@ var students = require("./routes/students");
 const bodyParser = require("body-parser");
 var addStudent = require("./routes/addStudent");
 const login = require("./routes/login");
-const studentoperations = require('./operations/studentoperations');
+const editStudent = require("./routes/editStudent");
 
-studentoperations.editMyProfile("Mark","Zuckerberg","mark123","mark@examp","USA");
+
 // dbOperations.getOrders();
 var app = express();
 // view engine setup
@@ -32,6 +32,7 @@ app.use("/users", usersRouter);
 app.use("/students", students);
 app.use("/addStudent", addStudent);
 app.use("/login", login);
+app.use("/editStudent", editStudent);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

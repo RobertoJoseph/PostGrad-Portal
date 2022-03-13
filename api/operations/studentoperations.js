@@ -42,7 +42,102 @@ async function editMyProfile(firstname, lastname, password, email, address) {
     }
 };
 
+async function addUndergradID(studentId, undergradID) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+            .input("studentID", sql.Int, studentId)
+            .input("undergradID", sql.VarChar, undergradID)
+            .execute(`addUndergradID`));
+        console.log(result);
+        sql.close();
+    }
+    catch (error) {
+        console.log(error);
+        sql.close();
+    }
+}
+
+async function ViewCoursesGrades(studentID) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+            .input("studentID", sql.Int, studentID)
+            .execute(`ViewCoursesGrades`)).recordset;
+        console.log(result);
+        sql.close();
+        return result;
+    } catch (error) {
+        console.log(error);
+        sql.close(error);
+    }
+}
+async function ViewCoursePaymentsInstall(studentID) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+            .input("studentID", sql.Int, studentID)
+            .execute(`ViewCoursePaymentsInstall`)).recordset;
+        console.log(result);
+        sql.close();
+        return result;
+    } catch (error) {
+        console.log(error);
+        sql.close(error);
+    }
+}
+
+async function ViewThesisPaymentsInstall(studentID) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+            .input("studentID", sql.Int, studentID)
+            .execute(`ViewThesisPaymentsInstall`)).recordset;
+        console.log(result);
+        sql.close();
+        return result;
+    } catch (error) {
+        console.log(error);
+        sql.close(error);
+    }
+}
+
+async function ViewUpcomingInstallments(studentID) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+            .input("studentID", sql.Int, studentID)
+            .execute(`ViewUpcomingInstallments`)).recordset;
+        console.log(result);
+        sql.close();
+        return result;
+    } catch (error) {
+        console.log(error);
+        sql.close(error);
+    }
+}
+
+async function ViewMissedInstallments(studentID) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+            .input("studentID", sql.Int, studentID)
+            .execute(`ViewMissedInstallments`)).recordset;
+        console.log(result);
+        sql.close();
+        return result;
+    } catch (error) {
+        console.log(error);
+        sql.close(error);
+    }
+}
 module.exports = {
     viewMyProfile,
-    editMyProfile
+    editMyProfile,
+    addUndergradID,
+    ViewCoursesGrades,
+    ViewCoursePaymentsInstall,
+    ViewThesisPaymentsInstall,
+    ViewUpcomingInstallments,
+    ViewMissedInstallments
 }
