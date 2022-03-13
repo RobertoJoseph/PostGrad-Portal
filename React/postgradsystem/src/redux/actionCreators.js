@@ -37,25 +37,26 @@ export const showStudents = (students) => ({
 
 export const addStudent =
   (firstName, lastName, email, password, faculty, address, isGucian) =>
-    (dispatch) => {
-      console.log("Iam in the action");
-      const newStudent = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        faculty: faculty,
-        address: address,
-        isGucian: isGucian,
-      };
-      return Axios.post("http://localhost:9000/addStudent", newStudent)
-        .then((res) => {
-          alert("Successfuly Added an Student");
-
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  (dispatch) => {
+    console.log("HAHAHAHahh in the action");
+    const newStudent = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      faculty: faculty,
+      address: address,
+      isGucian: isGucian,
     };
+    return Axios.post("http://localhost:9000/addStudent", newStudent)
+      .then((res) => {
+        alert("Successfuly Added an Student");
+     
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+ 
 
 

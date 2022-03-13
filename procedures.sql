@@ -677,15 +677,17 @@ BEGIN
 END
 
 -- 6.b: Edit my profile (change any of my personal information).
+select * from postgraduser
+select * from GUCianStudent
+drop proc editMyProfile
 GO
 CREATE PROC editMyProfile
     @studentId INT,
-    @firstName VARCHAR(10),
-    @lAStName VARCHAR(10),
-    @pASsword VARCHAR(10),
-    @email VARCHAR(10),
-    @address VARCHAR(10),
-    @type VARCHAR(10)
+    @firstName VARCHAR(20),
+    @lAStName VARCHAR(20),
+    @pASsword VARCHAR(20),
+    @email VARCHAR(30),
+    @address VARCHAR(50)
 AS
 BEGIN
     UPDATE PostGradUser

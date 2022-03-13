@@ -1,7 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var config = require("../dbconfig");
-const sql = require("mssql");
 const loginoperations = require('../operations/loginoperations');
 
 router.post("/", async function (req, res) {

@@ -10,6 +10,7 @@ var students = require("./routes/students");
 const bodyParser = require("body-parser");
 var addStudent = require("./routes/addStudent");
 const login = require("./routes/login");
+const editStudent = require("./routes/editStudent");
 
 
 // dbOperations.getOrders();
@@ -31,11 +32,13 @@ app.use("/users", usersRouter);
 app.use("/students", students);
 app.use("/addStudent", addStudent);
 app.use("/login", login);
+app.use("/editStudent", editStudent);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {
