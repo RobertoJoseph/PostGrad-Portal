@@ -19,10 +19,6 @@ import { Control, Form, Errors, actions } from "react-redux-form";
 import { IconContext } from "react-icons";
 import classnames from "classnames";
 import * as FaIcons from "react-icons/fa";
-import { MdHeight } from "react-icons/md";
-import { faThumbsDown } from "@fortawesome/free-solid-svg-icons";
-import { Link, withRouter } from "react-router-dom";
-import Axios from "axios";
 
 class Register extends Component {
   constructor(props) {
@@ -296,4 +292,4 @@ class Register extends Component {
   }
 }
 
-export default withRouter(Register);
+export default (Register);
