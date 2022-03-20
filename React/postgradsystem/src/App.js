@@ -1,7 +1,7 @@
 import "./App.css";
 import Main from "./components/MainComponent";
 
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Component } from "react";
 import Register from "./components/RegisterComponent";
 
@@ -9,9 +9,9 @@ import Register from "./components/RegisterComponent";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Main></Main>
-    </BrowserRouter>
+    </Router>
   );
 }
 

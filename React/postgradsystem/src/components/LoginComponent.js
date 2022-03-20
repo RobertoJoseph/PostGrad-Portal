@@ -26,105 +26,96 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Form,
   FormGroup,
   Label,
   Input,
 } from "reactstrap";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isModalOpen: false,
-    };
-    this.toggleModal = this.toggleModal.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-  }
+import { useState } from "react";
+import { Control, Form, Errors, actions } from "react-redux-form";
+import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 
-  toggleModal() {
-    this.setState({
-      isModalOpen: !this.state.isModalOpen,
-    });
-  }
-  handleLogin(event) {
+function Login(props) {
+  const [modal, setModal] = useState(false);
+  const navigate = useNavigate();
 
-    this.toggleModal();
-    alert(
-      "Username: " +
-        this.username.value +
-        " Password: " +
-        this.password.value +
-        " Remember: " +
-        this.remember.checked
-    );
-    
+  const toggle = () => setModal(!modal);
+  const isAdmin = false;
+  const handleSubmit = (values) => {
+    //Make axiosget mehtod
+    return Axios.post("http://localhost:9000/login/findstudent", {
+      email: values.email,
+      password: values.password,
+      
+    })
+      .then((response) => {
+        console.log("Hhhhhhhhhhhhhhh" + " " + response.data.isLogged);
+        if (response.data.isLogged) {
+          navigate("/student");
+        } else {
+          navigate("/home");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <IconContext.Provider value={{ color: "#fff" }}>
-        <div>
-          <Button className="bt2 bg-success button " onClick={this.toggleModal}>
-            <FaIcons.FaSignInAlt></FaIcons.FaSignInAlt> Login
-          </Button>
-          <Modal centered isOpen={this.state.isModalOpen}>
-            <ModalHeader
-              className="modal-header-color"
-              close={
-                <a className="close link-underline" onClick={this.toggleModal}>
-                  <i class="fa fa-times" aria-hidden="true"></i>
-                </a>
-              }
-            >
-              <span className="modal-title">Log In</span>
-            </ModalHeader>
-            <ModalBody>
-              <Form onSubmit={this.handleLogin}>
-                <FormGroup>
-                  <Label htmlFor="username">Username</Label>
-                  <Input
-                    type="text"
-                    id="username"
-                    name="username"
-                    innerRef={(input) => (this.username = input)}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    type="password"
-                    id="password"
-                    name="password"
-                    innerRef={(input) => (this.password = input)}
-                  />
-                </FormGroup>
-                <FormGroup check>
-                  <Label check>
-                    <Input
-                      type="checkbox"
-                      name="remember"
-                      innerRef={(input) => (this.remember = input)}
-                    />
-                    Remember me
-                  </Label>
-                </FormGroup>
-                <Button
-                  type="submit"
-                  value="submit"
-                  color="primary"
-                  className="offset-md-10"
-                >
-                  Login
-                </Button>
-              </Form>
-            </ModalBody>
-          </Modal>
-        </div>
-      </IconContext.Provider>
-    );
-  }
+  return (
+    <IconContext.Provider value={{ color: "#fff" }}>
+      <div>
+        <Button className="bt2 bg-success button " onClick={toggle}>
+          <FaIcons.FaSignInAlt></FaIcons.FaSignInAlt> Login
+        </Button>
+        <Modal centered isOpen={modal}>
+          <ModalHeader
+            className="modal-header-color"
+            close={
+              <a className="close link-underline" onClick={toggle}>
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+            }
+          >
+            <span className="modal-title">Log In</span>
+          </ModalHeader>
+          <ModalBody>
+            <Form model="loginForm" onSubmit={(values) => handleSubmit(values)}>
+              <FormGroup>
+                <Label htmlFor="username">Username</Label>
+                <Control.text
+                  type="email"
+                  id="email"
+                  name="email"
+                  model=".email"
+                  placeholder="Enter your email"
+                  className="form-control"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="password">Password</Label>
+                <Control.text
+                  type="password"
+                  id="password"
+                  name="password"
+                  model=".password"
+                  placeholder="Enter your Password"
+                  className="form-control"
+                />
+              </FormGroup>
+              <Button
+                type="submit"
+                value="submit"
+                color="primary"
+                className="offset-md-10"
+              >
+                Login
+              </Button>
+            </Form>
+          </ModalBody>
+        </Modal>
+      </div>
+    </IconContext.Provider>
+  );
 }
 export default Login;

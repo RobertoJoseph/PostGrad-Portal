@@ -7,7 +7,7 @@ import "../css/Navbar.css";
 import { IconContext } from "react-icons";
 function StudentNavbar(props) {
   const [sidebar, setSidebar] = useState(false);
-  
+
   const showSidebar = () => setSidebar(!sidebar);
   return (
     <>
@@ -26,7 +26,7 @@ function StudentNavbar(props) {
               </Link>
             </li>
             <span className="nav-text ss">Student Profile</span>
-            {this.props.data.map((item, index) => {
+            {StudentData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
                   <Link to={item.path}>
@@ -34,12 +34,10 @@ function StudentNavbar(props) {
                     <span>{item.title}</span>
                   </Link>
                 </li>
-          
               );
             })}
           </ul>
         </nav>
-       
       </IconContext.Provider>
     </>
   );

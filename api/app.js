@@ -9,7 +9,6 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var students = require("./routes/students");
 const bodyParser = require("body-parser");
-var addStudent = require("./routes/addStudent");
 const login = require("./routes/login");
 const editStudent = require("./routes/editStudent");
 
@@ -36,7 +35,6 @@ app.use(session({
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/students", students);
-app.use("/addStudent", addStudent);
 app.use("/login", login);
 app.use("/editStudent", editStudent);
 
