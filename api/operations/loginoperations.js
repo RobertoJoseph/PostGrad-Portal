@@ -15,8 +15,9 @@ exports.Login = async function (req, res) {
     console.log("result" + " " + result);
     const userid = result.output.id;
     const foundEmail = result.output.Success;
-    console.log("Foudn email: " + foundEmail);
+    console.log("Found email: " + foundEmail);
     if (foundEmail) {
+      const userlogin =
       await pool
         .request()
         .input("id", sql.Int, userid)
@@ -24,7 +25,7 @@ exports.Login = async function (req, res) {
         .output("Success", sql.Bit)
         .execute(`userLogin`);
       sql.close();
-      res.send({ isLogged: true, studentID: userid });
+      res.send({ isLogged: userlogin.output.Success, studentID: userid });
     } else {
       res.send({ isLogged: false, studentID: userid });
     }
