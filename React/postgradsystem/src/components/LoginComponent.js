@@ -82,7 +82,7 @@ function Login(props) {
           <ModalBody>
             <Form model="loginForm" onSubmit={(values) => handleSubmit(values)}>
               <FormGroup>
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">Email</Label>
                 <Control.text
                   type="email"
                   id="email"

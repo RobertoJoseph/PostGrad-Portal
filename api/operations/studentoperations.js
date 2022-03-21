@@ -12,7 +12,7 @@ exports.viewMyProfile = async function (req,res) {
     ).recordset;
     console.log(result);
     sql.close();
-    return result;
+    res.send(result);
   } catch (erorr) {
     console.log(erorr);
     sql.close();
@@ -22,7 +22,6 @@ exports.viewMyProfile = async function (req,res) {
 exports.editMyProfile = async function (req,res) {
   try {
     let pool = await sql.connect(config);
-    const id = await pool.request();
     const result = await pool
       .request()
       .input("studentId", sql.Int, req.body.studentId)
@@ -56,6 +55,7 @@ exports.StudentRegister = async function (req, res) {
     sql.close();
   } catch (error) {
     console.log(error);
+    sql.close();
   }
 };
 
@@ -84,10 +84,10 @@ exports.ViewCoursesGrades = async function (req,res) {
             .execute(`ViewCoursesGrades`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result);
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
 exports.ViewCoursePaymentsInstall = async function (req,res) {
@@ -98,14 +98,14 @@ exports.ViewCoursePaymentsInstall = async function (req,res) {
             .execute(`ViewCoursePaymentsInstall`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result)
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
 
-exports.body = async function (req,res) {
+exports.ViewThesisPaymentsInstall = async function (req,res) {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request()
@@ -113,10 +113,10 @@ exports.body = async function (req,res) {
             .execute(`ViewThesisPaymentsInstall`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result)
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
 
@@ -128,10 +128,10 @@ exports.ViewUpcomingInstallments = async function (req,res) {
             .execute(`ViewUpcomingInstallments`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result);
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
 
@@ -143,9 +143,54 @@ exports.ViewMissedInstallments = async function (req,res) {
             .execute(`ViewMissedInstallments`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result)
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
+    }
+}
+
+expoorts.addProgressReport = async function (req, res){
+    try{
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+        .input("thesisSerialNo",sql.Int,req.body.thesisSerialNo)
+        .input("progressReportDate",sql.Date,req.body.date)
+        .execute(`AddProgressReport`))
+        sql.close();
+    }catch(error){
+        console.log(error);
+        sql.close();
+    }
+}
+
+exports.FillProgressReport = async function(req,res){
+    try{
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+        .input("thesisSerialNo",sql.Int,req.body.thesisSerialNo)
+        .input("progressReportNo",sql.Int,req.body.Int)
+        .input('state',sql.Int,req.body.state)
+        .input('description',sql.VarChar,req.body.description)
+        .execute(`FillProgressReport`))
+        sql.close();
+    }catch (error){
+        console.log(error);
+        sql.close();
+    }
+}
+
+expoorts.ViewEvalProgressReport = async function(req,res){
+    try{
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+        .input("thesisSerialNo",sql.Int,req.body.thesisSerialNo)
+        .input("progressReportNo",sql.Int,req.body.Int)
+        .execute(`ViewEvalProgressReport`)).recordset
+        res.send(result);
+        sql.close();
+    }catch (err){
+        console.log(err)
+        sql.close();
     }
 }
