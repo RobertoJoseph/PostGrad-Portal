@@ -150,7 +150,7 @@ exports.ViewMissedInstallments = async function (req,res) {
     }
 }
 
-expoorts.addProgressReport = async function (req, res){
+exports.addProgressReport = async function (req, res){
     try{
         let pool = await sql.connect(config);
         const result = (await pool.request()
@@ -180,7 +180,7 @@ exports.FillProgressReport = async function(req,res){
     }
 }
 
-expoorts.ViewEvalProgressReport = async function(req,res){
+exports.ViewEvalProgressReport = async function(req,res){
     try{
         let pool = await sql.connect(config);
         const result = (await pool.request()
