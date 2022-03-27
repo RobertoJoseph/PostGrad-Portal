@@ -7,7 +7,7 @@ import Login from "./LoginComponent";
 import SupervisorNavbar from "./SupervisorNavbar";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
-import { getStudents, addStudent } from "../redux/actionCreators";
+import { getStudents, addStudent } from "../redux/ActionCreators";
 import Thesis from "./Thesis";
 const mapStateToProps = (state) => {
   return {
