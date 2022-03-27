@@ -1,20 +1,18 @@
 import React, { Component } from "react";
 import Home from "./HomeComponent";
-import { Route, Redirect, withRouter, Routes, Switch } from "react-router-dom";
+import { Route, Redirect, Routes } from "react-router-dom";
 import Register from "./RegisterComponent";
 import StudentNavbar from "./StudentNavbar";
 import Login from "./LoginComponent";
 import SupervisorNavbar from "./SupervisorNavbar";
 import { connect } from "react-redux";
-// import { faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import { actions } from "react-redux-form";
-import { getStudents, addStudent, userLogin } from "../redux/actionCreators";
-
-
+import { getStudents, addStudent } from "../redux/actionCreators";
+import Thesis from "./Thesis";
 const mapStateToProps = (state) => {
   return {
+    isLogged: state.isLogged,
     students: state.students,
-    isLogged: state.LoginFlag,
   };
 };
 
@@ -60,37 +58,42 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <Switch>
+        <Routes>
           <Route
-            path="/"
-            component={() => (
-              <Home
-                addStudent={this.props.addStudent}
-                resetFeedBackForm={this.props.resetFeedBackForm}
-                userLogin={this.props.userLogin}
-              ></Home>
-            )}
+            path="/student/:studentID"
+            element={<StudentNavbar></StudentNavbar>}
           ></Route>
-          <Route path="/login" component={Login}></Route>
+
           <Route
             path="/"
-            component={() => (
+            element={
               <Home
                 addStudent={this.props.addStudent}
                 resetFeedBackForm={this.props.resetFeedBackForm}
               ></Home>
-            )}
+            }
           ></Route>
           <Route
             path="/home"
-            component={() => <Home addStudent={this.props.addStudent}></Home>}
+            element={
+              <Home
+                addStudent={this.props.addStudent}
+                resetFeedBackForm={this.props.resetFeedBackForm}
+              ></Home>
+            }
           ></Route>
-          <Route path="/login" component={Login}></Route>
 
-          <Route path="/supervisor" component={SupervisorNavbar}></Route>
-        </Switch>
+          <Route
+            path="/supervisor"
+            element={<SupervisorNavbar></SupervisorNavbar>}
+          ></Route>
+          <Route
+            path="/studenttheses/:studentID"
+            element={<Thesis></Thesis>}
+          ></Route>
+        </Routes>
       </div>
     );
   }
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

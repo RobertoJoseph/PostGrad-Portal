@@ -1,53 +1,71 @@
-var config = require('../dbconfig')
-const sql = require('mssql')
+var config = require("./dbconfig");
+const sql = require("mssql");
 
+exports.viewMyProfile = async function (req,res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentId", sql.Int, req.body.studentId)
+        .execute(`viewMyProfile`)
+    ).recordset;
+    console.log(result);
+    sql.close();
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+}
 
-async function viewMyProfile(studentId) {
-    try {
-        let pool = await sql.connect(config);
-        const result = (await pool.request().input("studentId", sql.Int, studentId).execute(`viewMyProfile`)).recordset;
-        console.log(result);
-        sql.close();
-        return result;
+exports.editMyProfile = async function (req,res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("studentId", sql.Int, req.body.studentId)
+      .input("firstName", sql.VarChar, req.body.firstName)
+      .input("lAStName", sql.VarChar, req.body.lastName)
+      .input("pASsword", sql.VarChar, req.body.password)
+      .input("email", sql.VarChar, req.body.email)
+      .input("address", sql.VarChar, req.body.address)
+      .execute(`editMyProfile`);
+    console.log(result);
+    sql.close();
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+}
 
-
-    } catch (erorr) {
-        console.log(erorr);
-        sql.close();
-    }
+exports.StudentRegister = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("firstName", sql.VarChar, req.body.firstName)
+      .input("lastName", sql.VarChar, req.body.lastName)
+      .input("password", sql.VarChar, req.body.password)
+      .input("faculty", sql.VarChar, req.body.faculty)
+      .input("gucian", sql.Bit, req.body.isGucian)
+      .input("email", sql.VarChar, req.body.email)
+      .input("address", sql.VarChar, req.body.address)
+      .execute(`StudentRegister`);
+    sql.close();
+  } catch (error) {
+    console.log(error);
+    sql.close();
+  }
 };
 
-async function editMyProfile(firstname, lastname, password, email, address) {
-    try {
-        let pool = await sql.connect(config);
-        const helper = (await pool.request()
-            .input("email", sql.VarChar, email)
-            .output("id", sql.Int, 0).output("Success", sql.Bit)
-            .execute(`getIDbyEmail`));
-        const userid = helper.output.id;
-        const result = (await pool.request()
-            .input("studentId", sql.Int, userid)
-            .input("firstName", sql.VarChar, firstname)
-            .input("lAStName", sql.VarChar, lastname)
-            .input("pASsword", sql.VarChar, password)
-            .input("email", sql.VarChar, email)
-            .input("address", sql.VarChar, address)
-            .execute(`editMyProfile`));
-        console.log(result);
-        sql.close();
 
-    } catch (erorr) {
-        console.log(erorr);
-        sql.close();
-    }
-};
-
-async function addUndergradID(studentId, undergradID) {
+exports.addUndergradID = async function (req, res) {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request()
-            .input("studentID", sql.Int, studentId)
-            .input("undergradID", sql.VarChar, undergradID)
+            .input("studentID", sql.Int, req.body.studentId)
+            .input("undergradID", sql.VarChar, req.body.undergradId)
             .execute(`addUndergradID`));
         console.log(result);
         sql.close();
@@ -58,86 +76,121 @@ async function addUndergradID(studentId, undergradID) {
     }
 }
 
-async function ViewCoursesGrades(studentID) {
+exports.ViewCoursesGrades = async function (req,res) {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request()
-            .input("studentID", sql.Int, studentID)
+            .input("studentID", sql.Int, req.body.studentId)
             .execute(`ViewCoursesGrades`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result);
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
-async function ViewCoursePaymentsInstall(studentID) {
+exports.ViewCoursePaymentsInstall = async function (req,res) {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request()
-            .input("studentID", sql.Int, studentID)
+            .input("studentID", sql.Int, req.body.studentId)
             .execute(`ViewCoursePaymentsInstall`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result)
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
 
-async function ViewThesisPaymentsInstall(studentID) {
+exports.ViewThesisPaymentsInstall = async function (req,res) {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request()
-            .input("studentID", sql.Int, studentID)
+            .input("studentID", sql.Int, req.body.studentId)
             .execute(`ViewThesisPaymentsInstall`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result)
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
 
-async function ViewUpcomingInstallments(studentID) {
+exports.ViewUpcomingInstallments = async function (req,res) {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request()
-            .input("studentID", sql.Int, studentID)
+            .input("studentID", sql.Int, req.body.studentId)
             .execute(`ViewUpcomingInstallments`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result);
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
 
-async function ViewMissedInstallments(studentID) {
+exports.ViewMissedInstallments = async function (req,res) {
     try {
         let pool = await sql.connect(config);
         const result = (await pool.request()
-            .input("studentID", sql.Int, studentID)
+            .input("studentID", sql.Int, req.body.studentId)
             .execute(`ViewMissedInstallments`)).recordset;
         console.log(result);
         sql.close();
-        return result;
+        res.send(result)
     } catch (error) {
         console.log(error);
-        sql.close(error);
+        sql.close();
     }
 }
-module.exports = {
-    viewMyProfile,
-    editMyProfile,
-    addUndergradID,
-    ViewCoursesGrades,
-    ViewCoursePaymentsInstall,
-    ViewThesisPaymentsInstall,
-    ViewUpcomingInstallments,
-    ViewMissedInstallments
+
+exports.addProgressReport = async function (req, res){
+    try{
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+        .input("thesisSerialNo",sql.Int,req.body.thesisSerialNo)
+        .input("progressReportDate",sql.Date,req.body.date)
+        .execute(`AddProgressReport`))
+        sql.close();
+    }catch(error){
+        console.log(error);
+        sql.close();
+    }
+}
+
+exports.FillProgressReport = async function(req,res){
+    try{
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+        .input("thesisSerialNo",sql.Int,req.body.thesisSerialNo)
+        .input("progressReportNo",sql.Int,req.body.Int)
+        .input('state',sql.Int,req.body.state)
+        .input('description',sql.VarChar,req.body.description)
+        .execute(`FillProgressReport`))
+        sql.close();
+    }catch (error){
+        console.log(error);
+        sql.close();
+    }
+}
+
+exports.ViewEvalProgressReport = async function(req,res){
+    try{
+        let pool = await sql.connect(config);
+        const result = (await pool.request()
+        .input("thesisSerialNo",sql.Int,req.body.thesisSerialNo)
+        .input("progressReportNo",sql.Int,req.body.Int)
+        .execute(`ViewEvalProgressReport`)).recordset
+        res.send(result);
+        sql.close();
+    }catch (err){
+        console.log(err)
+        sql.close();
+    }
 }

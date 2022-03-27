@@ -17,80 +17,95 @@ import {
 import { Control, Form, Errors, actions } from "react-redux-form";
 
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isModalOpen: false,
-    };
-    this.toggleModal = this.toggleModal.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-  }
+import { useState } from "react";
+import { Control, Form, Errors, actions } from "react-redux-form";
+import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 
-  toggleModal() {
-    this.setState({
-      isModalOpen: !this.state.isModalOpen,
-    });
-  }
-  handleLogin(values) {
-    //this.toggleModal();
-    // alert(
-    //   "Username: " +
-    //     this.username.value +
-    //     " Password: " +
-    //     this.password.value +
-    //     " Remember: " +
-    //     this.remember.checked
-    // );
-    this.props.userLogin(values.email, values.password);
-  }
+function Login(props) {
+  const [modal, setModal] = useState(false);
+  const navigate = useNavigate();
+  const [userId, setUserID] = useState(0);
 
-  render() {
-    return (
-      <IconContext.Provider value={{ color: "#fff" }}>
-        <div>
-          <Button className="bt2 bg-success button " onClick={this.toggleModal}>
-            <FaIcons.FaSignInAlt></FaIcons.FaSignInAlt> Login
-          </Button>
-          <Modal centered isOpen={this.state.isModalOpen}>
-            <ModalHeader
-              className="modal-header-color"
-              close={
-                <a className="close link-underline" onClick={this.toggleModal}>
-                  <i className="fa fa-times" aria-hidden="true"></i>
-                </a>
-              }
-            >
-              <span className="modal-title">Log In</span>
-            </ModalHeader>
-            <ModalBody>
-              <Form model="loginForm" onSubmit={(values) => this.handleLogin(values)}>
-                <Row className="form-group">
-                  <Label htmlFor="email" md={2}>E-mail</Label>
-                  <Col md={10}>
-                    <Control.text model=".email" id="email" name="email" className="form-control" />
-                  </Col>
-                </Row>
-                <Row className="form-group">
-                  <Label htmlFor="password" md={2}>Password</Label>
-                  <Col md={10}>
-                    <Control.text model=".password" id="password" name="password" className="form-control" />
-                  </Col>
-                </Row>
-                <Row className="form-group">
-                  <Col md={{ size: 10, offset: 2 }}>
-                    <Button type="submit" color="primary">
-                      Log In
-                    </Button>
-                  </Col>
-                </Row>
+  const toggle = () => setModal(!modal);
+  const isAdmin = false;
+  const handleSubmit = (values) => {
+    //Make axiosget mehtod
+    return Axios.post("http://localhost:9000/login/findstudent", {
+      email: values.email,
+      password: values.password,
+    })
+      .then((response) => {
+        console.log("Hhhhhhhhhhhhhhh" + " " + response.data.isLogged);
+        if (response.data.isLogged) {
+          setUserID(response.data.studentID);
+          navigate(`/student/${response.data.studentID}`);
+        } else {
+          alert(
+            "The email or password you entered is incorrect. Please try again."
+          );
+          navigate("/home");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-              </Form>
-            </ModalBody>
-          </Modal>
-        </div>
-      </IconContext.Provider>
-    );
-  }
+  return (
+    <IconContext.Provider value={{ color: "#fff" }}>
+      <div>
+        <Button className="bt2 bg-success button " onClick={toggle}>
+          <FaIcons.FaSignInAlt></FaIcons.FaSignInAlt> Login
+        </Button>
+        <Modal centered isOpen={modal}>
+          <ModalHeader
+            className="modal-header-color"
+            close={
+              <a className="close link-underline" onClick={toggle}>
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </a>
+            }
+          >
+            <span className="modal-title">Log In</span>
+          </ModalHeader>
+          <ModalBody>
+            <Form model="loginForm" onSubmit={(values) => handleSubmit(values)}>
+              <FormGroup>
+                <Label htmlFor="username">Email</Label>
+                <Control.text
+                  type="email"
+                  id="email"
+                  name="email"
+                  model=".email"
+                  placeholder="Enter your email"
+                  className="form-control"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="password">Password</Label>
+                <Control.text
+                  type="password"
+                  id="password"
+                  name="password"
+                  model=".password"
+                  placeholder="Enter your Password"
+                  className="form-control"
+                />
+              </FormGroup>
+              <Button
+                type="submit"
+                value="submit"
+                color="primary"
+                className="offset-md-10"
+              >
+                Login
+              </Button>
+            </Form>
+          </ModalBody>
+        </Modal>
+      </div>
+    </IconContext.Provider>
+  );
 }
 export default Login;

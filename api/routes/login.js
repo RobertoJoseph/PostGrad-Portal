@@ -1,14 +1,9 @@
 var express = require("express");
 var router = express.Router();
-const loginoperations = require('../operations/loginoperations');
+var config = require("../operations/dbconfig");
+const sql = require("mssql");
+const loginoperations = require("../operations/loginoperations");
 
-router.post("/", async function (req, res) {
+router.post("/findstudent", loginoperations.Login);
 
-    console.log("I am in the router");
-
-    loginoperations.Login(req.body.email, req.body.password).then(function (result) {
-        res.send(result)
-    })
-
-})
 module.exports = router;
