@@ -8,6 +8,7 @@ import SupervisorNavbar from "./SupervisorNavbar";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 import { getStudents, addStudent } from "../redux/actionCreators";
+import Thesis from "./Thesis";
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
@@ -55,7 +56,7 @@ class Main extends Component {
       <div>
         <Routes>
           <Route
-            path="/student"
+            path="/student/:studentID"
             element={<StudentNavbar></StudentNavbar>}
           ></Route>
 
@@ -81,6 +82,10 @@ class Main extends Component {
           <Route
             path="/supervisor"
             element={<SupervisorNavbar></SupervisorNavbar>}
+          ></Route>
+          <Route
+            path="/studenttheses/:studentID"
+            element={<Thesis></Thesis>}
           ></Route>
         </Routes>
       </div>

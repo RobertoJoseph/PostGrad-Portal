@@ -39,6 +39,7 @@ import Axios from "axios";
 function Login(props) {
   const [modal, setModal] = useState(false);
   const navigate = useNavigate();
+  const [userId, setUserID] = useState(0);
 
   const toggle = () => setModal(!modal);
   const isAdmin = false;
@@ -47,13 +48,16 @@ function Login(props) {
     return Axios.post("http://localhost:9000/login/findstudent", {
       email: values.email,
       password: values.password,
-      
     })
       .then((response) => {
         console.log("Hhhhhhhhhhhhhhh" + " " + response.data.isLogged);
         if (response.data.isLogged) {
-          navigate("/student");
+          setUserID(response.data.studentID);
+          navigate(`/student/${response.data.studentID}`);
         } else {
+          alert(
+            "The email or password you entered is incorrect. Please try again."
+          );
           navigate("/home");
         }
       })

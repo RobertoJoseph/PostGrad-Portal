@@ -8,7 +8,7 @@ import * as MdIcons from "react-icons/md";
 export const StudentData=[
     {
         title:"Theses",
-        path:"/studenttheses",
+        path:"/studenttheses/",
         icon: <IoIcons.IoIosPaper/>,
         cName:"nav-text"
     },

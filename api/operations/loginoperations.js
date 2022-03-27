@@ -16,6 +16,7 @@ exports.Login = async function (req, res) {
     const userid = result.output.id;
     const foundEmail = result.output.Success;
     console.log("Found email: " + foundEmail);
+    console.log("USER ID IS " + userid);
     if (foundEmail) {
       const userlogin =
       await pool
