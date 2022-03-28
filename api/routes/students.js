@@ -15,5 +15,9 @@ router.get("/", async function (req, res) {
   }
 });
 router.post("/addStudent", studentOperations.StudentRegister);
+router.get(
+  "/studenttheses/:studentID",
+  studentOperations.viewStudentThesisById
+);
 
 module.exports = router;
