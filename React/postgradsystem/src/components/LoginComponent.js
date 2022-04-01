@@ -53,7 +53,7 @@ function Login(props) {
         console.log("Hhhhhhhhhhhhhhh" + " " + response.data.isLogged);
         if (response.data.isLogged) {
           setUserID(response.data.studentID);
-          navigate(`/student/${response.data.studentID}`);
+          navigate(`/studentprofile/${response.data.studentID}`);
         } else {
           alert(
             "The email or password you entered is incorrect. Please try again."

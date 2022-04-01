@@ -12,7 +12,6 @@ import Thesis from "./Thesis";
 import NewNav from "./newNav";
 import Student from "./StudentProf";
 
-
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
@@ -60,11 +59,6 @@ class Main extends Component {
       <div>
         <Routes>
           <Route
-            path="/student/:studentID"
-            element={<StudentNavbar></StudentNavbar>}
-          ></Route>
-
-          <Route
             path="/"
             element={
               <Home
@@ -87,14 +81,7 @@ class Main extends Component {
             path="/supervisor"
             element={<SupervisorNavbar></SupervisorNavbar>}
           ></Route>
-                    <Route
-            path="/StnPf"
-            element={<Student></Student>}
-          ></Route>
-          <Route
-            path="/studenttheses/:studentID"
-            element={<Thesis></Thesis>}
-          ></Route>
+          <Route path="/studentprofile/:studentID" element={<Student></Student>}></Route>
         </Routes>
       </div>
     );
