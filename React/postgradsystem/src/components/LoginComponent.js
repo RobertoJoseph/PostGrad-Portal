@@ -1,21 +1,35 @@
 import React, { Component } from "react";
+import { Card, CardBody, CardTitle, Button } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faIcons,
+  faSignIn,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import Header from "./HeaderComponent";
+import Home from "./HomeComponent";
+import * as MdIcons from "react-icons/md";
+import * as GrIcons from "react-icons/gr";
+import * as RiIcons from "react-icons/ri";
 import { IconContext } from "react-icons";
 import * as FaIcons from "react-icons/fa";
 import {
-
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  Col,
+  Collapse,
+  NavItem,
+  ModalFooter,
   Modal,
   ModalBody,
   ModalHeader,
   FormGroup,
   Label,
   Input,
-  Button,
-  Row,
-  Col
-
 } from "reactstrap";
-import { Control, Form, Errors, actions } from "react-redux-form";
-
 
 import { useState } from "react";
 import { Control, Form, Errors, actions } from "react-redux-form";

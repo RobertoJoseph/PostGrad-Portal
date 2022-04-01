@@ -6,6 +6,8 @@ import { StudentData } from "../data/StudentData";
 import "../css/Navbar.css";
 import { IconContext } from "react-icons";
 import { useParams } from "react-router-dom";
+
+
 function StudentNavbar(props) {
   const [sidebar, setSidebar] = useState(true);
   let { studentID } = useParams();

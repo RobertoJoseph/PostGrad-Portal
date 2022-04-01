@@ -7,7 +7,7 @@ import { IconContext } from 'react-icons';
 import { SupervisorData } from '../data/SupervisorData';
 
 function SupervisorNavbar() {
-  const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(true);
 
   const showSidebar = () => setSidebar(!sidebar);
   return (
