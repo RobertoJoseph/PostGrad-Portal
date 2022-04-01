@@ -1,5 +1,4 @@
 import "../css/newNav.css";
-import NewNav from "./newNav";
 import React, { Component, useState } from "react";
 import { Row } from "reactstrap";
 import { Route, Redirect, Routes } from "react-router-dom";

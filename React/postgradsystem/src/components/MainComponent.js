@@ -8,8 +8,6 @@ import SupervisorNavbar from "./SupervisorNavbar";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 import { getStudents, addStudent } from "../redux/actionCreators";
-import Thesis from "./Thesis";
-import NewNav from "./newNav";
 import Student from "./StudentProf";
 
 const mapStateToProps = (state) => {
