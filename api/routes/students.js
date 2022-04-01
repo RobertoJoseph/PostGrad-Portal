@@ -19,5 +19,6 @@ router.get(
   "/studenttheses/:studentID",
   studentOperations.viewStudentThesisById
 );
+router.get("/studentcourses/:studentID", studentOperations.viewStudentCourses);
 
 module.exports = router;

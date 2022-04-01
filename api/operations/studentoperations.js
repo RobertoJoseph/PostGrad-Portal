@@ -231,3 +231,20 @@ exports.viewStudentThesisById = async function (req, res) {
     sql.close();
   }
 };
+exports.viewStudentCourses = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentID", sql.Int, req.params.studentID)
+        .execute(`StudentViewAllCourses`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+    sql.close();
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};

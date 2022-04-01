@@ -1,13 +1,13 @@
-﻿use kaka------------------- (1) Unregistered User's Features -------------------
+USE Kaka;
+------------------- (1) Unregistered User's Features -------------------
 -- 1.a:  Register to the website.
-drop proc StudentRegister
 GO
 CREATE PROC StudentRegister
-    @firstname VARCHAR(20),
-    @lastname VARCHAR(20),
-    @password VARCHAR(20),
+    @first_name VARCHAR(20),
+    @lASt_name VARCHAR(20),
+    @pASsword VARCHAR(20),
     @faculty VARCHAR(20),
-    @gucian BIT,
+    @Gucian BIT,
     @email VARCHAR(50),
     @address VARCHAR(20)
 AS
@@ -15,23 +15,23 @@ BEGIN
     INSERT INTO PostGradUser
         (email, password)
     VALUES
-        (@email, @password);
+        (@email, @pASsword);
 
     DECLARE @student_id INT = SCOPE_IDENTITY();
 
-    IF @gucian = 1
+    IF @Gucian = 1
         BEGIN
         INSERT INTO GUCianStudent
             (id, firstName, lAStName, type, faculty, address)
         VALUES
-            (@student_id, @firstname, @lastname, 'GUCian', @faculty, @address);
+            (@student_id, @first_name, @lASt_name, 'GUCian', @faculty, @address);
     END
     ELSE
         BEGIN
         INSERT INTO NonGUCianStudent
             (id, firstName, lAStName, type, faculty, address)
         VALUES
-            (@student_id, @firstname, @lastname, 'Non GUCian', @faculty, @address);
+            (@student_id, @first_name, @lASt_name, 'Non GUCian', @faculty, @address);
     END
 END
 
@@ -59,8 +59,6 @@ END
 
 ------------------- (2) Registered User's Features -------------------
 -- 2.a: login using my username and pASsword.
-select *
-from PostGradUser
 GO
 CREATE PROC userLogin
     @ID INT,
@@ -119,7 +117,6 @@ FROM Supervisor
     INNER JOIN PostGradUser ON PostGradUser.id = Supervisor.id;
 
 -- 3.b: view the profile of any supervisor that contains all his/her information.
-exec AdminViewAllTheses 
 GO
 CREATE PROC AdminViewSupervisorProfile
     @supID INT
@@ -138,10 +135,7 @@ FROM Thesis;
 
 -- 3.d: List the number of on going theses.
 GO
-DECLARE @numOfTheses INT;
-EXEC AdminViewOnGOingTheses @numOfTheses OUTPUT;
-PRINT @numOfTheses;
-go
+
 CREATE PROC AdminViewOnGOingTheses
     @ThesisCount SMALLINT Output
 AS
@@ -185,10 +179,6 @@ FROM NonGUCianTakeCourse
     INNER JOIN NonGUCianStudent NG ON NG.id = NonGUCianTakeCourse.NonGUCianID
     INNER JOIN Course C ON C.id = NonGUCianTakeCourse.course_id
 Where NonGUCianTakeCourse.course_id = @courseID;
-
-
-
-
 
 
 -- 3.g: Update the number of thesis extension by 1.
@@ -682,19 +672,15 @@ BEGIN
 END
 
 -- 6.b: Edit my profile (change any of my personal information).
-select *
-from postgraduser
-select *
-from GUCianStudent
-drop proc editMyProfile
 GO
 CREATE PROC editMyProfile
     @studentId INT,
-    @firstName VARCHAR(20),
-    @lAStName VARCHAR(20),
-    @pASsword VARCHAR(20),
-    @email VARCHAR(30),
-    @address VARCHAR(50)
+    @firstName VARCHAR(10),
+    @lAStName VARCHAR(10),
+    @pASsword VARCHAR(10),
+    @email VARCHAR(10),
+    @address VARCHAR(10),
+    @type VARCHAR(10)
 AS
 BEGIN
     UPDATE PostGradUser
@@ -1042,7 +1028,7 @@ end
 else
 set @Success=0
 
-exec AdminListSup
+
 GO
 Create Proc editExaminer
     @ID varchar(20),
@@ -1054,76 +1040,15 @@ Set name = @Name,
 fieldOfWork = @Field
 where id =@ID
 
-
------------------ NEW UPDATES-------------------
-
-go
-create proc editExaminerName
-    @id int,
-    @name varchar(20)
-as
-update Examiner 
-set name = @name 
-where @id = id
-go
-create proc editExaminerField
-    @id int,
-    @fieldOfWork varchar(20)
-as
-update Examiner 
-set fieldOfWork = @fieldOfWork 
-where @id = id
-go
-create proc editExaminerEmail
-    @id int,
-    @email varchar(50)
-as
-update PostGradUser
-set email=@email
-where @id=id
-go
-create proc editExaminerPassword
-    @id int,
-    @password varchar(20)
-as
-update PostGradUser
-set password = @password
-where @id = id
-go
-create proc searchThesis
-    @searchkey varchar(100)
-as
+Go
+CREATE PROC viewStudentThesisById
+    @id int
+AS
 select *
 from Thesis T
-where CHARINDEX(@searchkey,T.title)>0
-go
-create proc examinerAttendedDefense
-    @id int
-as
-    select T.title as THESIS_TITLE, S.name as SUPERVISOR_NAME, GS.firstName as STUDENT_NAME
-    from ExaminerEvaluateDefense EV inner join GUCianStudentRegisterThesis GRT on EV.serialNo=GRT.serial_no
-        inner join Thesis T on EV.serialNo=T.serialNumber
-        inner join GucianStudent GS on GRT.sid = GS.id
-        inner join Supervisor S on GRT.supid=S.id
-    where EV.examinerID = @id
-UNION
-    select T.title, S.name, NGS.firstName
-    from ExaminerEvaluateDefense EV inner join NonGUCianStudentRegisterThesis NGRT on EV.serialNo=NGRT.serial_no
-        inner join Thesis T on EV.serialNo=T.serialNumber
-        inner join NonGucianStudent NGS on NGRT.sid = NGS.id
-        inner join Supervisor S on NGRT.supid=S.id
-    where EV.examinerID = @id
-
-select *
-from Thesis
-go
-DECLARE @id INT,@suc BIT;
-EXEC getIDbyEmail "ahmed.abokhater@gmail.com", @id OUTPUT,@suc OUTPUT;
-PRINT @id;
-Print @suc;
-go
-drop proc getIDbyEmail
-go
+    Inner JOIN GUCIanREGisterThesis GT on T.serialNumber=GT.thesisSerialNumber
+where GT.GUCianID = @id
+GO
 Create proc getIDbyEmail
     @email varchar(30),
     @id int output,
@@ -1146,147 +1071,14 @@ select *
     END
 END
 
-select *
-from PostGradUser
-
-CREATE TABLE Thesis
-(
-    serialNumber INT PRIMARY KEY IDENTITY,
-    type VARCHAR(50),
-    field VARCHAR(50),
-    title VARCHAR(50),
-    startDate DATETIME,
-    endDate DATETIME,
-    defenseDate DATETIME,
-    years           AS DATEDIFF(YEAR, startDate, endDate),
-    grade DECIMAL,
-    payment_id INT,
-    noExtension INT,
-
-    FOREIGN KEY (payment_id) REFERENCES Payment(id) ON DELETE CASCADE ON UPDATE CASCADE
-)
-INSERT INTO
-    Thesis
-    (
-    TYPE,
-    field,
-    title,
-    startDate,
-    endDate,
-    defenseDate,
-    grade,
-    payment_id,
-    noExtension
-    )
-VALUES
-    (
-        'PhD',
-        'Computer Science',
-        'Thesis on Algorithms',
-        '2019-01-01',
-        '2019-02-01',
-        '2019-05-07',
-        60.4,
-        1,
-        0
-    ),
-    (
-        'Masters',
-        'Physics',
-        'Thesis on Speed',
-        '2018-01-01',
-        '2019-02-15',
-        '2009-02-01',
-        80,
-        2,
-        1
-    )
-
-select *
-from Thesis
-
-
-
-
-INSERT INTO
-    Payment
-    (
-    amount,
-    installmentsCnt,
-    fundPercentage
-    )
-VALUES
-    (10000, 4, 0.5),
-    (1000, 1, 0.25),
-    (5000, 2, 0.15),
-    (200000, 2, 0.10),
-    (5000, 1, 0.40);
-
-
-
-CREATE TABLE Payment
-(
-    id INT PRIMARY KEY IDENTITY,
-    amount INT,
-    installmentsCnt INT,
-    fundPercentage DECIMAL,
-)
 GO
-CREATE PROC viewStudentThesisById
-    @id int
+CREATE PROC StudentViewAllCourses
+    @studentID INT
 AS
-select *
-from Thesis T
-    Inner JOIN GUCIanREGisterThesis GT on T.serialNumber=GT.thesisSerialNumber
-where GT.GUCianID = @id
-drop proc viewStudentThesisById
-
-select *
-from GUCianStudent
-SELECT *
-from PostGradUser
-
-INSERT INto GUCianRegisterThesis
-VALUES(1002, 1, 2);
-
-insert into PostGradUser
-VALUES('mark@example.com', 'Ay)5Yq')
-select *
-from PostGradUser
-INSERT INTO GUCIanREGisterThesis
-VALUES(1002, 1003, 3)
-select *
-from GUCianREgisterThesis
-
-INSERT INTO SUPERvisor
-values(1003, 'ro', 'ah', 'ss');
-select *
-from thesis
-
-CREATE TABLE GUCianRegisterThesis
-(
-    GUCianID INT,
-    supervisor_id INT,
-    thesisSerialNumber INT,
-
-    PRIMARY KEY (GUCianID, thesisSerialNumber, supervisor_id),
-
-    FOREIGN KEY (GUCianID) REFERENCES GUCianStudent(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (supervisor_id) REFERENCES Supervisor(id),
-    FOREIGN KEY (thesisSerialNumber) REFERENCES Thesis(serialNumber) ON DELETE CASCADE ON UPDATE CASCADE
-)
-CREATE TABLE Supervisor
-(
-    id INT PRIMARY KEY,
-    firstName VARCHAR(20),
-    lastName VARCHAR(20),
-    faculty VARCHAR(20),
-
-    FOREIGN KEY(id) REFERENCES PostGradUser(id) ON DELETE CASCADE ON UPDATE CASCADE
-)
-
-
-
+Select C.* , NGC.grade
+from Course C
+    INNER JOIN NonGUCianTakeCourse NGC ON NGC.course_id = C.id
+WHERE NGC.NonGUCianID = @studentID;
 
 
 
