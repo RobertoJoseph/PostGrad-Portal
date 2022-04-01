@@ -6,6 +6,7 @@ import Thesis from "./Thesis";
 import { useParams } from "react-router-dom";
 import { StudentData } from "../data/StudentData";
 import Reports from "./Reports";
+import Courses from "./Courses";
 
 function Student(props) {
   const [URL, setURL] = useState("");
@@ -49,6 +50,8 @@ function Student(props) {
           <Thesis studentID={studentID} />
         ) : URL === "Reports" ? (
           <Reports></Reports>
+        ) : URL === "Courses" ? (
+          <Courses studentID={studentID}></Courses>
         ) : null}
       </div>
     </Row>

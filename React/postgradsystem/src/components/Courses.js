@@ -5,13 +5,13 @@ import "../css/Navbar.css";
 import Axios from "axios";
 import { Card, CardTitle, CardText } from "reactstrap";
 
-function Thesis(props) {
+function Courses(props) {
   const [courses, setCourse] = useState([]);
   useEffect(() => {
     Axios.get(
       `http://localhost:9000/students/studentcourses/${props.studentID}`
     ).then((res) => {
-      setThesis(res.data);
+      setCourse(res.data);
     });
   }, []);
 
@@ -33,4 +33,4 @@ function Thesis(props) {
     </div>
   );
 }
-export default Thesis;
+export default Courses;
