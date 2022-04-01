@@ -7,7 +7,7 @@ import "../css/Navbar.css";
 import { IconContext } from "react-icons";
 import { useParams } from "react-router-dom";
 function StudentNavbar(props) {
-  const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(true);
   let { studentID } = useParams();
   const showSidebar = () => setSidebar(!sidebar);
   return (
