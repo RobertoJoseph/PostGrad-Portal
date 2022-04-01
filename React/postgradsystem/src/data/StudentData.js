@@ -1,9 +1,9 @@
 import React from 'react'
 import * as FaIcons from "react-icons/fa";
 import * as IoIcons from "react-icons/io";
-import * as BsIcons from "react-icons/bs";
+import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
-
+import * as GiIcons from "react-icons/gi"
 
 export const StudentData=[
     {
@@ -15,13 +15,13 @@ export const StudentData=[
     {
         title:"Courses",
         path:"/studentcourses",
-        icon:<BsIcons.BsBook/>,
+        icon:<GiIcons.GiBookshelf/>,
         cName:"nav-text"
     },
     {
         title:"Reports",
         path:"/studentreports",
-        icon:<MdIcons.MdAssignmentLate/>,
+        icon:<HiIcons.HiDocumentReport/>,
         cName:"nav-text"
     },
     {

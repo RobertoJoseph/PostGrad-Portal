@@ -1,11 +1,11 @@
 import React from "react";
 import { makeStyles, darken } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
-import { BsBrightnessAltHigh } from "react-icons/bs";
-import { Button } from "reactstrap";
-import { faSignIn, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import * as FaIcons from "react-icons/fa";
+// import { BsBrightnessAltHigh } from "react-icons/bs";
+// import { Button } from "reactstrap";
+// import { faSignIn, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+// import { Link } from "react-router-dom";
+// import * as FaIcons from "react-icons/fa";
 import Login from "./LoginComponent";
 import Register from "./RegisterComponent";
 
@@ -39,7 +39,7 @@ export default function Home(props) {
             ></Register>
           </div>
           <div className="col-12 col-md-6">
-            <Login></Login>
+            <Login> userLogin={props.userLogin} </Login>
           </div>
         </div>
       </div>
