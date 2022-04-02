@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../css/Navbar.css";
 import Axios from "axios";
-import { Card, CardTitle, CardText } from "reactstrap";
+import { Card, CardTitle, CardText, CardBody, CardHeader, Row } from "reactstrap";
 
 function Thesis(props) {
   const [thesis, setThesis] = useState([]);
@@ -19,13 +19,30 @@ function Thesis(props) {
     <div>
       {thesis.map((item, index) => {
         return (
-          <div key={index} >
-            <div class="card">
-              <h3 class="card-header bg-primary text-white">{item.field}</h3>
-              <div class="card-body">
-                <h5 class="card-title">{item.title}</h5>
-                <p class="card-text">{item.description}</p>
-              </div>
+
+
+          <div className="row">
+            <div key={index} className="col-9 offset-1 mt-3">
+              <Card>
+                <CardHeader className="bg-primary text-white">Thesis &nbsp;&nbsp;No. {index + 1}&nbsp; :&nbsp;&nbsp; {item.title}</CardHeader>
+                <CardBody>
+                  <dl className="row p-1">
+                    <dt className="col-6">Type</dt>
+                    <dd className="col-6">{item.type}</dd>
+                    <dt className="col-6">Field</dt>
+                    <dd className="col-6">{item.field}</dd>
+                    <dt className="col-6">Start Date</dt>
+                    <dd className="col-6">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(item.startDate)))}</dd>
+                    <dt className="col-6">End Date</dt>
+                    <dd className="col-6">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(item.endDate)))}</dd>
+                    <dt className="col-6">Grade</dt>
+                    <dd className="col-6">{item.grade}</dd>
+                    <dt className="col-6">Defense Date</dt>
+                    <dd className="col-6">{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(item.defenseDate)))}</dd>
+                  </dl>
+                </CardBody>
+              </Card>
+
             </div>
           </div>
         );
