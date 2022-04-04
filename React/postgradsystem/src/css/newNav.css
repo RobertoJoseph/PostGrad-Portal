@@ -1,12 +1,17 @@
 .App {
     width: 100vw;
     height: 100vh;
+    background: linear-gradient(-45deg, #d4e6f8, #e6e9ec);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
 }
+
 
 .sideBar {
     height: 100%;
     width: 100%;
-    background-color: #071a2e;
+    background: linear-gradient(-45deg, #1f2f89, #071A2E);
 }
 
 .sidebarList {

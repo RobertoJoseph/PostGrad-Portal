@@ -16,16 +16,16 @@ function Thesis(props) {
   }, []);
 
   return (
-    <div>
+    <div className="row">
       {thesis.map((item, index) => {
         return (
 
 
-          <div className="row">
-            <div key={index} className="col-9 offset-1 mt-3">
-              <Card>
-                <CardHeader className="bg-primary text-white">Thesis &nbsp;&nbsp;No. {index + 1}&nbsp; :&nbsp;&nbsp; {item.title}</CardHeader>
-                <CardBody>
+          
+            <div key={index} className="col-6 mt-3">
+              <Card id="Card">
+                <CardHeader id ="CardHeader" className=" text-white">Thesis &nbsp;&nbsp;No. {index + 1}&nbsp; :&nbsp;&nbsp; {item.title}</CardHeader>
+                <CardBody id="CardBody" className=" text-white">
                   <dl className="row p-1">
                     <dt className="col-6">Type</dt>
                     <dd className="col-6">{item.type}</dd>
@@ -44,7 +44,7 @@ function Thesis(props) {
               </Card>
 
             </div>
-          </div>
+          
         );
       })}
     </div>
