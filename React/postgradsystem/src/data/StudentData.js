@@ -5,6 +5,7 @@ import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
 import * as GiIcons from "react-icons/gi"
 
+
 export const StudentData=[
     {
         title:"Theses",

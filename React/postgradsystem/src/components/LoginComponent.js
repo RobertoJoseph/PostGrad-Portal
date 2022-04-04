@@ -50,7 +50,6 @@ function Login(props) {
       password: values.password,
     })
       .then((response) => {
-        console.log("Hhhhhhhhhhhhhhh" + " " + response.data.isLogged);
         if (response.data.isLogged) {
           setUserID(response.data.studentID);
           navigate(`/studentprofile/${response.data.studentID}`);

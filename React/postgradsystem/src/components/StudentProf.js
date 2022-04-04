@@ -38,7 +38,9 @@ function Student(props) {
                   }}
                 >
                   <div id="icon">{item.icon}</div>
-                  <div id="title">{item.title}</div>
+                  <div id="title" className="titleSize">
+                    {item.title}
+                  </div>
                 </li>
               );
             })}
