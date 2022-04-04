@@ -45,7 +45,7 @@ function Student(props) {
           </ul>
         </div>
       </div>
-      <div className="col-10">
+      <div className="col-10 page">
         {URL === "Theses" ? (
           <Thesis studentID={studentID} />
         ) : URL === "Reports" ? (
