@@ -131,7 +131,12 @@ function Thesis(props) {
         );
       })}
       <Modal centered isOpen={isModalOpen} toggle={setTheModal}>
-        <ModalHeader toggle={setTheModal}>Add Progress Report</ModalHeader>
+        <ModalHeader
+          style={{ backgroundColor: "#081A2D" }}
+          toggle={setTheModal}
+        >
+          Add Progress Report
+        </ModalHeader>
         <ModalBody>
           <Form onSubmit={handleSubmit(addProgressReport)}>
             <FormGroup>
@@ -154,7 +159,11 @@ function Thesis(props) {
                 className="form-control"
               />
             </FormGroup>
-            <input type="submit" value="Submit" className="form-control btn-primary" />
+            <input
+              type="submit"
+              value="Submit"
+              className="form-control btn-primary"
+            />
           </Form>
         </ModalBody>
       </Modal>
