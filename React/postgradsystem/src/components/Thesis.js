@@ -11,30 +11,48 @@ import {
   CardHeader,
   Row,
   Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Col,
 } from "reactstrap";
 import * as IoIcons from "react-icons/io";
 import * as TiIcons from "react-icons/ti";
+import { useForm } from "react-hook-form";
 
 function Thesis(props) {
+  const { register, handleSubmit } = useForm();
   const [thesis, setThesis] = useState([]);
-  const [isModalOpen, setModalOpen] = useState(false);
-  let selectedThesis = 0;
+  const [isModalOpen, toggleModal] = useState(false);
+  const setTheModal = () => toggleModal(!isModalOpen);
+  const [selectedThesis, setThesisIndex] = useState(0);
   const onClickButton = (serialNumber) => {
-    selectedThesis = serialNumber;
-    setModalOpen(!isModalOpen);
+    setThesisIndex(serialNumber);
+    setTheModal();
   };
-  const addProgressReport = (serialNumber) => {
-    Axios.post("http://localhost:9000/students/addprogressreport", {
-      serialNumber: serialNumber,
-    })
-      .then((response) => {
-        console.log(response);
-        alert("Progress Report Added");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+  const addProgressReport = (values) => {
+    console.log("The Selected Thesis is : " + selectedThesis);
+    console.log("The values are : " + values.date);
+    // Axios.post("http://localhost:9000/students/addprogressreport", {
+    //   serialNumber: selectedThesis,
+    //   progressReportDate: values.date,
+    //   progressReportDescription: values.description,
+    // })
+    //   .then((response) => {
+    //     console.log(response);
+    //     alert("Progress Report Added");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // setTheModal();
   };
+
   useEffect(() => {
     Axios.get(
       `http://localhost:9000/students/studenttheses/${props.studentID}`
@@ -112,6 +130,43 @@ function Thesis(props) {
           </div>
         );
       })}
+      <Modal centered isOpen={isModalOpen} toggle={setTheModal}>
+        <ModalHeader
+          style={{ backgroundColor: "#081A2D" }}
+          toggle={setTheModal}
+        >
+          Add Progress Report
+        </ModalHeader>
+        <ModalBody>
+          <Form onSubmit={handleSubmit(addProgressReport)}>
+            <FormGroup>
+              <Label htmlFor="date">Date</Label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                ref={register}
+                className="form-control"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="description">Description</Label>
+              <input
+                type="textarea"
+                id="textarea"
+                name="description"
+                ref={register}
+                className="form-control"
+              />
+            </FormGroup>
+            <input
+              type="submit"
+              value="Submit"
+              className="form-control btn-primary"
+            />
+          </Form>
+        </ModalBody>
+      </Modal>
     </div>
   );
 }
