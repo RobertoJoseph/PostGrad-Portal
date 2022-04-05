@@ -10,8 +10,9 @@
 
 .sideBar {
     height: 100%;
-    width: 100%;
+    width: 15%;
     background: #1C2D43;
+    position: fixed;
 }
 
 
