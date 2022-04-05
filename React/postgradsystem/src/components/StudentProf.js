@@ -9,12 +9,13 @@ import Reports from "./Reports";
 import Courses from "./Courses";
 
 function Student(props) {
+  
   const [URL, setURL] = useState("");
   let { studentID } = useParams();
   return (
     <Row className="App">
       <div className="col-2">
-        <div className="sideBar">
+        <div className="sideBar" >
           <ul className="sidebarList">
             <span>
               <div>

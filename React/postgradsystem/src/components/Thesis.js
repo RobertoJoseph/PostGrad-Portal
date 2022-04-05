@@ -65,7 +65,7 @@ function Thesis(props) {
     <div className="row">
       {thesis.map((item, index) => {
         return (
-          <div key={index} className="col-6 mt-3">
+          <div key={index} className="col-6 mt-3 mb-3">
             <Card
               id="Card"
               className="border-0"
@@ -132,8 +132,13 @@ function Thesis(props) {
       })}
       <Modal centered isOpen={isModalOpen} toggle={setTheModal}>
         <ModalHeader
-          style={{ backgroundColor: "#081A2D" }}
+          style={{ backgroundColor: "#081A2D", color: "white" }}
           toggle={setTheModal}
+          close={
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <a className="close link-underline" onClick={setTheModal}>
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>}
         >
           Add Progress Report
         </ModalHeader>
