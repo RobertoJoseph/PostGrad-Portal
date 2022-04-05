@@ -248,3 +248,20 @@ exports.viewStudentCourses = async function (req, res) {
     sql.close();
   }
 };
+
+exports.addProgressReport = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("thesisSerialNo", sql.Int, req.body.thesisSerialNo)
+      .input("progressReportDate", sql.Date, req.body.date)
+      .input("state", sql.Int, 1)
+      .input("description", sql.VarChar, req.body.description)
+      .execute(`AddAndFillProgressReport`);
+    sql.close();
+  } catch (error) {
+    console.log(error);
+    sql.close();
+  }
+};

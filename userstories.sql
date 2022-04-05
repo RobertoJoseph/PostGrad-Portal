@@ -1080,6 +1080,78 @@ from Course C
     INNER JOIN NonGUCianTakeCourse NGC ON NGC.course_id = C.id
 WHERE NGC.NonGUCianID = @studentID;
 
+GO
+CREATE PROC AddAndFillProgressReport
+    @thesisSerialNo INT,
+    @progressReportDate Date,
+    @state INT,
+    @description VARCHAR(200)
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+    FROM GUCianRegisterThesis GT
+    WHERE GT.thesisSerialNumber = @thesisSerialNo
+    )
+        BEGIN
+        DECLARE @GUCianStudentID INT
+        SELECT @GUCianStudentID = GUCianID
+        FROM GUCianRegisterThesis
+        WHERE thesisSerialNumber = @thesisSerialNo
+
+        INSERT INTO GUCianProgressReport
+            (student_id, date, thesisSerialNumber,description,state)
+        VALUES
+            (@GUCianStudentID, @progressReportDate, @thesisSerialNo, @description, @state)
+    END
+    ELSE
+        BEGIN
+        DECLARE @NonGUCianStudentID INT
+        SELECT @NonGUCianStudentID = NonGUCianID
+        FROM NonGUCianRegisterThesis
+        WHERE thesisSerialNumber = @thesisSerialNo
+
+        INSERT INTO NonGUCianProgressReport
+            (student_id, date, thesisSerialNumber,description,state)
+        VALUES
+            (@NonGUCianStudentID, @progressReportDate, @thesisSerialNo, @description, @state)
+    END
+END
+
+select *
+from GUCianProgressReport
+
+INSERT INTO
+    Thesis
+    (
+    TYPE,
+    field,
+    title,
+    startDate,
+    endDate,
+    defenseDate,
+    grade,
+    payment_id,
+    noExtension
+    )
+VALUES
+    (
+        'PhD',
+        'Computer Science',
+        'Thesis on Algorithms',
+        '2019-01-01',
+        '2025-02-01',
+        '2019-05-07',
+        63.4,
+        1,
+        0
+    )
+
+
+
+
+
+
 
 
 

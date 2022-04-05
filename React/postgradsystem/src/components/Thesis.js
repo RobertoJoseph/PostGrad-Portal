@@ -23,7 +23,18 @@ function Thesis(props) {
     selectedThesis = serialNumber;
     setModalOpen(!isModalOpen);
   };
-  const addProgressReport = (serialNumber) => {};
+  const addProgressReport = (serialNumber) => {
+    Axios.post("http://localhost:9000/students/addprogressreport", {
+      serialNumber: serialNumber,
+    })
+      .then((response) => {
+        console.log(response);
+        alert("Progress Report Added");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     Axios.get(
       `http://localhost:9000/students/studenttheses/${props.studentID}`
@@ -37,7 +48,6 @@ function Thesis(props) {
       {thesis.map((item, index) => {
         return (
           <div key={index} className="col-6 mt-3">
-            {console.log("This is INDEX: " + index)}
             <Card
               id="Card"
               className="border-0"
@@ -87,26 +97,16 @@ function Thesis(props) {
                 </dl>
                 {/* Compare between two dates if the endDate>=today ==> create Button else null */}
                 {/* --------------- */}
-                {/* {new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                }).format(new Date(Date.parse(item.endDate))) <
-                new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                }).format(new Date(new Date().toLocaleDateString("en-US"))) ? (
-                  <Button>Add Progress Report</Button>
-                ) : null} */}
-                <Button
-                  onClick={() => {
-                    onClickButton(item.serialNumber);
-                  }}
-                >
-                  <TiIcons.TiDocumentAdd size="18px"></TiIcons.TiDocumentAdd>{" "}
-                  Add Progress Report
-                </Button>
+                {new Date(item.endDate).getTime() >= new Date().getTime() ? (
+                  <Button
+                    onClick={() => {
+                      onClickButton(item.serialNumber);
+                    }}
+                  >
+                    <TiIcons.TiDocumentAdd size="18px"></TiIcons.TiDocumentAdd>{" "}
+                    Add Progress Report
+                  </Button>
+                ) : null}
               </CardBody>
             </Card>
           </div>
