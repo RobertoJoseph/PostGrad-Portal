@@ -47,7 +47,7 @@ function Thesis(props) {
     <div className="row">
       {thesis.map((item, index) => {
         return (
-          <div key={index} className="col-6 mt-3">
+          <div key={index} className="col-6 mt-3 mb-3">
             <Card
               id="Card"
               className="border-0"

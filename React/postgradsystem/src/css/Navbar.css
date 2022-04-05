@@ -94,6 +94,7 @@
     background: linear-gradient(-45deg, #1f2f89, #071A2E);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
+    min-height: 327px;
     
 
   }
