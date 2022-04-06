@@ -245,6 +245,7 @@ exports.addAndFillProgressReport = async function (req, res) {
       .input("description", sql.VarChar, req.body.progressReportDescription)
       .execute(`AddAndFillProgressReport`);
     sql.close();
+    res.send({ isProgressAdded: true });
   } catch (error) {
     console.log(error);
     sql.close();
