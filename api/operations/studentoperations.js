@@ -251,3 +251,54 @@ exports.addAndFillProgressReport = async function (req, res) {
     sql.close();
   }
 };
+exports.addPublication = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("title", sql.VarChar, req.body.title)
+      .input("publicationDate", sql.Date, req.body.publicationDate)
+      .input("host", sql.VarChar, req.body.host)
+      .input("place", sql.VarChar, req.body.place)
+      .input("accepted", sql.Bit, req.body.isAccepted)
+      .execute(`AddPublication`);
+    sql.close();
+    res.send({ isPublicationAdded: true });
+  } catch (error) {
+    console.log(error);
+    sql.close();
+  }
+};
+exports.linkPublicationToThesis = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("PubID", sql.Int, req.body.publicationID)
+      .input("thesisSerialNo", sql.Int, req.body.serialNumber)
+      .execute(`linkPubThesis`);
+    sql.close();
+    res.send({ isPublicationLinked: true });
+  } catch (error) {
+    console.log(error);
+    sql.close();
+  }
+};
+
+exports.viewStudentPublications = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentID", sql.Int, req.params.studentID)
+        .execute(`ViewAStudentPublications`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+    sql.close();
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};

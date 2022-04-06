@@ -477,7 +477,7 @@ BEGIN
             INNER JOIN Publication P ON P.id = T_P.publication_id
         WHERE NonGUCianStudent.id = @studentID
 END
-
+select * from Thesis_Publication
 -- 4.e: Add defense for a thesis, for nonGucian students all courses’ grades should be greater than 50 percent.
 -- TODO: not sure about not having grade
 GO
@@ -1146,6 +1146,10 @@ VALUES
         1,
         0
     )
+
+
+
+    
 
 
 
