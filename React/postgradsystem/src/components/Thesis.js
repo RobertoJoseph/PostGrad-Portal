@@ -23,6 +23,7 @@ import {
 import * as IoIcons from "react-icons/io";
 import * as TiIcons from "react-icons/ti";
 import { useForm } from "react-hook-form";
+import * as AiIcons from "react-icons/ai";
 
 function Thesis(props) {
   const { register, handleSubmit } = useForm();
@@ -30,27 +31,29 @@ function Thesis(props) {
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);
   const [selectedThesis, setThesisIndex] = useState(0);
+  const [isProgressAdded, setIsProgressAdded] = useState(false);
   const onClickButton = (serialNumber) => {
+    setIsProgressAdded(false);
     setThesisIndex(serialNumber);
     setTheModal();
   };
 
   const addProgressReport = (values) => {
-    console.log("The Selected Thesis is : " + selectedThesis);
-    console.log("The values are : " + values.date);
-    // Axios.post("http://localhost:9000/students/addprogressreport", {
-    //   serialNumber: selectedThesis,
-    //   progressReportDate: values.date,
-    //   progressReportDescription: values.description,
-    // })
-    //   .then((response) => {
-    //     console.log(response);
-    //     alert("Progress Report Added");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // setTheModal();
+    Axios.post("http://localhost:9000/students/addprogressreport", {
+      serialNumber: selectedThesis,
+      progressReportDate: values.date,
+      progressReportDescription: values.description,
+    })
+      .then((response) => {
+        if (response.data.isProgressAdded) {
+          setIsProgressAdded(true);
+        }
+        console.log(response);
+        // alert("Progress Report Added");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -138,7 +141,8 @@ function Thesis(props) {
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a className="close link-underline" onClick={setTheModal}>
               <i class="fa fa-times" aria-hidden="true"></i>
-            </a>}
+            </a>
+          }
         >
           Add Progress Report
         </ModalHeader>
@@ -164,6 +168,13 @@ function Thesis(props) {
                 className="form-control"
               />
             </FormGroup>
+            {isProgressAdded ? (
+              <p style={{ color: "green" }}>
+                {" "}
+                <AiIcons.AiFillCheckCircle></AiIcons.AiFillCheckCircle> Progress
+                Report Added Successfully
+              </p>
+            ) : null}
             <input
               type="submit"
               value="Submit"
