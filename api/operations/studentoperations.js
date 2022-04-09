@@ -302,3 +302,21 @@ exports.viewStudentPublications = async function (req, res) {
     sql.close();
   }
 };
+
+exports.getUserInformation = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("iD", sql.Int, req.params.studentID)
+        .execute(`GetUserInformation`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+    sql.close();
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};
