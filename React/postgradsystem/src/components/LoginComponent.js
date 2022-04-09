@@ -2,18 +2,9 @@ import React, { Component } from "react";
 import { Card, CardBody, CardTitle, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
 import { IconContext } from "react-icons";
 import * as FaIcons from "react-icons/fa";
-import {
-
-  Modal,
-  ModalBody,
-  ModalHeader,
-  FormGroup,
-  Label,
-
-} from "reactstrap";
+import { Modal, ModalBody, ModalHeader, FormGroup, Label } from "reactstrap";
 
 import { useState } from "react";
 import { Control, Form, Errors, actions } from "react-redux-form";

@@ -70,3 +70,40 @@
 .buttonColors{
     background-color: #2955C8;
 }
+
+/* .edit{
+    color: white;
+    top: 92%;
+    left: 55%;
+    position: absolute;
+    background-color: transparent;
+    border: 1px;
+} */
+.edit{
+   border: none;
+   background-color: transparent;
+   left: 430px;
+   position: relative;
+   color:#323232;
+}
+.header {
+    padding: 3px;
+    text-align: center;
+    background:white;
+    color: black;
+    font-size: 10px;
+    
+   
+  }
+
+/* make gucImage too small
+
+
+
+ */
+ .gucImage{
+     left: -530px;
+    width: 130px;
+    height: 55px;
+    position: relative;
+ }
