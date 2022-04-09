@@ -25,5 +25,9 @@ router.get(
   "/viewStudentPublications/:studentID",
   studentOperations.viewStudentPublications
 );
+router.get(
+  "/getUserInformation:studentID",
+  studentOperations.getUserInformation
+);
 
 module.exports = router;
