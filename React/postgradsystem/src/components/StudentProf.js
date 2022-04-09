@@ -8,6 +8,7 @@ import { StudentData } from "../data/StudentData";
 import Reports from "./Reports";
 import Courses from "./Courses";
 
+
 function Student(props) {
   
   const [URL, setURL] = useState("");
