@@ -25,4 +25,5 @@ export const SupervisorData=[
         cName:"nav-text"
     },
     
+    
 ]

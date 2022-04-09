@@ -7,16 +7,16 @@ import { useParams } from "react-router-dom";
 import { StudentData } from "../data/StudentData";
 import Reports from "./Reports";
 import Courses from "./Courses";
+import Publications from "./Publications";
 
 
 function Student(props) {
-  
   const [URL, setURL] = useState("");
   let { studentID } = useParams();
   return (
     <Row className="App">
       <div className="col-2">
-        <div className="sideBar" >
+        <div className="sideBar">
           <ul className="sidebarList">
             <span>
               <div>
@@ -56,6 +56,8 @@ function Student(props) {
           <Reports></Reports>
         ) : URL === "Courses" ? (
           <Courses studentID={studentID}></Courses>
+        ) : URL === "Publications" ? (
+          <Publications studentID={studentID}></Publications>
         ) : null}
       </div>
     </Row>

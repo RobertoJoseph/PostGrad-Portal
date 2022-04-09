@@ -21,5 +21,9 @@ router.get(
 );
 router.get("/studentcourses/:studentID", studentOperations.viewStudentCourses);
 router.post("/addprogressreport", studentOperations.addAndFillProgressReport);
+router.get(
+  "/viewStudentPublications/:studentID",
+  studentOperations.viewStudentPublications
+);
 
 module.exports = router;
