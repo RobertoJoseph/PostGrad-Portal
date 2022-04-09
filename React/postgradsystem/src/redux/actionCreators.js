@@ -1,21 +1,6 @@
 import Axios from "axios";
 
-export const userLogin = (email, password) => async (dispatch) => {
-  return Axios.post("http://localhost:9000/login", email, password)
-    .then((response) => {
-      console.log(response.data);
-      dispatch(isLogged(response.data));
 
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const isLogged = (LoginFlag) => ({
-  type: "IS_LOGGED",
-  payload: LoginFlag,
-});
 
 
 export const getStudents = () => async (dispatch) => {
