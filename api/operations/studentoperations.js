@@ -339,3 +339,21 @@ exports.editMyPassword = async function (req, res) {
     sql.close();
   }
 };
+
+exports.getIdOfSelectedThesis = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("thesisSerialNo", sql.Int, req.params.thesisSerialNo)
+        .execute(`GetIdOfSelectedThesis`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+    sql.close();
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};

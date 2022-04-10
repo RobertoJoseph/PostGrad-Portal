@@ -29,10 +29,9 @@ function Publications(props) {
   const [publicationId, setPublicationID] = useState(0);
   const [thesisSerialNumber, setThesisSerialNumber] = useState(0);
   const [thesis, setThesis] = useState([]);
+  const [thesisTitle, setThesisTitle] = useState("");
 
   const createSelectItems = () => {
-    console.log("This is thesis: ", thesis);
-    console.log("this is thesis of 0: ", thesis[0]);
     let items = [];
     for (let i = 0; i <= thesis.length; i++) {
       items.push(
@@ -44,13 +43,27 @@ function Publications(props) {
     return items;
   };
   const onDropdownSelected = (e) => {
-    console.log("THE VAL", e.target.value);
+    getIdofSelectedThesis();
+    if (thesis[e.target.value].title == null)
+      setThesisTitle(thesis[e.target.value].title);
   };
 
-  const onClickButton = (thesisSerialNumber, publicationIdNumber) => {
-    setPublicationID(publicationIdNumber);
-    setThesisSerialNumber(thesisSerialNumber);
+  const onClickButton = (id) => {
+    setPublicationID(id);
     setTheModal();
+  };
+
+  //Make the backend of this get request
+  const getIdofSelectedThesis = () => {
+    Axios.get(
+      `http://localhost:9000/students/getIdOfSelectedThesis/${thesisTitle}/${props.studentID}`
+    )
+      .then((response) => {
+        setThesisSerialNumber(response.data[0].serialNumber);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const getallThesis = () => {
@@ -95,7 +108,9 @@ function Publications(props) {
                   <span style={{ color: "white" }}>
                     <Button
                       style={{ border: "none", background: "transparent" }}
-                      onClick={setTheModal}
+                      onClick={() => {
+                        onClickButton(item.id);
+                      }}
                     >
                       <AiIcons.AiOutlineLink size="30px"></AiIcons.AiOutlineLink>
                     </Button>

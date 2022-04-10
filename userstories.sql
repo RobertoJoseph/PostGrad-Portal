@@ -1168,10 +1168,55 @@ BEGIN
     WHERE NonGUCianStudent.id = @id
 END
 
+select *
+from GUCianRegisterThesis G
+where G.GUCianID = 1
+DELETE from GUCianRegisterThesis 
+WHERE  GUCianRegisterThesis.GUCianID = 1 AND GUCianRegisterThesis.supervisor_id=11;
+
+drop proc GetUserInformation
+
+
+-- TODO : Add the following procedures to the database.
+-- 1.a: Get the id of the selected thesis by search for the title that the thesis made by the specefic studentID user
 
 
 
     
+
+ GO
+CREATE PROC StudentData
+    @studentId INT
+    
+
+AS
+BEGIN
+    SELECT * FROM GUCianStudent G
+    INNER JOIN PostGradUser U 
+    ON G.id = @studentId
+    AND G.id = U.id
+
+END
+
+--------
+
+GO
+CREATE PROC editMyPassword
+    @studentId INT,
+    @oldPassword VARCHAR(10),
+    @newPassword VARCHAR(10)
+
+AS
+
+IF(exists(select * from PostGradUser where @studentId=id and @oldPassword= password))
+    BEGIN
+    
+        UPDATE PostGradUser
+        SET  password = @newPassword
+        WHERE PostGradUser.id = @studentId
+
+
+    END
 
 
 
