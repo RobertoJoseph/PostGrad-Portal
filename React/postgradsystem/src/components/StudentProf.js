@@ -8,10 +8,13 @@ import { StudentData } from "../data/StudentData";
 import Reports from "./Reports";
 import Courses from "./Courses";
 import Publications from "./Publications";
+import EditProfile from "./StudentEditProfile";
 
 
 function Student(props) {
   const [URL, setURL] = useState("");
+  const [Active, setActive] = useState("");
+
   let { studentID } = useParams();
   return (
     <Row className="App">
@@ -23,7 +26,8 @@ function Student(props) {
                 <br></br>
               </div>
             </span>
-            <span id="header">Student Profile </span>
+            <span id="header">Student Profile</span>
+            <span id="sub-header">{URL}</span>
             <span>
               <div>
                 <br></br>
@@ -35,9 +39,12 @@ function Student(props) {
                 <li
                   key={index}
                   className="row"
+                  
                   onClick={() => {
                     setURL(item.title);
+                    setActive("active");
                   }}
+                  id={Active === "active" ? "active" : "" }
                 >
                   <div id="icon">{item.icon}</div>
                   <div id="title" className="titleSize">
@@ -58,7 +65,9 @@ function Student(props) {
           <Courses studentID={studentID}></Courses>
         ) : URL === "Publications" ? (
           <Publications studentID={studentID}></Publications>
-        ) : null}
+        ) : URL === "My Profile" ? (
+          <EditProfile studentID={studentID}></EditProfile>
+        ) : null }
       </div>
     </Row>
   );

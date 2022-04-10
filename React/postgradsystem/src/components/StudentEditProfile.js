@@ -1,135 +1,183 @@
-import React, { Component } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faIcons, faSignIn, faUserPlus } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom';
-import Header from './HeaderComponent';
-import Home from './HomeComponent';
-import * as MdIcons from "react-icons/md";
-import * as GrIcons from "react-icons/gr";
-import * as RiIcons from "react-icons/ri";
+import React, { useState, useEffect } from 'react'
+
+import { useForm } from "react-hook-form";
 import { IconContext } from 'react-icons';
-import * as FaIcons from "react-icons/fa";
+import * as AiIcons from "react-icons/ai";
 import {
-    Button, Modal, ModalHeader, ModalBody, Label, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink,
+    Button, Modal, ModalHeader, ModalBody, Label, Row, Col,
     Form, FormGroup, Input, InputGroup
 } from 'reactstrap';
+import Axios from "axios";
+import "../css/newNav.css";
 
 
 
-class StudentEdit extends Component {
-    constructor(props) {
-        super(props);
 
 
+function StudentEdit(props) {
+
+    const [data, setData] = useState([]);
+    
+    const [isModalOpen, toggleModal] = useState(false);
+    const setTheModal = () => {
+        toggleModal(!isModalOpen);
+        setIsPasswordUpdated(false);
     }
+    const { register, handleSubmit } = useForm();
+    const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 
 
 
-    render() {
-        return (
-            <IconContext.Provider value={{ color: '#fff' }}>
-                <div>
+    const changePassword = (values) => {
+        Axios.post("http://localhost:9000/students/changepassword", {
+            studentID: props.studentID,
+            oldPassword: values.oldPassword,
+            newPassword: values.newPassword
+        })
+            .then((response) => {
+                if (response.data.isPasswordUpdated) {
+                    setIsPasswordUpdated(true);
+                }
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        Axios.get(
+            `http://localhost:9000/students/studentdata/${props.studentID}`
+        ).then((res) => {
+            setData(res.data);
+        });
+    }, []);
+
+
+    return (
+        <IconContext.Provider value={{ color: '#fff' }}>
+            <div>
+
+                {data.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            <div className="mt-5 mb-5 container">
+                                <div>
+                                    <Row id='data-title' mb={5} >Personal Information</Row>
+                                    <FormGroup>
+                                        <Row>
+                                            <Label htmlFor="firstName" md={{ size: 2 }}>First Name</Label>
+                                            <Col md={3}>
+                                                <Input id="firstName" name="firstName" type="text" value={item.firstName}></Input>
+                                            </Col>
+                                            <Label htmlFor="lastName" md={{ offset: 1, size: 2 }}>Last Name</Label>
+                                            <Col md={3}>
+                                                <Input id="lastName" name="lastName" type="text" value={item.lastName}></Input>
+                                            </Col>
+                                        </Row>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Row>
+                                            <Label htmlFor="email" md={{ size: 2 }}>Email</Label>
+                                            <Col md={3}>
+                                                <Input id="email" name="email" type="email" value={item.email}></Input>
+
+                                            </Col>
+                                            <Label htmlFor="address" md={{ offset: 1, size: 2 }}>Address</Label>
+                                            <Col md={3}><Input id="address" name="address" type="text" rows="3" value={item.password} ></Input>
+                                            </Col>
+                                        </Row>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <Row>
+                                            <Label htmlFor="faculty" md={{ size: 2 }}>Faculty</Label>
+                                            <Col md={3}>
+                                                <Input id="faculty" name="faculty" type="text" value={item.faculty}></Input>
+                                            </Col>
+
+                                            <Label htmlFor="gpa" md={{ offset: 1, size: 2 }}>GPA</Label>
+                                            <Col md={3}>
+                                                <Input id="gpa" name="gpa" type="text" value={item.GPA}></Input>
+                                            </Col>
+
+                                        </Row>
+                                    </FormGroup>
+                                </div>
+                                <div className='mt-5'>
+                                    <Row>
+                                        <Col md={{ offset: 9, size: 2 }}>
+                                            <Button onClick={setTheModal}>
+                                                Change Password
+                                            </Button>
+                                        </Col>
+
+                                    </Row>
+                                </div>
+                            </div>
+                            <Modal centered isOpen={isModalOpen} toggle={setTheModal}>
+                                <ModalHeader
+                                    style={{ backgroundColor: "#081A2D", color: "white" }}
+                                    toggle={setTheModal}
+                                    close={
+                                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                                        <a className="close link-underline" onClick={setTheModal}>
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </a>
+                                    }
+                                >
+                                    Change My Password
+                                </ModalHeader>
+                                <ModalBody>
+                                    <Form onSubmit={handleSubmit(changePassword)}>
+                                        <FormGroup>
+                                            <Label htmlFor="oldPassword">Old Password</Label>
+                                            <input
+                                                type="password"
+                                                id="oldPassword"
+                                                name="oldPassword"
+                                                ref={register}
+                                                className="form-control"
+                                            />
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Label htmlFor="newPassword">New Password</Label>
+                                            <input
+                                                type="password"
+                                                id="newPassword"
+                                                name="newPassword"
+                                                ref={register}
+                                                className="form-control"
+                                            />
+                                        </FormGroup>
+                                        {isPasswordUpdated ? (
+                                            <p style={{ color: "green" }}>
+                                                {" "}
+                                                <AiIcons.AiFillCheckCircle></AiIcons.AiFillCheckCircle>
+                                                Password Updated Successfully
+                                            </p>
+                                        ) : null}
+                                        <input
+                                            type="submit"
+                                            value="Save"
+                                            className="form-control btn-primary"
+                                        />
+                                    </Form>
+                                </ModalBody>
+                            </Modal>
+                        </div>
+                    );
+                })}
 
 
 
-                    <Form className="mt-3">
-                        <FormGroup>
-                            <Row>
-                                <Label htmlFor="firstName" md={{ offset: 1, size :1 }}>First Name</Label>
-                                <Col md={3}>
-                                    <InputGroup>
-                                        <Input id="firstName" name="firstName" type="text" value="Kareem"></Input>
-                                        <Button>
-                                            <FaIcons.FaEdit/>
-                                        </Button>
-                                    </InputGroup>
-                                </Col>
-                                <Label htmlFor="lastName" md={{ offset: 1, size :1 }}>Last Name</Label>
-                                <Col md={3}>
-                                    <InputGroup>
-                                        <Input id="lastName" name="lastName" type="text" value="Heidar"></Input>
-                                        <Button>
-                                            <FaIcons.FaEdit/>
-                                        </Button>
-                                    </InputGroup>
-                                </Col>
-                            </Row>
-                        </FormGroup>
-                        <FormGroup>
-                            <Row>
-                                <Label htmlFor="email" md={{ offset: 1, size :1 }}>Email</Label>
-                                <Col md={3}>
-                                    <InputGroup>
-                                        <Input id="email" name="email" type="email" value="Kareem.Heidar@guc.edu.eg"></Input>
-                                        <Button>
-                                            <FaIcons.FaEdit/>
-                                        </Button>
-                                    </InputGroup>
-                                </Col>
-                                <Label htmlFor="password" md={{ offset: 1, size :1 }}>Password</Label>
-                                <Col md={3}>
-                                    <InputGroup>
-                                        <Input id="password" name="password" type="text" value="Abc_123"></Input>
-                                        <Button>
-                                            <FaIcons.FaEdit/>
-                                        </Button>
-                                    </InputGroup>
-                                </Col>
-                            </Row>
-                        </FormGroup>
-                        <FormGroup>
-                            <Row>
-                                <Label htmlFor="email" md={3}>Email</Label>
-                                <Col md={9}><Input id="email" name="email" type="email"></Input></Col>
-                            </Row>
-                        </FormGroup>
-                        <FormGroup>
-                            <Row>
-                                <Label htmlFor="password" md={3}>Password</Label>
-                                <Col md={9}><Input id="password" name="password" type="password"></Input></Col>
-                            </Row>
-                        </FormGroup>
-                        <FormGroup>
-                            <Row>
-                                <Label htmlFor="faculty" md={3}>Faculty</Label>
-                                <Col md={9}><Input id="faculty" name="faculty" type="select">
-                                    <option selected value="art">Arts</option>
-                                    <option value="cs">Computer Science</option>
-                                    <option value="eng">Engineering</option>
-                                    <option value="law">Law</option>
-                                    <option value="mngt">Management</option>
-                                    <option value="med">Medicine</option>
-                                    <option value="phar">Pharmacy</option>
-
-                                </Input></Col>
-                            </Row>
-                        </FormGroup>
-                        <FormGroup>
-                            <Row>
-                                <Label htmlFor="address" md={3}>Address</Label>
-                                <Col md={9}><Input id="address" name="address" type="textarea"></Input></Col>
-                            </Row>
-                        </FormGroup>
-                        <FormGroup check>
-                            <Row>
-                                <Label check md={{ offset: 3 }}>
-                                    <Input type="checkbox" id="gucian" name="gucian"></Input>
-                                    <strong>GUCian</strong>
-                                </Label>
-                            </Row>
-                        </FormGroup>
-
-                        <Button type="submit" value="submit" color="primary" className='offset-md-10' id='studentForm'>Submit</Button>
 
 
-                    </Form>
+            </div>
 
+        </IconContext.Provider>
 
-                </div>
+    );
 
-            </IconContext.Provider>
-
-        );
-    }
 }
 export default StudentEdit;
