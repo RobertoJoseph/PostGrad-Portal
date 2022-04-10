@@ -24,3 +24,4 @@ This is a project of our Database Course. It is a system that keeps track of stu
 <img width="1440" alt="Screen Shot 2022-03-09 at 12 43 58 PM" src="https://user-images.githubusercontent.com/67745591/157427347-3be883c0-555b-4483-8f65-26a8b68bab19.png">
 
 
+![](https://media.giphy.com/media/AqQG7f8quG2pIAKKhx/giphy.gif)
