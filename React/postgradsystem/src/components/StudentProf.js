@@ -37,11 +37,11 @@ function Student(props) {
   const [userName, setUsername] = useState("");
 
   const getUserInformation = () => {
-    Axios.get(
-      `http://localhost:9000/students/studentdata/${studentID}`
-    ).then((res) => {
-      setUsername(res.data[0].firstName + " " + res.data[0].lastName);
-    });
+    Axios.get(`http://localhost:9000/students/studentdata/${studentID}`).then(
+      (res) => {
+        setUsername(res.data[0].firstName + " " + res.data[0].lastName);
+      }
+    );
   };
   useEffect(() => {
     getUserInformation();
@@ -49,6 +49,7 @@ function Student(props) {
 
   return (
     <div>
+
 
       <Navbar color="light" sticky="top">
 
@@ -67,7 +68,9 @@ function Student(props) {
         </Nav>
 
       </Navbar>
+
       <Row className="App" >
+
         <div className="col-2">
           <div className="sideBar">
             <ul className="sidebarList">

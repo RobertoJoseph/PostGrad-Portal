@@ -32,7 +32,4 @@ router.get("/studentdata/:studentID", studentOperations.viewStudentDataById);
 
 router.post("/changepassword", studentOperations.editMyPassword);
 
-
-
 module.exports = router;
-
