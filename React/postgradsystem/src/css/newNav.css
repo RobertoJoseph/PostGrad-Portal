@@ -25,6 +25,8 @@
     padding: 0%;
 }
 
+
+
 .sidebarList .row {
     width: 100%;
     height: 50px;
@@ -54,16 +56,27 @@
     flex: 70%;
 }
 
-#header {
+#heading {
     color: aliceblue;
     font-weight: bolder;
     display: flex;
     justify-content: center;
     align-items: center;
+
+}
+
+#sub-heading {
+    color: aliceblue;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: lighter;
     
 
 
 }
+
 .titleSize{
    font-size: 20px;
 }
@@ -71,39 +84,50 @@
     background-color: #2955C8;
 }
 
-/* .edit{
-    color: white;
-    top: 92%;
-    left: 55%;
-    position: absolute;
-    background-color: transparent;
-    border: 1px;
-} */
-.edit{
-   border: none;
-   background-color: transparent;
-   left: 430px;
-   position: relative;
-   color:#323232;
+.container {
+    background-color: #FFFEF1;
+    padding: 30px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-radius: 20px;
+
 }
-.header {
-    padding: 3px;
+
+#data-title {
+    color: #1C2D43;
+    font-size: 32px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    background:white;
-    color: black;
-    font-size: 10px;
-    
-   
-  }
+    padding-bottom: 40px;
+}
 
-/* make gucImage too small
+#mini-Button {
+    background-color: white;
+}
 
-
-
- */
- .gucImage{
-     left: -530px;
-    width: 130px;
-    height: 55px;
+.edit{
+    border: none;
+    background-color: transparent;
+    left: 430px;
     position: relative;
+    color:#323232;
  }
+ .header {
+     padding: 3px;
+     text-align: center;
+     background:white;
+     color: black;
+     font-size: 10px;
+
+   }
+ 
+ /* make gucImage too small
+  */
+  .gucImage{
+      left: -530px;
+     width: 130px;
+     height: 55px;
+     position: relative;
+  }

@@ -30,6 +30,12 @@ export const StudentData=[
         path:"/studentpublications",
         icon:<FaIcons.FaAddressBook/>,
         cName:"nav-text"
-    }
+    },
+    // {
+    //     title:"My Profile",
+    //     path:"/editProfile",
+    //     icon:<MdIcons.MdOutlineManageAccounts/>,
+    //     cName:"nav-text"
+    // }
     
 ]

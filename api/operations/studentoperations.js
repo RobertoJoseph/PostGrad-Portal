@@ -200,7 +200,7 @@ exports.ViewEvalProgressReport = async function (req, res) {
 };
 exports.viewStudentThesisById = async function (req, res) {
   try {
-    console.log("HHHHHH");
+    console.log(req.params.studentID);
     let pool = await sql.connect(config);
     const result = (
       await pool
@@ -303,20 +303,39 @@ exports.viewStudentPublications = async function (req, res) {
   }
 };
 
-exports.getUserInformation = async function (req, res) {
+exports.viewStudentDataById = async function (req, res) {
   try {
+    console.log(req.params.studentID);
     let pool = await sql.connect(config);
     const result = (
       await pool
         .request()
-        .input("iD", sql.Int, req.params.studentID)
-        .execute(`GetUserInformation`)
+        .input("studentId", sql.Int, req.params.studentID)
+        .execute(`StudentData`)
     ).recordset;
     console.log(result);
     res.send(result);
     sql.close();
   } catch (err) {
     console.log(err);
+    sql.close();
+  }
+};
+
+exports.editMyPassword = async function (req, res) {
+  try {
+    
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("studentId", sql.Int, req.body.studentID)
+      .input("oldPassword", sql.VarChar, req.body.oldPassword)
+      .input("newPassword", sql.VarChar, req.body.newPassword)
+      .execute(`editMyPassword`);
+    sql.close();
+    res.send({ isPasswordUpdated: true });
+  } catch (error) {
+    console.log(error);
     sql.close();
   }
 };
