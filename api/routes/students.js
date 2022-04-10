@@ -26,10 +26,7 @@ router.get(
   "/viewStudentPublications/:studentID",
   studentOperations.viewStudentPublications
 );
-router.get(
-  "/getUserInformation:studentID",
-  studentOperations.getUserInformation
-);
+
 
 router.get("/studentdata/:studentID", studentOperations.viewStudentDataById);
 

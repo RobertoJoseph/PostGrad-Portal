@@ -85,7 +85,7 @@
 }
 
 .container {
-    background-color: #FFFEF1;
+    background-color: #fcfcfc;
     padding: 30px;
     padding-top: 50px;
     padding-bottom: 50px;
@@ -110,9 +110,7 @@
 .edit{
     border: none;
     background-color: transparent;
-    left: 430px;
-    position: relative;
-    color:#323232;
+    color:#1C2D43;
  }
  .header {
      padding: 3px;
@@ -120,7 +118,7 @@
      background:white;
      color: black;
      font-size: 10px;
-
+    position: relative;
    }
  
  /* make gucImage too small
@@ -130,4 +128,8 @@
      width: 130px;
      height: 55px;
      position: relative;
+  }
+
+  #Navbar {
+      position: fixed;
   }

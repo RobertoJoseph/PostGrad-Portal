@@ -19,9 +19,11 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText,
-  FormFeedback,
+  Nav,
+  NavItem,
+  Navbar,
+  NavbarBrand,
+
 } from "reactstrap";
 import Axios from "axios";
 
@@ -47,25 +49,25 @@ function Student(props) {
 
   return (
     <div>
-      <div className="header">
-        <img className="gucImage" src="../guc_O.png"></img>
-        <span
-          style={{
-            left: "415px",
-            position: "relative",
-            fontSize: "13px",
-            fontWeight: "bold",
-          }}
-        >
-          
-          Hello, {userName}
-        </span>{" "}
-        {"          "}
-        <button className="edit" onClick={() => {setURL("My Profile");}}>
-          <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
-        </button>
-      </div>
-      <Row className="App">
+
+      <Navbar color="light" sticky="top">
+
+        <NavbarBrand className="mr-auto" ><img  src="../guc_O.png" height={50} width={130} alt="GUC"></img></NavbarBrand>
+
+        <Nav navbar>
+
+        </Nav>
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <span style={{ fontWeight: "bolder", color:"#1C2D43"}}>Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <button className="edit" onClick={() => { setURL("My Profile"); }}>
+              <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
+            </button>
+          </NavItem>
+        </Nav>
+
+      </Navbar>
+      <Row className="App" >
         <div className="col-2">
           <div className="sideBar">
             <ul className="sidebarList">
@@ -101,48 +103,7 @@ function Student(props) {
             </ul>
           </div>
         </div>
-        <Modal centered isOpen={isModalOpen} toggle={setTheModal}>
-          <ModalHeader
-            style={{ backgroundColor: "#081A2D", color: "white" }}
-            toggle={setTheModal}
-            close={
-              // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <a className="close link-underline" onClick={setTheModal}>
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </a>
-            }
-          >
-            Add Progress Report
-          </ModalHeader>
-          <ModalBody>
-            <Form>
-              <FormGroup>
-                <Label htmlFor="date">Date</Label>
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  className="form-control"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="description">Description</Label>
-                <input
-                  type="textarea"
-                  id="textarea"
-                  name="description"
-                  className="form-control"
-                />
-              </FormGroup>
 
-              <input
-                type="submit"
-                value="Submit"
-                className="form-control btn-primary"
-              />
-            </Form>
-          </ModalBody>
-        </Modal>
 
         <div className="col-10 page">
           {URL === "Theses" ? (
