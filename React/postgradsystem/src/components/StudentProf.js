@@ -32,13 +32,11 @@ function Student(props) {
   let { studentID } = useParams();
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);
-  const [isButtonClicked, setButton] = useState(false);
-  const setTheButton = () => setButton(!isButtonClicked);
   const [userName, setUsername] = useState("");
 
   const getUserInformation = () => {
     Axios.get(
-      `http://localhost:9000/students/getUserInformation${studentID}`
+      `http://localhost:9000/students/studentdata/${studentID}`
     ).then((res) => {
       setUsername(res.data[0].firstName + " " + res.data[0].lastName);
     });
@@ -49,7 +47,7 @@ function Student(props) {
 
   return (
     <div>
-      <div class="header">
+      <div className="header">
         <img className="gucImage" src="../guc_O.png"></img>
         <span
           style={{
@@ -63,7 +61,7 @@ function Student(props) {
           Hello, {userName}
         </span>{" "}
         {"          "}
-        <button className="edit" onClick={setTheButton}>
+        <button className="edit" onClick={() => {setURL("My Profile");}}>
           <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
         </button>
       </div>
@@ -76,8 +74,8 @@ function Student(props) {
                   <br></br>
                 </div>
               </span>
-              <span id="header">Student Profile </span>
-              <span id="sub-header">{URL}</span>
+              <span id="heading">Student Profile </span>
+              <span id="sub-heading">{URL}</span>
               <span>
                 <div>
                   <br></br>
@@ -155,6 +153,8 @@ function Student(props) {
             <Courses studentID={studentID}></Courses>
           ) : URL === "Publications" ? (
             <Publications studentID={studentID}></Publications>
+          ) : URL === "My Profile" ? (
+            <EditProfile studentID={studentID}></EditProfile>
           ) : null}
         </div>
       </Row>

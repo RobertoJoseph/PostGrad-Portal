@@ -31,11 +31,11 @@ export const StudentData=[
         icon:<FaIcons.FaAddressBook/>,
         cName:"nav-text"
     },
-    {
-        title:"My Profile",
-        path:"/editProfile",
-        icon:<MdIcons.MdOutlineManageAccounts/>,
-        cName:"nav-text"
-    }
+    // {
+    //     title:"My Profile",
+    //     path:"/editProfile",
+    //     icon:<MdIcons.MdOutlineManageAccounts/>,
+    //     cName:"nav-text"
+    // }
     
 ]

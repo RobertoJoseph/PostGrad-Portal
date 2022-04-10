@@ -56,7 +56,7 @@
     flex: 70%;
 }
 
-#header {
+#heading {
     color: aliceblue;
     font-weight: bolder;
     display: flex;
@@ -65,7 +65,7 @@
 
 }
 
-#sub-header {
+#sub-heading {
     color: aliceblue;
     font-weight: bolder;
     display: flex;
@@ -107,3 +107,27 @@
     background-color: white;
 }
 
+.edit{
+    border: none;
+    background-color: transparent;
+    left: 430px;
+    position: relative;
+    color:#323232;
+ }
+ .header {
+     padding: 3px;
+     text-align: center;
+     background:white;
+     color: black;
+     font-size: 10px;
+
+   }
+ 
+ /* make gucImage too small
+  */
+  .gucImage{
+      left: -530px;
+     width: 130px;
+     height: 55px;
+     position: relative;
+  }

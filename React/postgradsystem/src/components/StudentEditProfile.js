@@ -84,7 +84,7 @@ function StudentEdit(props) {
 
                                             </Col>
                                             <Label htmlFor="address" md={{ offset: 1, size: 2 }}>Address</Label>
-                                            <Col md={3}><Input id="address" name="address" type="text" rows="3" value={item.password} ></Input>
+                                            <Col md={3}><Input id="address" name="address" type="text" rows="3" value={item.address} ></Input>
                                             </Col>
                                         </Row>
                                     </FormGroup>
