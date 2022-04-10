@@ -477,7 +477,8 @@ BEGIN
             INNER JOIN Publication P ON P.id = T_P.publication_id
         WHERE NonGUCianStudent.id = @studentID
 END
-select * from Thesis_Publication
+select *
+from Thesis_Publication
 -- 4.e: Add defense for a thesis, for nonGucian students all courses’ grades should be greater than 50 percent.
 -- TODO: not sure about not having grade
 GO
@@ -1146,6 +1147,27 @@ VALUES
         1,
         0
     )
+
+GO
+CREATE PROC GetUserInformation
+    @id int
+AS
+
+IF exists (Select *
+from GUCianStudent
+Where GUCianStudent.id = @id)
+BEGIN
+    SELECT *
+    FROM GUCianStudent
+    WHERE GUCianStudent.id = @id
+END
+ELSE
+BEGIN
+    SELECT *
+    FROM NonGUCianStudent
+    WHERE NonGUCianStudent.id = @id
+END
+
 
 
 
