@@ -57,7 +57,6 @@ function Student(props) {
             fontWeight: "bold",
           }}
         >
-          
           Hello, {userName}
         </span>{" "}
         {"          "}
