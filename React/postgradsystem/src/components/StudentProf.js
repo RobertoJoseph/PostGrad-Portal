@@ -35,11 +35,11 @@ function Student(props) {
   const [userName, setUsername] = useState("");
 
   const getUserInformation = () => {
-    Axios.get(
-      `http://localhost:9000/students/studentdata/${studentID}`
-    ).then((res) => {
-      setUsername(res.data[0].firstName + " " + res.data[0].lastName);
-    });
+    Axios.get(`http://localhost:9000/students/studentdata/${studentID}`).then(
+      (res) => {
+        setUsername(res.data[0].firstName + " " + res.data[0].lastName);
+      }
+    );
   };
   useEffect(() => {
     getUserInformation();
@@ -60,7 +60,12 @@ function Student(props) {
           Hello, {userName}
         </span>{" "}
         {"          "}
-        <button className="edit" onClick={() => {setURL("My Profile");}}>
+        <button
+          className="edit"
+          onClick={() => {
+            setURL("My Profile");
+          }}
+        >
           <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
         </button>
       </div>

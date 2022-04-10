@@ -324,7 +324,6 @@ exports.viewStudentDataById = async function (req, res) {
 
 exports.editMyPassword = async function (req, res) {
   try {
-    
     let pool = await sql.connect(config);
     const result = await pool
       .request()
