@@ -23,7 +23,6 @@ import {
   NavItem,
   Navbar,
   NavbarBrand,
-
 } from "reactstrap";
 import Axios from "axios";
 
@@ -49,28 +48,30 @@ function Student(props) {
 
   return (
     <div>
-
-
       <Navbar color="light" sticky="top">
+        <NavbarBrand className="mr-auto">
+          <img src="../guc_O.png" height={50} width={130} alt="GUC"></img>
+        </NavbarBrand>
 
-        <NavbarBrand className="mr-auto" ><img  src="../guc_O.png" height={50} width={130} alt="GUC"></img></NavbarBrand>
-
-        <Nav navbar>
-
-        </Nav>
+        <Nav navbar></Nav>
         <Nav className="ml-auto" navbar>
           <NavItem>
-            <span style={{ fontWeight: "bolder", color:"#1C2D43"}}>Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <button className="edit" onClick={() => { setURL("My Profile"); }}>
+            <span style={{ fontWeight: "bolder", color: "#1C2D43" }}>
+              Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <button
+              className="edit"
+              onClick={() => {
+                setURL("My Profile");
+              }}
+            >
               <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
             </button>
           </NavItem>
         </Nav>
-
       </Navbar>
 
-      <Row className="App" >
-
+      <Row className="App">
         <div className="col-2">
           <div className="sideBar">
             <ul className="sidebarList">
@@ -106,7 +107,6 @@ function Student(props) {
             </ul>
           </div>
         </div>
-
 
         <div className="col-10 page">
           {URL === "Theses" ? (

@@ -61,7 +61,7 @@ function StudentEdit(props) {
                 {data.map((item, index) => {
                     return (
                         <div key={index}>
-                            <div className="mt-5 mb-5 container">
+                            <div  className="mt-5 mb-5 container">
                                 <div>
                                     <Row id='data-title' mb={5} >Personal Information</Row>
                                     <FormGroup>
