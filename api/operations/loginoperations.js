@@ -25,7 +25,6 @@ exports.Login = async function (req, res) {
         .input("pASsword", sql.VarChar, req.body.password)
         .output("Success", sql.Bit)
         .execute(`userLogin`);
-      sql.close();
       res.send({ isLogged: userlogin.output.Success, studentID: userid });
     } else {
       res.send({ isLogged: false, studentID: userid });
