@@ -8,6 +8,8 @@ const allReducers = combineReducers({
   ...createForms({
     studentForm: StudentForm,
     loginForm: "anything",
+    addPublicationForm: "anything",
+    linkPublicationForm: "anything",
   }),
 });
 export default allReducers;

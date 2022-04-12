@@ -11,7 +11,6 @@ import {
   CardHeader,
   Row,
   Button,
-  Form,
   FormGroup,
   Label,
   Input,
@@ -19,46 +18,92 @@ import {
   ModalHeader,
   ModalBody,
   Col,
+  Alert,
 } from "reactstrap";
 import * as AiIcons from "react-icons/ai";
+import { get, useForm } from "react-hook-form";
+import { Control, Form, Errors, actions } from "react-redux-form";
 
 function Publications(props) {
   const [publications, setPublications] = useState([]);
-  const [isModalOpen, toggleModal] = useState(false);
-  const setTheModal = () => toggleModal(!isModalOpen);
+  const [modalLinkPublication, toggleModal] = useState(false);
+  const setModalLinkPublication = () => toggleModal(!modalLinkPublication);
   const [publicationId, setPublicationID] = useState(0);
   const [thesisSerialNumber, setThesisSerialNumber] = useState(0);
   const [thesis, setThesis] = useState([]);
   const [thesisTitle, setThesisTitle] = useState("");
+  const [isPublicationAdded, setIsPublicationAdded] = useState(false);
+  const [modalAddPublication, setModal] = useState(false);
+  const setModalAddPublication = () => setModal(!modalAddPublication);
+  const [isPublicationLinked, setIsPublicationLinked] = useState(false);
+
+  const addPublication = (values) => {
+    Axios.post(
+      `http://localhost:9000/students/addpublication/${props.studentID}`,
+      {
+        publicationTitle: values.publicationTitle,
+        host: values.host,
+        place: values.place,
+        date: values.date,
+        isAccepted: values.isAccepted,
+      }
+    )
+      .then((response) => {
+        if (response.data.isPublicationAdded) {
+          setIsPublicationAdded(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const linkPublication = (values) => {
+    Axios.post("http://localhost:9000/students/linkpublication", {
+      publicationId: publicationId,
+      thesisSerialNumber: thesisSerialNumber,
+    })
+      .then((response) => {
+        setIsPublicationLinked(true);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const createSelectItems = () => {
     let items = [];
     for (let i = 0; i <= thesis.length; i++) {
       items.push(
         <option key={i} value={i}>
-          {thesis[i] ? thesis[i].field : null}
+          {thesis[i] ? thesis[i].title : null}
         </option>
       );
     }
     return items;
   };
-  const onDropdownSelected = (e) => {
-    getIdofSelectedThesis();
-    if (thesis[e.target.value].title == null)
-      setThesisTitle(thesis[e.target.value].title);
-  };
+
+  // const onDropdownSelected = (e) => {
+  //   getIdofSelectedThesis();
+  //   if (thesis[e.target.value].title == null)
+  //     setThesisTitle(thesis[e.target.value].title);
+  // };
 
   const onClickButton = (id) => {
+    setIsPublicationLinked(false);
     setPublicationID(id);
-    setTheModal();
+    setModalLinkPublication();
   };
 
-  //Make the backend of this get request
   const getIdofSelectedThesis = () => {
     Axios.get(
-      `http://localhost:9000/students/getIdOfSelectedThesis/${thesisTitle}/${props.studentID}`
+      `http://localhost:9000/students/getIdOfSelectedThesis/${props.studentID}`,
+      {
+        thesisTitle: thesisTitle,
+      }
     )
       .then((response) => {
+        console.log(response.data[0].serialNumber);
         setThesisSerialNumber(response.data[0].serialNumber);
       })
       .catch((error) => {
@@ -83,14 +128,15 @@ function Publications(props) {
   useEffect(() => {
     viewStudentPublications();
     getallThesis();
-  }, []);
+    getIdofSelectedThesis();
+  }, [isPublicationAdded, thesisSerialNumber]);
   return (
     <div>
       <div className="row">
         <div className="col-md-12 m-3 ">
-          <Button>
+          <Button onClick={setModalAddPublication}>
             {" "}
-            <AiIcons.AiFillFileAdd></AiIcons.AiFillFileAdd> HI
+            <AiIcons.AiFillFileAdd></AiIcons.AiFillFileAdd> Add publication
           </Button>
         </div>
         {publications.map((item, index) => {
@@ -140,13 +186,66 @@ function Publications(props) {
           );
         })}
       </div>
-      <Modal isOpen={isModalOpen} toggle={setTheModal} centered>
+      <Modal
+        isOpen={modalLinkPublication}
+        toggle={setModalLinkPublication}
+        centered
+      >
         <ModalHeader
-          toggle={setTheModal}
+          toggle={setModalLinkPublication}
           style={{ backgroundColor: "#081A2D", color: "white" }}
           close={
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a className="close link-underline" onClick={setTheModal}>
+            <a
+              className="close link-underline"
+              onClick={setModalLinkPublication}
+            >
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+          }
+        >
+          {" "}
+          Link Publication
+        </ModalHeader>
+        <ModalBody>
+          <Form
+            model="linkPublicationForm"
+            onSubmit={(values) => linkPublication(values)}
+          >
+            <FormGroup>
+              <Label for="exampleSelect">Select Thesis</Label>
+              <Control.select
+                model=".thesis"
+                type="select"
+                name="select"
+                id="exampleSelect"
+                className="form-control"
+              >
+                {createSelectItems()}
+              </Control.select>
+            </FormGroup>
+            {isPublicationLinked ? (
+              <Alert color="success">Publication Linked Successfully</Alert>
+            ) : null}
+            <Input type="submit" className="btn-primary" value="Submit"></Input>
+          </Form>
+        </ModalBody>
+      </Modal>
+
+      <Modal
+        isOpen={modalAddPublication}
+        toggle={setModalAddPublication}
+        centered
+      >
+        <ModalHeader
+          toggle={setModalAddPublication}
+          style={{ backgroundColor: "#081A2D", color: "white" }}
+          close={
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <a
+              className="close link-underline"
+              onClick={setModalAddPublication}
+            >
               <i class="fa fa-times" aria-hidden="true"></i>
             </a>
           }
@@ -155,18 +254,72 @@ function Publications(props) {
           Add Publication
         </ModalHeader>
         <ModalBody>
-          <Form>
+          <Form
+            model="addPublicationForm"
+            onSubmit={(values) => addPublication(values)}
+          >
             <FormGroup>
-              <Label for="exampleSelect">Select Thesis</Label>
-              <Input
-                type="select"
-                name="select"
-                id="exampleSelect"
-                onChange={onDropdownSelected}
-              >
-                {createSelectItems()}
-              </Input>
+              <Label for="publicationTitle">Publication title</Label>
+              <Control.text
+                type="text"
+                name="publicationTitle"
+                id="publicationTitle"
+                placeholder="Enter publication title"
+                className="form-control"
+                model=".publicationTitle"
+              ></Control.text>
             </FormGroup>
+            <FormGroup>
+              <Label for="host">Host</Label>
+              <Control.text
+                type="text"
+                name="host"
+                id="host"
+                placeholder="Enter Host Name"
+                model=".host"
+                className="form-control"
+              ></Control.text>
+            </FormGroup>
+            <FormGroup>
+              <Label for="place">Host</Label>
+              <Control.text
+                type="text"
+                name="place"
+                id="place"
+                placeholder="Enter Place Name"
+                className="form-control"
+                model=".place"
+              ></Control.text>
+            </FormGroup>
+            <FormGroup>
+              <Label for="date">Publication Date</Label>
+
+              <Control.text
+                type="date"
+                name="date"
+                id="date"
+                className="form-control"
+                model=".date"
+              ></Control.text>
+            </FormGroup>
+            <FormGroup>
+              <Label for="publicationLink">Accepted Publication</Label>
+              <Control.select
+                type="select"
+                name="isAccepted"
+                id="exampleSelect"
+                className="form-control"
+                model=".isAccpted"
+              >
+                {" "}
+                <option value="1">0</option>
+                <option value="0">1</option>
+              </Control.select>
+            </FormGroup>
+            {isPublicationAdded ? (
+              <Alert color="success">Publication Added Successfully</Alert>
+            ) : null}
+
             <Input type="submit" className="btn-primary" value="Submit"></Input>
           </Form>
         </ModalBody>

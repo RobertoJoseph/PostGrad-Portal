@@ -27,9 +27,15 @@ router.get(
   studentOperations.viewStudentPublications
 );
 
-
 router.get("/studentdata/:studentID", studentOperations.viewStudentDataById);
 
 router.post("/changepassword", studentOperations.editMyPassword);
+
+router.post("/addpublication/:studentID", studentOperations.addPublication);
+router.get(
+  "/getIdOfSelectedThesis/:studentID",
+  studentOperations.getIdOfSelectedThesis
+);
+router.post("/linkpublication", studentOperations.linkPublicationToThesis);
 
 module.exports = router;

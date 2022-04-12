@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../css/Navbar.css";
 import Axios from "axios";
+
 import {
   Card,
   CardTitle,
@@ -19,6 +20,7 @@ import {
   ModalHeader,
   ModalBody,
   Col,
+  Alert,
 } from "reactstrap";
 import * as IoIcons from "react-icons/io";
 import * as TiIcons from "react-icons/ti";
@@ -89,6 +91,8 @@ function Thesis(props) {
                   <dd className="col-6">{item.type}</dd>
                   <dt className="col-6">Field</dt>
                   <dd className="col-6">{item.field}</dd>
+                  <dt className="col-6">Title</dt>
+                  <dd className="col-6">{item.title}</dd>
                   <dt className="col-6">Start Date</dt>
                   <dd className="col-6">
                     {new Intl.DateTimeFormat("en-US", {
@@ -169,11 +173,7 @@ function Thesis(props) {
               />
             </FormGroup>
             {isProgressAdded ? (
-              <p style={{ color: "green" }}>
-                {" "}
-                <AiIcons.AiFillCheckCircle></AiIcons.AiFillCheckCircle> Progress
-                Report Added Successfully
-              </p>
+              <Alert color="success">Progress Report Added Successfully</Alert>
             ) : null}
             <input
               type="submit"
