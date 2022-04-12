@@ -113,7 +113,7 @@ function Student(props) {
           {URL === "Theses" ? (
             <Thesis studentID={studentID} />
           ) : URL === "Reports" ? (
-            <Reports></Reports>
+            <Reports studentID={studentID}></Reports>
           ) : URL === "Courses" ? (
             <Courses studentID={studentID}></Courses>
           ) : URL === "Publications" ? (

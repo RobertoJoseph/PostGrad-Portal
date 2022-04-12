@@ -358,3 +358,23 @@ exports.getIdOfSelectedThesis = async function (req, res) {
     sql.close();
   }
 };
+
+
+exports.ViewEvalProgressReport = async function (req, res) {
+  try {
+    console.log(req.params.studentID);
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentId", sql.Int, req.params.studentID)
+        .execute(`ViewEvalProgressReport`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+    sql.close();
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};
