@@ -33,3 +33,35 @@ IF(exists(select * from PostGradUser where @studentId=id and @oldPassword= passw
     END
 
 
+----------
+
+#### TO BE ALTERED ####
+^
+^
+^
+^
+GO
+CREATE PROC ViewEvalProgressReport
+    @studentId INT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+        FROM GUCianProgressReport
+        WHERE student_id = @studentId
+    )
+        BEGIN
+        SELECT PR.evaluation, S.firstName, S.lastName, T.title
+        FROM GUCianProgressReport PR, Supervisor S, Thesis T
+        WHERE PR.student_id = @studentId AND PR.supervisor_id = S.id AND T.serialNumber = PR.thesisSerialNumber
+    END
+    ELSE
+        BEGIN
+        SELECT NPR.evaluation, S.firstName, S.lastName, T.title
+        FROM NonGUCianProgressReport NPR, Supervisor S, Thesis T
+        WHERE NPR.student_id = student_id AND NPR.supervisor_id = S.id AND T.serialNumber = NPR.thesisSerialNumber
+    END
+END
+
+
+---------------------
