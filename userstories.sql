@@ -323,6 +323,7 @@ BEGIN
     VALUES(@courseID, @studentID)
 end
 
+
 GO
 CREATE PROC AddStudentCourseGrade
     @courseID INT,
@@ -461,24 +462,18 @@ CREATE PROC ViewAStudentPublications
     @studentID INT
 AS
 BEGIN
-            SELECT P.*
-        FROM GUCianStudent GUCianStudent
-            INNER JOIN GUCianRegisterThesis GUCianRegisterThesis ON GUCianRegisterThesis.GUCianID = GUCianStudent.id
-            INNER JOIN Thesis_Publication T_P ON T_P.thesisSerialNumber = GUCianRegisterThesis.thesisSerialNumber
-            INNER JOIN Publication P ON P.id = T_P.publication_id
-        WHERE GUCianStudent.id = @studentID
-
+            Select P.*
+        from Publication P
+            INNER JOIN GucianStudent_Publications GucianStudent_Publications ON GucianStudent_Publications.publication_id = P.id
+        WHERE GucianStudent_Publications.student_id = @studentID
     UNION ALL
 
         SELECT P.*
-        FROM NonGUCianStudent NonGUCianStudent
-            INNER JOIN NonGUCianRegisterThesis NonGUCianRegisterThesis ON NonGUCianRegisterThesis.NonGUCianID = NonGUCianStudent.id
-            INNER JOIN Thesis_Publication T_P ON T_P.thesisSerialNumber = NonGUCianRegisterThesis.thesisSerialNumber
-            INNER JOIN Publication P ON P.id = T_P.publication_id
-        WHERE NonGUCianStudent.id = @studentID
+        from Publication P
+            INNER JOIN NonGUCianStudent_Publications NonGUCianStudent_Publications ON NonGUCianStudent_Publications.publication_id = P.id
+        WHERE NonGUCianStudent_Publications.student_id = @studentID
 END
-select *
-from Thesis_Publication
+
 -- 4.e: Add defense for a thesis, for nonGucian students all courses’ grades should be greater than 50 percent.
 -- TODO: not sure about not having grade
 GO
@@ -613,6 +608,8 @@ BEGIN
     SET grade = @grade
     WHERE Thesis.serialNumber = @thesisSerialNo
 END
+
+
 
 ------------------- (5) Examiner's Features -------------------
 
@@ -949,14 +946,39 @@ CREATE PROC addPublication
     @pubDate DATETIME,
     @host VARCHAR(50),
     @place VARCHAR(50),
-    @accepted BIT
+    @accepted BIT,
+    @studentID INT
 AS
 BEGIN
+
+
     INSERT INTO Publication
         (title, date, host, place, isAccepted)
     VALUES
         (@title, @pubDate, @host, @place, @accepted)
+    DECLARE @publicationID INT = SCOPE_IDENTITY();
+
+    IF EXISTS (
+            SELECT *
+    FROM GUCianStudent
+    WHERE GUCianStudent.id = @studentID
+        )
+            BEGIN
+        INSERT INTO GucianStudent_Publications
+            (publication_id, student_id)
+        VALUES
+            (@publicationID, @studentID)
+    END
+        ELSE
+            BEGIN
+        INSERT INTO NonGucianStudent_Publications
+            (publication_id, student_id)
+        VALUES
+            (@publicationID, @studentID)
+    END
+
 END
+
 
 -- 6.i: Link publication to my thesis.
 GO
@@ -970,7 +992,8 @@ BEGIN
     VALUES
         (@thesisSerialNo, @PubID)
 END
-
+select * from Thesis_Publication
+EXEC linkPubThesis 29, 20
 
 
 -------------------------------------------------------
@@ -1187,14 +1210,15 @@ drop proc GetUserInformation
  GO
 CREATE PROC StudentData
     @studentId INT
-    
+
 
 AS
 BEGIN
-    SELECT * FROM GUCianStudent G
-    INNER JOIN PostGradUser U 
-    ON G.id = @studentId
-    AND G.id = U.id
+    SELECT *
+    FROM GUCianStudent G
+        INNER JOIN PostGradUser U
+        ON G.id = @studentId
+            AND G.id = U.id
 
 END
 
@@ -1208,22 +1232,84 @@ CREATE PROC editMyPassword
 
 AS
 
-IF(exists(select * from PostGradUser where @studentId=id and @oldPassword= password))
+IF(exists(select *
+from PostGradUser
+where @studentId=id and @oldPassword= password))
     BEGIN
-    
-        UPDATE PostGradUser
+
+    UPDATE PostGradUser
         SET  password = @newPassword
         WHERE PostGradUser.id = @studentId
 
 
+END
+
+
+
+
+
+
+
+
+GO
+CREATE PROC StudentData
+    @studentId INT
+
+
+AS
+BEGIN
+    IF EXISTS (
+    SELECT *
+    FROM GUCianStudent G
+        INNER JOIN PostGradUser U
+        ON G.id = @studentId
+            AND G.id = U.id)
+    BEGIN
+        SELECT *
+        FROM GUCianStudent G
+            INNER JOIN PostGradUser U
+            ON G.id = @studentId
+                AND G.id = U.id
     END
+ELSE
+BEGIN
+        SELECT *
+        FROM NonGUCianStudent G
+            INNER JOIN PostGradUser U
+            ON G.id = @studentId
+                AND G.id = U.id
+    END
+END
 
 
 
 
+GO
+CREATE PROC getIdOfSelectedThesisByStudent
 
+    @studentId INT,
+    @thesisTitle VARCHAR(20)
+AS
+BEGIN
+    IF EXISTS (Select *
+    from GUCianStudent
+    where id = @studentId)
 
+    BEGIN
+        SELECT T.serialNumber
+        from GUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON GUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE GUCianRegisterThesis.GUCianID = @studentId AND T.title = @thesisTitle
+    END
+    ELSE
+    BEGIN
+        SELECT T.serialNumber
+        from NonGUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON NonGUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
+    END
+END
 
-
-
-
+   

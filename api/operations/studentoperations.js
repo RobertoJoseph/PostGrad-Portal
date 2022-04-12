@@ -256,12 +256,13 @@ exports.addPublication = async function (req, res) {
     let pool = await sql.connect(config);
     const result = await pool
       .request()
-      .input("title", sql.VarChar, req.body.title)
-      .input("publicationDate", sql.Date, req.body.publicationDate)
+      .input("title", sql.VarChar, req.body.publicationTitle)
+      .input("studentID", sql.Int, req.params.studentID)
+      .input("pubDate", sql.Date, req.body.date)
       .input("host", sql.VarChar, req.body.host)
       .input("place", sql.VarChar, req.body.place)
       .input("accepted", sql.Bit, req.body.isAccepted)
-      .execute(`AddPublication`);
+      .execute(`addPublication`);
     sql.close();
     res.send({ isPublicationAdded: true });
   } catch (error) {
@@ -274,8 +275,8 @@ exports.linkPublicationToThesis = async function (req, res) {
     let pool = await sql.connect(config);
     const result = await pool
       .request()
-      .input("PubID", sql.Int, req.body.publicationID)
-      .input("thesisSerialNo", sql.Int, req.body.serialNumber)
+      .input("PubID", sql.Int, req.body.publicationId)
+      .input("thesisSerialNo", sql.Int, req.body.thesisSerialNumber)
       .execute(`linkPubThesis`);
     sql.close();
     res.send({ isPublicationLinked: true });
@@ -345,8 +346,9 @@ exports.getIdOfSelectedThesis = async function (req, res) {
     const result = (
       await pool
         .request()
-        .input("thesisSerialNo", sql.Int, req.params.thesisSerialNo)
-        .execute(`GetIdOfSelectedThesis`)
+        .input("studentID", sql.Int, req.params.studentID)
+        .input("thesisTitle", sql.VarChar, "Thesis On Algorithms")
+        .execute(`getIdOfSelectedThesisByStudent`)
     ).recordset;
     console.log(result);
     res.send(result);

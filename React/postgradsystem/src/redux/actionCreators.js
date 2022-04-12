@@ -1,8 +1,5 @@
 import Axios from "axios";
 
-
-
-
 export const getStudents = () => async (dispatch) => {
   return Axios.get("http://localhost:9000/students")
     .then((response) => {
@@ -14,7 +11,6 @@ export const getStudents = () => async (dispatch) => {
       console.log(error);
     });
 };
-
 
 export const showStudents = (students) => ({
   type: "SHOW_STUDENTS",
@@ -49,7 +45,7 @@ export const addStudent =
 //     password: password,
 //   })
 //     .then((response) => {
-      
+
 //       console.log(response.data);
 //       dispatch(loginStudentSuccess(response.data));
 //     })

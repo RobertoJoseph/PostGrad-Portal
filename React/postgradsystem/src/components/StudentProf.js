@@ -38,6 +38,7 @@ function Student(props) {
   const getUserInformation = () => {
     Axios.get(`http://localhost:9000/students/studentdata/${studentID}`).then(
       (res) => {
+        console.log(res.data);
         setUsername(res.data[0].firstName + " " + res.data[0].lastName);
       }
     );
