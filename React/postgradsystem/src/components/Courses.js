@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../css/Navbar.css";
 import Axios from "axios";
-import { Card, CardTitle, CardText } from "reactstrap";
+import { Card, CardTitle, CardText, Table } from "reactstrap";
 
 function Courses(props) {
   const [courses, setCourse] = useState([]);
@@ -16,20 +16,32 @@ function Courses(props) {
   }, []);
 
   return (
-    <div>
-      {courses.map((item, index) => {
-        return (
-          <div key={index}>
-            <div class="card">
-              <h3 class="card-header bg-primary text-white"></h3>
-              <div class="card-body">
-                <h5 class="card-title"></h5>
-                <p class="card-text"></p>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+    <div className="col-12 mt-3">
+      <Table striped style={{backgroundColor:'white',height:'300px'}}>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Code</th>
+            <th>Credit hours</th>
+            <th>Fees</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {courses.map((item, index) => {
+            return (
+              <tr key={index}>
+                <th scope="row">{index}</th>
+                <td>{item.code}</td>
+                <td>{item.creditHours}</td>
+                <td>${item.fees}</td>
+                <td>{item.grade}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
     </div>
   );
 }
