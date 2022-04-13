@@ -73,8 +73,7 @@ class Main extends Component {
           ></Route>
 
           <Route
-            path="/supervisor"
-            element={<SupervisorNavbar></SupervisorNavbar>}
+            path="/supervisor/:supervisorID" element={<SupervisorNavbar></SupervisorNavbar>}
           ></Route>
           <Route path="/studentprofile/:studentID" element={<Student></Student>}></Route>
         </Routes>
