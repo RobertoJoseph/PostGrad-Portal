@@ -11,7 +11,6 @@ exports.viewMyProfile = async function (req, res) {
         .execute(`viewMyProfile`)
     ).recordset;
     console.log(result);
-    sql.close();
     res.send(result);
   } catch (erorr) {
     console.log(erorr);
@@ -32,7 +31,6 @@ exports.editMyProfile = async function (req, res) {
       .input("address", sql.VarChar, req.body.address)
       .execute(`editMyProfile`);
     console.log(result);
-    sql.close();
   } catch (erorr) {
     console.log(erorr);
     sql.close();
@@ -52,7 +50,6 @@ exports.StudentRegister = async function (req, res) {
       .input("email", sql.VarChar, req.body.email)
       .input("address", sql.VarChar, req.body.address)
       .execute(`StudentRegister`);
-    sql.close();
   } catch (error) {
     console.log(error);
     sql.close();
@@ -68,7 +65,6 @@ exports.addUndergradID = async function (req, res) {
       .input("undergradID", sql.VarChar, req.body.undergradId)
       .execute(`addUndergradID`);
     console.log(result);
-    sql.close();
   } catch (error) {
     console.log(error);
     sql.close();
@@ -85,7 +81,6 @@ exports.ViewCoursesGrades = async function (req, res) {
         .execute(`ViewCoursesGrades`)
     ).recordset;
     console.log(result);
-    sql.close();
     res.send(result);
   } catch (error) {
     console.log(error);
@@ -102,7 +97,6 @@ exports.ViewCoursePaymentsInstall = async function (req, res) {
         .execute(`ViewCoursePaymentsInstall`)
     ).recordset;
     console.log(result);
-    sql.close();
     res.send(result);
   } catch (error) {
     console.log(error);
@@ -120,7 +114,6 @@ exports.ViewThesisPaymentsInstall = async function (req, res) {
         .execute(`ViewThesisPaymentsInstall`)
     ).recordset;
     console.log(result);
-    sql.close();
     res.send(result);
   } catch (error) {
     console.log(error);
@@ -138,7 +131,6 @@ exports.ViewUpcomingInstallments = async function (req, res) {
         .execute(`ViewUpcomingInstallments`)
     ).recordset;
     console.log(result);
-    sql.close();
     res.send(result);
   } catch (error) {
     console.log(error);
@@ -156,7 +148,6 @@ exports.ViewMissedInstallments = async function (req, res) {
         .execute(`ViewMissedInstallments`)
     ).recordset;
     console.log(result);
-    sql.close();
     res.send(result);
   } catch (error) {
     console.log(error);
@@ -174,7 +165,6 @@ exports.FillProgressReport = async function (req, res) {
       .input("state", sql.Int, req.body.state)
       .input("description", sql.VarChar, req.body.description)
       .execute(`FillProgressReport`);
-    sql.close();
   } catch (error) {
     console.log(error);
     sql.close();
@@ -192,7 +182,6 @@ exports.ViewEvalProgressReport = async function (req, res) {
         .execute(`ViewEvalProgressReport`)
     ).recordset;
     res.send(result);
-    sql.close();
   } catch (err) {
     console.log(err);
     sql.close();
@@ -210,7 +199,6 @@ exports.viewStudentThesisById = async function (req, res) {
     ).recordset;
     console.log(result);
     res.send(result);
-    sql.close();
   } catch (err) {
     console.log(err);
     sql.close();
@@ -227,7 +215,6 @@ exports.viewStudentCourses = async function (req, res) {
     ).recordset;
     console.log(result);
     res.send(result);
-    sql.close();
   } catch (err) {
     console.log(err);
     sql.close();
@@ -244,7 +231,6 @@ exports.addAndFillProgressReport = async function (req, res) {
       .input("state", sql.Int, 1)
       .input("description", sql.VarChar, req.body.progressReportDescription)
       .execute(`AddAndFillProgressReport`);
-    sql.close();
     res.send({ isProgressAdded: true });
   } catch (error) {
     console.log(error);
@@ -263,7 +249,6 @@ exports.addPublication = async function (req, res) {
       .input("place", sql.VarChar, req.body.place)
       .input("accepted", sql.Bit, req.body.isAccepted)
       .execute(`addPublication`);
-    sql.close();
     res.send({ isPublicationAdded: true });
   } catch (error) {
     console.log(error);
@@ -278,7 +263,6 @@ exports.linkPublicationToThesis = async function (req, res) {
       .input("PubID", sql.Int, req.body.publicationId)
       .input("thesisSerialNo", sql.Int, req.body.thesisSerialNumber)
       .execute(`linkPubThesis`);
-    sql.close();
     res.send({ isPublicationLinked: true });
   } catch (error) {
     console.log(error);
@@ -297,7 +281,6 @@ exports.viewStudentPublications = async function (req, res) {
     ).recordset;
     console.log(result);
     res.send(result);
-    sql.close();
   } catch (err) {
     console.log(err);
     sql.close();
@@ -316,7 +299,6 @@ exports.viewStudentDataById = async function (req, res) {
     ).recordset;
     console.log(result);
     res.send(result);
-    sql.close();
   } catch (err) {
     console.log(err);
     sql.close();
@@ -332,7 +314,6 @@ exports.editMyPassword = async function (req, res) {
       .input("oldPassword", sql.VarChar, req.body.oldPassword)
       .input("newPassword", sql.VarChar, req.body.newPassword)
       .execute(`editMyPassword`);
-    sql.close();
     res.send({ isPasswordUpdated: true });
   } catch (error) {
     console.log(error);
@@ -352,7 +333,6 @@ exports.getIdOfSelectedThesis = async function (req, res) {
     ).recordset;
     console.log(result);
     res.send(result);
-    sql.close();
   } catch (err) {
     console.log(err);
     sql.close();
