@@ -27,18 +27,18 @@ function Login(props) {
       .then((response) => {
         if (response.data.isLogged) {
           setUserID(response.data.userID);
-          if(response.data.userType==0){
-            //GucianStudent
-            navigate(`/studentprofile/${response.data.userID}`);
-          }else if(response.data.userType==1){
-            //NonGucianStudent
-            navigate(`/studentprofile/${response.data.userID}`);
-          }else if(response.data.userType==2){
-            //Supervisor
-            navigate(`/supervisor/${response.data.userID}`);
-          }else{
-            //Examiner
-
+          switch(response.data.userType){
+            case 0:
+              //GucianStudent
+              navigate(`/studentprofile/${response.data.userID}`);break;
+            case 1:
+              //NonGucianStudent
+              navigate(`/studentprofile/${response.data.userID}`);break;
+            case 2:
+              //Supervisor
+              navigate(`/supervisor/${response.data.userID}`);break;
+            case 3:
+              //Examiner                            
           }
 
         } else {
