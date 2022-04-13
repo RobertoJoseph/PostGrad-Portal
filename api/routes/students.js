@@ -40,5 +40,8 @@ router.post("/linkpublication", studentOperations.linkPublicationToThesis);
 
 router.get("/studentProgressReports/:studentID", studentOperations.ViewEvalProgressReport);
 
+router.post("/isGUCian/:studentID", studentOperations.checkGUCian);
+
+
 
 module.exports = router;
