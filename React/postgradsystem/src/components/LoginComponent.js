@@ -26,8 +26,21 @@ function Login(props) {
     })
       .then((response) => {
         if (response.data.isLogged) {
-          setUserID(response.data.studentID);
-          navigate(`/studentprofile/${response.data.studentID}`);
+          setUserID(response.data.userID);
+          if(response.data.userType==0){
+            //GucianStudent
+            navigate(`/studentprofile/${response.data.userID}`);
+          }else if(response.data.userType==1){
+            //NonGucianStudent
+            navigate(`/studentprofile/${response.data.userID}`);
+          }else if(response.data.userType==2){
+            //Supervisor
+            navigate(`/supervisor/${response.data.userID}`);
+          }else{
+            //Examiner
+
+          }
+
         } else {
           alert(
             "The email or password you entered is incorrect. Please try again."
