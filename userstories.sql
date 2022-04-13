@@ -935,27 +935,27 @@ END
 -- 6.g: View my progress report(s) evaluations.
 GO
 CREATE PROC ViewEvalProgressReport
-    @thesisSerialNo INT,
-    @progressReportNo INT
+    @studentId INT
 AS
 BEGIN
     IF EXISTS (
         SELECT *
-    FROM GUCianProgressReport
-    WHERE thesisSerialNumber = @thesisSerialNo AND progressReportNumber = @progressReportNo
+        FROM GUCianProgressReport
+        WHERE student_id = @studentId
     )
         BEGIN
-        SELECT evaluation
-        FROM GUCianProgressReport
-        WHERE thesisSerialNumber = @thesisSerialNo AND progressReportNumber = @progressReportNo
+        SELECT PR.evaluation, S.firstName, S.lastName, T.title
+        FROM GUCianProgressReport PR, Supervisor S, Thesis T
+        WHERE PR.student_id = @studentId AND PR.supervisor_id = S.id AND T.serialNumber = PR.thesisSerialNumber
     END
     ELSE
         BEGIN
-        SELECT evaluation
-        FROM NonGUCianProgressReport
-        WHERE thesisSerialNumber = @thesisSerialNo AND progressReportNumber = @progressReportNo
+        SELECT NPR.evaluation, S.firstName, S.lastName, T.title
+        FROM NonGUCianProgressReport NPR, Supervisor S, Thesis T
+        WHERE NPR.student_id = student_id AND NPR.supervisor_id = S.id AND T.serialNumber = NPR.thesisSerialNumber
     END
 END
+drop proc ViewEvalProgressReport
 
 -- 6.h: Add Publication.
 GO
@@ -1330,6 +1330,23 @@ BEGIN
         WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
     END
 END
+EXEC getIdOfSelectedThesisByStudent 1, 'Thesis on Algorithms'
+
+select * from Thesis_Publication
+Delete from Thesis_Publication
+where thesisSerialNumber=2 OR thesisSerialNumber =20;
+
+INSERT INTO
+    GUCianRegisterThesis (
+        GUCianID, 
+        supervisor_id, 
+        thesisSerialNumber
+    )
+VALUES
+    (1, 11, 2)
+   
+
+
 
 
 

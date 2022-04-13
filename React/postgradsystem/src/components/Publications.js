@@ -28,8 +28,8 @@ function Publications(props) {
   const [publications, setPublications] = useState([]);
   const [modalLinkPublication, toggleModal] = useState(false);
   const setModalLinkPublication = () => toggleModal(!modalLinkPublication);
-  const [publicationId, setPublicationID] = useState(0);
-  const [thesisSerialNumber, setThesisSerialNumber] = useState(0);
+  const [publicationId, setPublicationID] = useState(0); //state 3
+  const [thesisSerialNumber, setThesisSerialNumber] = useState(0); //state 4
   const [thesis, setThesis] = useState([]);
   const [thesisTitle, setThesisTitle] = useState("");
   const [isPublicationAdded, setIsPublicationAdded] = useState(false);
@@ -83,11 +83,12 @@ function Publications(props) {
     return items;
   };
 
-  // const onDropdownSelected = (e) => {
-  //   getIdofSelectedThesis();
-  //   if (thesis[e.target.value].title == null)
-  //     setThesisTitle(thesis[e.target.value].title);
-  // };
+  const onDropdownSelected = (e) => {
+    if (thesis[e.target.value].title != null) {
+      setThesisTitle(thesis[e.target.value].title);
+      getIdofSelectedThesis();
+    }
+  };
 
   const onClickButton = (id) => {
     setIsPublicationLinked(false);
@@ -97,13 +98,9 @@ function Publications(props) {
 
   const getIdofSelectedThesis = () => {
     Axios.get(
-      `http://localhost:9000/students/getIdOfSelectedThesis/${props.studentID}`,
-      {
-        thesisTitle: thesisTitle,
-      }
+      `http://localhost:9000/students/getIdOfSelectedThesis/${props.studentID}/${thesisTitle}`
     )
       .then((response) => {
-        console.log(response.data[0].serialNumber);
         setThesisSerialNumber(response.data[0].serialNumber);
       })
       .catch((error) => {
@@ -128,8 +125,7 @@ function Publications(props) {
   useEffect(() => {
     viewStudentPublications();
     getallThesis();
-    getIdofSelectedThesis();
-  }, [isPublicationAdded, thesisSerialNumber]);
+  }, [isPublicationAdded]);
   return (
     <div>
       <div className="row">
@@ -220,6 +216,7 @@ function Publications(props) {
                 name="select"
                 id="exampleSelect"
                 className="form-control"
+                onChange={onDropdownSelected}
               >
                 {createSelectItems()}
               </Control.select>

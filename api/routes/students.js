@@ -33,7 +33,7 @@ router.post("/changepassword", studentOperations.editMyPassword);
 
 router.post("/addpublication/:studentID", studentOperations.addPublication);
 router.get(
-  "/getIdOfSelectedThesis/:studentID",
+  "/getIdOfSelectedThesis/:studentID/:thesisTitle",
   studentOperations.getIdOfSelectedThesis
 );
 router.post("/linkpublication", studentOperations.linkPublicationToThesis);

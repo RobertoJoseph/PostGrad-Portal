@@ -323,12 +323,13 @@ exports.editMyPassword = async function (req, res) {
 
 exports.getIdOfSelectedThesis = async function (req, res) {
   try {
+    console.log("Iam here Bitch: " + req.params.thesisTitle);
     let pool = await sql.connect(config);
     const result = (
       await pool
         .request()
         .input("studentID", sql.Int, req.params.studentID)
-        .input("thesisTitle", sql.VarChar, "Thesis On Algorithms")
+        .input("thesisTitle", sql.VarChar, req.params.thesisTitle)
         .execute(`getIdOfSelectedThesisByStudent`)
     ).recordset;
     console.log(result);
