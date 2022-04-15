@@ -1,7 +1,6 @@
 import "../../css/newNav.css";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
-import { Route, Redirect, Routes } from "react-router-dom";
 import Thesis from "./Thesis";
 import { useParams } from "react-router-dom";
 import { StudentData } from "../../data/StudentData";
@@ -11,20 +10,15 @@ import Publications from "./Publications";
 import EditProfile from "./StudentEditProfile";
 import NonGUCpayments from "./nonGUCpayments";
 import GUCpayments from "./GUCpayments";
-
 import * as MdIcons from "react-icons/md";
-import {
-  Nav,
-  NavItem,
-  Navbar,
-  NavbarBrand,
-} from "reactstrap";
+import { Nav, NavItem, Navbar, NavbarBrand } from "reactstrap";
 import Axios from "axios";
+
+
+
 
 function Student(props) {
   const [URL, setURL] = useState("");
-  const [Active, setActive] = useState("");
-
   let { studentID } = useParams();
   const [userName, setUsername] = useState("");
   const [isGUCian, setIsGUCian] = useState(false);
@@ -74,14 +68,6 @@ function Student(props) {
             <span style={{ fontWeight: "bolder", color: "#1C2D43" }}>
               Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            {/* <button
-              className="edit"
-              onClick={() => {
-                setURL("My Profile");
-              }}
-            >
-              <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
-            </button> */}
             <ButtonDropdown
               isOpen={isDropdownOpen}
               toggle={setTheDropdown}
