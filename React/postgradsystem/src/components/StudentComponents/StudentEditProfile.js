@@ -8,7 +8,7 @@ import {
     Form, FormGroup, Input, InputGroup
 } from 'reactstrap';
 import Axios from "axios";
-import "../css/newNav.css";
+import "../../css/newNav.css";
 
 
 

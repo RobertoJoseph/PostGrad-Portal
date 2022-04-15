@@ -1,10 +1,10 @@
-import "../css/newNav.css";
+import "../../css/newNav.css";
 import React, { Component, useEffect, useState } from "react";
 import { Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { Route, Redirect, Routes } from "react-router-dom";
 import Thesis from "./Thesis";
 import { useParams } from "react-router-dom";
-import { StudentData } from "../data/StudentData";
+import { StudentData } from "../../data/StudentData";
 import Reports from "./Reports";
 import Courses from "./Courses";
 import Publications from "./Publications";

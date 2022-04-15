@@ -4,7 +4,7 @@ import { Route, Redirect, Routes } from "react-router-dom";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 import { getStudents, addStudent } from "../redux/actionCreators";
-import Student from "./StudentProf";
+import Student from "./StudentComponents/StudentProf";
 import SupervisorProf from "./SupervisorComponents/SupervisorProf";
 
 const mapStateToProps = (state) => {

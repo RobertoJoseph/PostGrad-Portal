@@ -7,7 +7,8 @@ import {
   Nav, NavItem, NavLink, TabContent, TabPane, Row, Col, Table, Badge
 } from 'reactstrap';
 import Axios from "axios";
-import "../css/newNav.css";
+import "../../css/newNav.css";
+import "../../css/Navbar.css";
 import { IoMdTennisball } from 'react-icons/io';
 import { MdNoEncryption } from 'react-icons/md';
 
