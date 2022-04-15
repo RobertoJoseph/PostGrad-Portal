@@ -59,11 +59,13 @@ END
 
 ------------------- (2) Registered User's Features -------------------
 -- 2.a: login using my username and pASsword.
+drop proc userlogin
 GO
 CREATE PROC userLogin
     @ID INT,
     @pASsword VARCHAR(20),
-    @Success BIT OUTPUT
+    @Success BIT OUTPUT,
+    @userType INT OUTPUT
 AS
 BEGIN
     IF EXISTS (
@@ -71,7 +73,23 @@ BEGIN
     FROM PostGradUser
     WHERE id = @ID AND pASsword = @pASsword
     )
-        BEGIN
+    BEGIN
+        IF Exists(select * from GUCianStudent where id = @id)
+        begin
+            set @userType = 0;
+        end
+        Else if Exists(select * from NonGUCianStudent where id = @id)
+        begin
+            set @userType = 1;
+        end
+        Else if Exists(select * from Supervisor where id = @id)
+        begin
+            set @userType = 2;
+        end
+        Else if Exists(select * from Examiner where id = @id)
+        begin
+            set @userType = 3;
+        end
         SET @Success = 1;
     END
     ELSE
@@ -106,7 +124,6 @@ BEGIN
             (@ID, @mobile_number);
     END
 END
-
 ------------------- (3) Admin's Features -------------------
 -- 3.a: List all supervisors in the system.
 GO
@@ -146,28 +163,25 @@ Where T.endDate > GETDATE();
 
 
 
-
-  
+exec AdminViewStudentThesisBySupervisor
+select * from GUCianRegisterThesis
+select * from GUCianStudent
+select * from thesis
+select * from Supervisor
+drop proc AdminViewStudentThesisBySupervisor
 -- 3.e: List all supervisors’ names currently supervising students, theses title, student name.
 GO
-CREATE PROC AdminViewStudentThesisBySupervisor
-AS
-    SELECT S1.firstName, S1.lastName AS Supervisor, T1.title AS Thesis, GUCianStudent.firstName AS First_name, GUCianStudent.lastName AS Last_name
-    FROM GUCianRegisterThesis
-        INNER JOIN Supervisor S1 On S1.id = GUCianRegisterThesis.supervisor_id
-        INNER JOIN Thesis T1 on T1.serialNumber = GUCianRegisterThesis.thesisSerialNumber
-        INNER JOIN GUCianStudent ON GUCianStudent.id = GUCianRegisterThesis.GUCianID
-    WHERE T1.endDate > GETDATE()
-
-UNION
-
-    SELECT S2.firstName, S2.lastName, T2.title, NonGUCianStudent.firstName, NonGUCianStudent.lAStName
-    FROM NonGUCianRegisterThesis
-        INNER JOIN Supervisor S2 On S2.id = NonGUCianRegisterThesis.supervisor_id
-        INNER JOIN Thesis T2 on T2.serialNumber = NonGUCianRegisterThesis.thesisSerialNumber
-        INNER JOIN NonGUCianStudent ON NonGUCianStudent.id = NonGUCianRegisterThesis.NonGUCianID
-    WHERE T2.endDate > GETDATE();
-
+CREATE Proc AdminViewStudentThesisBySupervisor
+As
+Select s.firstname,s.lastname,t.title,gs.firstName
+From Thesis t inner join GUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join GucianStudent gs on sr.GUCianID=gs.id
+where t.endDate > Convert(Date,CURRENT_TIMESTAMP)
+union
+Select s.firstname,s.lastname,t.title,gs.firstName
+From Thesis t inner join NonGUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join NonGucianStudent gs on sr.nongucianID=gs.id
+where t.endDate > Convert(Date,CURRENT_TIMESTAMP)
         
 -- 3.f: List nonGucians names, course code, and respective grade.
 GO
@@ -413,6 +427,7 @@ where student_id=@nonGucSid and thesisSerialNumber=@thesisSerialNo and
 end
 
 -- 4.b: View all my students’s names and years spent in the thesis.
+exec ViewSupStudentsYears 11
 GO
 CREATE PROC ViewSupStudentsYears
     @supervisorID INT
@@ -917,27 +932,27 @@ END
 -- 6.g: View my progress report(s) evaluations.
 GO
 CREATE PROC ViewEvalProgressReport
-    @thesisSerialNo INT,
-    @progressReportNo INT
+    @studentId INT
 AS
 BEGIN
     IF EXISTS (
         SELECT *
     FROM GUCianProgressReport
-    WHERE thesisSerialNumber = @thesisSerialNo AND progressReportNumber = @progressReportNo
+    WHERE student_id = @studentId
     )
         BEGIN
-        SELECT evaluation
-        FROM GUCianProgressReport
-        WHERE thesisSerialNumber = @thesisSerialNo AND progressReportNumber = @progressReportNo
+        SELECT PR.evaluation, S.firstName, S.lastName, T.title
+        FROM GUCianProgressReport PR, Supervisor S, Thesis T
+        WHERE PR.student_id = @studentId AND PR.supervisor_id = S.id AND T.serialNumber = PR.thesisSerialNumber
     END
     ELSE
         BEGIN
-        SELECT evaluation
-        FROM NonGUCianProgressReport
-        WHERE thesisSerialNumber = @thesisSerialNo AND progressReportNumber = @progressReportNo
+        SELECT NPR.evaluation, S.firstName, S.lastName, T.title
+        FROM NonGUCianProgressReport NPR, Supervisor S, Thesis T
+        WHERE NPR.student_id = student_id AND NPR.supervisor_id = S.id AND T.serialNumber = NPR.thesisSerialNumber
     END
 END
+drop proc ViewEvalProgressReport
 
 -- 6.h: Add Publication.
 GO
@@ -984,15 +999,32 @@ END
 GO
 create PROC linkPubThesis
     @PubID INT,
-    @thesisSerialNo INT
+    @thesisSerialNo INT,
+    @SuccessBit BIT OUTPUT
 AS
 BEGIN
-    INSERT INTO Thesis_Publication
-        (thesisSerialNumber, publication_id)
-    VALUES
-        (@thesisSerialNo, @PubID)
+    IF EXISTS(
+    SELECT *
+    From Thesis_Publication
+    Where Thesis_Publication.thesisSerialNumber = @thesisSerialNo AND Thesis_Publication.publication_id = @PubID
+    )
+        BEGIN
+        SET @SuccessBit = 0
+    END
+    ELSE
+        BEGIN
+        INSERT INTO Thesis_Publication
+            (publication_id, thesisSerialNumber)
+        VALUES
+            (@PubID, @thesisSerialNo)
+        SET @SuccessBit = 1
+    END
 END
-select * from Thesis_Publication
+
+drop proc linkPubThesis
+
+select *
+from Thesis_Publication
 EXEC linkPubThesis 29, 20
 
 
@@ -1285,6 +1317,7 @@ END
 
 
 GO
+GO
 CREATE PROC getIdOfSelectedThesisByStudent
 
     @studentId INT,
@@ -1311,5 +1344,29 @@ BEGIN
         WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
     END
 END
+EXEC getIdOfSelectedThesisByStudent 1, 'Thesis on Algorithms'
 
+select *
+from Thesis_Publication
+Delete from Thesis_Publication
+where thesisSerialNumber=2 OR thesisSerialNumber =20;
+
+INSERT INTO
+    GUCianRegisterThesis
+    (
+    GUCianID,
+    supervisor_id,
+    thesisSerialNumber
+    )
+VALUES
+    (1, 11, 2)
    
+
+
+
+
+
+select * from postgraduser
+select * from Supervisor
+
+

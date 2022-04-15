@@ -7,13 +7,13 @@ import * as MdIcons from "react-icons/md";
 
 export const SupervisorData=[
     {
-        title:"Students",
+        title:"My Students",
         path:"/supervisorstudents",
         icon: <FaIcons.FaUserGraduate/>,
         cName:"nav-text"
     },
     {
-        title:"Theses",
+        title:"Thesis",
         path:"/supervisortheses",
         icon:<BsIcons.BsBook/>,
         cName:"nav-text"

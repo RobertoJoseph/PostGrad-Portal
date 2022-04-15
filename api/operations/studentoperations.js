@@ -262,8 +262,15 @@ exports.linkPublicationToThesis = async function (req, res) {
       .request()
       .input("PubID", sql.Int, req.body.publicationId)
       .input("thesisSerialNo", sql.Int, req.body.thesisSerialNumber)
+      .output("SuccessBit", sql.Bit)
       .execute(`linkPubThesis`);
-    res.send({ isPublicationLinked: true });
+    sql.close();
+    console.log("Result from backend: " + result.output.SuccessBit);
+    if (result.output.SuccessBit) {
+      res.send({ isPublicationLinked: true });
+    } else {
+      res.send({ isPublicationLinked: false });
+    }
   } catch (error) {
     console.log(error);
     sql.close();
@@ -323,12 +330,13 @@ exports.editMyPassword = async function (req, res) {
 
 exports.getIdOfSelectedThesis = async function (req, res) {
   try {
+    console.log("Iam here Bitch: " + req.params.thesisTitle);
     let pool = await sql.connect(config);
     const result = (
       await pool
         .request()
         .input("studentID", sql.Int, req.params.studentID)
-        .input("thesisTitle", sql.VarChar, "Thesis On Algorithms")
+        .input("thesisTitle", sql.VarChar, req.params.thesisTitle)
         .execute(`getIdOfSelectedThesisByStudent`)
     ).recordset;
     console.log(result);
@@ -338,7 +346,6 @@ exports.getIdOfSelectedThesis = async function (req, res) {
     sql.close();
   }
 };
-
 
 exports.ViewEvalProgressReport = async function (req, res) {
   try {
@@ -361,7 +368,7 @@ exports.ViewEvalProgressReport = async function (req, res) {
 
 exports.checkGUCian = async function (req, res) {
   try {
-    console.log("HELLO"+req.body.sid);
+    console.log("HELLO" + req.body.sid);
     let pool = await sql.connect(config);
     const result = await pool
       .request()
@@ -374,8 +381,8 @@ exports.checkGUCian = async function (req, res) {
     const GUCian = result.output.Success;
     console.log("GUCian: " + GUCian);
     res.send({
-      isGUCian: result.output.Success
-    })
+      isGUCian: result.output.Success,
+    });
   } catch (erorr) {
     sql.close();
   }
