@@ -124,7 +124,6 @@ BEGIN
             (@ID, @mobile_number);
     END
 END
-
 ------------------- (3) Admin's Features -------------------
 -- 3.a: List all supervisors in the system.
 GO
@@ -164,28 +163,25 @@ Where T.endDate > GETDATE();
 
 
 
-
-  
+exec AdminViewStudentThesisBySupervisor
+select * from GUCianRegisterThesis
+select * from GUCianStudent
+select * from thesis
+select * from Supervisor
+drop proc AdminViewStudentThesisBySupervisor
 -- 3.e: List all supervisors’ names currently supervising students, theses title, student name.
 GO
-CREATE PROC AdminViewStudentThesisBySupervisor
-AS
-    SELECT S1.firstName, S1.lastName AS Supervisor, T1.title AS Thesis, GUCianStudent.firstName AS First_name, GUCianStudent.lastName AS Last_name
-    FROM GUCianRegisterThesis
-        INNER JOIN Supervisor S1 On S1.id = GUCianRegisterThesis.supervisor_id
-        INNER JOIN Thesis T1 on T1.serialNumber = GUCianRegisterThesis.thesisSerialNumber
-        INNER JOIN GUCianStudent ON GUCianStudent.id = GUCianRegisterThesis.GUCianID
-    WHERE T1.endDate > GETDATE()
-
-UNION
-
-    SELECT S2.firstName, S2.lastName, T2.title, NonGUCianStudent.firstName, NonGUCianStudent.lAStName
-    FROM NonGUCianRegisterThesis
-        INNER JOIN Supervisor S2 On S2.id = NonGUCianRegisterThesis.supervisor_id
-        INNER JOIN Thesis T2 on T2.serialNumber = NonGUCianRegisterThesis.thesisSerialNumber
-        INNER JOIN NonGUCianStudent ON NonGUCianStudent.id = NonGUCianRegisterThesis.NonGUCianID
-    WHERE T2.endDate > GETDATE();
-
+CREATE Proc AdminViewStudentThesisBySupervisor
+As
+Select s.firstname,s.lastname,t.title,gs.firstName
+From Thesis t inner join GUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join GucianStudent gs on sr.GUCianID=gs.id
+where t.endDate > Convert(Date,CURRENT_TIMESTAMP)
+union
+Select s.firstname,s.lastname,t.title,gs.firstName
+From Thesis t inner join NonGUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join NonGucianStudent gs on sr.nongucianID=gs.id
+where t.endDate > Convert(Date,CURRENT_TIMESTAMP)
         
 -- 3.f: List nonGucians names, course code, and respective grade.
 GO
@@ -431,6 +427,7 @@ where student_id=@nonGucSid and thesisSerialNumber=@thesisSerialNo and
 end
 
 -- 4.b: View all my students’s names and years spent in the thesis.
+exec ViewSupStudentsYears 11
 GO
 CREATE PROC ViewSupStudentsYears
     @supervisorID INT
@@ -1336,3 +1333,20 @@ END
 select * from postgraduser
 select * from Supervisor
 
+GO
+CREATE Proc SupervisorViewMyStudents
+@id int
+As
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName
+From Thesis t inner join GUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join GucianStudent gs on sr.GUCianID=gs.id
+where s.id = @id
+union
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName
+From Thesis t inner join NonGUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join NonGucianStudent gs on sr.nongucianID=gs.id
+where s.id = @id
+
+exec SupervisorViewMyStudents 11
+select * from Thesis
+drop proc SupervisorViewMyStudents
