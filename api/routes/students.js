@@ -38,10 +38,16 @@ router.get(
 );
 router.post("/linkpublication", studentOperations.linkPublicationToThesis);
 
-router.get("/studentProgressReports/:studentID", studentOperations.ViewEvalProgressReport);
+router.get(
+  "/studentProgressReports/:studentID",
+  studentOperations.ViewEvalProgressReport
+);
 
 router.post("/isGUCian/:studentID", studentOperations.checkGUCian);
 
-
+router.get(
+  "/studentProgressReports/:studentID",
+  studentOperations.ViewEvalProgressReport
+);
 
 module.exports = router;

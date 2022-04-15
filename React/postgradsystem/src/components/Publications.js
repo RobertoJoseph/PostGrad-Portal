@@ -27,15 +27,16 @@ import { Control, Form, Errors, actions } from "react-redux-form";
 function Publications(props) {
   const [publications, setPublications] = useState([]);
   const [modalLinkPublication, toggleModal] = useState(false);
+  const [thesis, setThesis] = useState([]);
   const setModalLinkPublication = () => toggleModal(!modalLinkPublication);
   const [publicationId, setPublicationID] = useState(0); //state 3
   const [thesisSerialNumber, setThesisSerialNumber] = useState(0); //state 4
-  const [thesis, setThesis] = useState([]);
   const [thesisTitle, setThesisTitle] = useState("");
   const [isPublicationAdded, setIsPublicationAdded] = useState(false);
   const [modalAddPublication, setModal] = useState(false);
   const setModalAddPublication = () => setModal(!modalAddPublication);
   const [isPublicationLinked, setIsPublicationLinked] = useState(false);
+  const [isPublicationExists, setPublicationExists] = useState(false);
 
   const addPublication = (values) => {
     Axios.post(
@@ -63,7 +64,16 @@ function Publications(props) {
       thesisSerialNumber: thesisSerialNumber,
     })
       .then((response) => {
-        setIsPublicationLinked(true);
+        console.log("This is the data: " + response.data.isPublicationLinked);
+        if (response.data.isPublicationLinked) {
+          setIsPublicationLinked(true);
+        } else {
+          console.log(
+            "This is response but with else part: " +
+              response.data.isPublicationLinked
+          );
+          setPublicationExists(true);
+        }
         console.log(response);
       })
       .catch((error) => {
@@ -83,14 +93,8 @@ function Publications(props) {
     return items;
   };
 
-  const onDropdownSelected = (e) => {
-    if (thesis[e.target.value].title != null) {
-      setThesisTitle(thesis[e.target.value].title);
-      getIdofSelectedThesis();
-    }
-  };
-
   const onClickButton = (id) => {
+    setPublicationExists(false);
     setIsPublicationLinked(false);
     setPublicationID(id);
     setModalLinkPublication();
@@ -123,9 +127,12 @@ function Publications(props) {
     });
   };
   useEffect(() => {
+    setPublicationExists(false);
+    setIsPublicationLinked(false);
     viewStudentPublications();
     getallThesis();
-  }, [isPublicationAdded]);
+    getIdofSelectedThesis();
+  }, [thesisSerialNumber, thesisTitle, isPublicationAdded]);
   return (
     <div>
       <div className="row">
@@ -216,13 +223,18 @@ function Publications(props) {
                 name="select"
                 id="exampleSelect"
                 className="form-control"
-                onChange={onDropdownSelected}
+                onChange={(e) => {
+                  const selectedOption = e.target.value;
+                  setThesisTitle(thesis[selectedOption].title);
+                }}
               >
                 {createSelectItems()}
               </Control.select>
             </FormGroup>
             {isPublicationLinked ? (
               <Alert color="success">Publication Linked Successfully</Alert>
+            ) : isPublicationExists ? (
+              <Alert color="danger">Publication Already Linked</Alert>
             ) : null}
             <Input type="submit" className="btn-primary" value="Submit"></Input>
           </Form>

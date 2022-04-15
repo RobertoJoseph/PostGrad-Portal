@@ -940,8 +940,8 @@ AS
 BEGIN
     IF EXISTS (
         SELECT *
-        FROM GUCianProgressReport
-        WHERE student_id = @studentId
+    FROM GUCianProgressReport
+    WHERE student_id = @studentId
     )
         BEGIN
         SELECT PR.evaluation, S.firstName, S.lastName, T.title
@@ -1002,15 +1002,32 @@ END
 GO
 create PROC linkPubThesis
     @PubID INT,
-    @thesisSerialNo INT
+    @thesisSerialNo INT,
+    @SuccessBit BIT OUTPUT
 AS
 BEGIN
-    INSERT INTO Thesis_Publication
-        (thesisSerialNumber, publication_id)
-    VALUES
-        (@thesisSerialNo, @PubID)
+    IF EXISTS(
+    SELECT *
+    From Thesis_Publication
+    Where Thesis_Publication.thesisSerialNumber = @thesisSerialNo AND Thesis_Publication.publication_id = @PubID
+    )
+        BEGIN
+        SET @SuccessBit = 0
+    END
+    ELSE
+        BEGIN
+        INSERT INTO Thesis_Publication
+            (publication_id, thesisSerialNumber)
+        VALUES
+            (@PubID, @thesisSerialNo)
+        SET @SuccessBit = 1
+    END
 END
-select * from Thesis_Publication
+
+drop proc linkPubThesis
+
+select *
+from Thesis_Publication
 EXEC linkPubThesis 29, 20
 
 
@@ -1332,15 +1349,17 @@ BEGIN
 END
 EXEC getIdOfSelectedThesisByStudent 1, 'Thesis on Algorithms'
 
-select * from Thesis_Publication
+select *
+from Thesis_Publication
 Delete from Thesis_Publication
 where thesisSerialNumber=2 OR thesisSerialNumber =20;
 
 INSERT INTO
-    GUCianRegisterThesis (
-        GUCianID, 
-        supervisor_id, 
-        thesisSerialNumber
+    GUCianRegisterThesis
+    (
+    GUCianID,
+    supervisor_id,
+    thesisSerialNumber
     )
 VALUES
     (1, 11, 2)

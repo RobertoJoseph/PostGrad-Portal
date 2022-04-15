@@ -262,8 +262,15 @@ exports.linkPublicationToThesis = async function (req, res) {
       .request()
       .input("PubID", sql.Int, req.body.publicationId)
       .input("thesisSerialNo", sql.Int, req.body.thesisSerialNumber)
+      .output("SuccessBit", sql.Bit)
       .execute(`linkPubThesis`);
-    res.send({ isPublicationLinked: true });
+    sql.close();
+    console.log("Result from backend: " + result.output.SuccessBit);
+    if (result.output.SuccessBit) {
+      res.send({ isPublicationLinked: true });
+    } else {
+      res.send({ isPublicationLinked: false });
+    }
   } catch (error) {
     console.log(error);
     sql.close();
@@ -340,7 +347,6 @@ exports.getIdOfSelectedThesis = async function (req, res) {
   }
 };
 
-
 exports.ViewEvalProgressReport = async function (req, res) {
   try {
     console.log(req.params.studentID);
@@ -379,7 +385,7 @@ exports.ViewEvalProgressReport = async function (req, res) {
 
 exports.checkGUCian = async function (req, res) {
   try {
-    console.log("HELLO"+req.body.sid);
+    console.log("HELLO" + req.body.sid);
     let pool = await sql.connect(config);
     const result = await pool
       .request()
@@ -392,8 +398,8 @@ exports.checkGUCian = async function (req, res) {
     const GUCian = result.output.Success;
     console.log("GUCian: " + GUCian);
     res.send({
-      isGUCian: result.output.Success
-    })
+      isGUCian: result.output.Success,
+    });
   } catch (erorr) {
     sql.close();
   }
