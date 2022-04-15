@@ -4,6 +4,7 @@ import { Row } from "reactstrap";
 import { Route, Redirect, Routes } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SupervisorData } from "../../data/SupervisorData";
+import MyStudents from "./MyStudents"
 
 
 import * as MdIcons from "react-icons/md";
@@ -110,19 +111,18 @@ function SupervisorProf() {
           </div>
         </div>
 
-        {/* <div className="col-10 page">
-          {URL === "Theses" ? (
-            <Thesis studentID={studentID} />
-          ) : URL === "Reports" ? (
-            <Reports studentID={studentID}></Reports>
-          ) : URL === "Courses" ? (
-            <Courses studentID={studentID}></Courses>
-          ) : URL === "Publications" ? (
-            <Publications studentID={studentID}></Publications>
-          ) : URL === "My Profile" ? (
-            <EditProfile studentID={studentID}></EditProfile>
-          ) : null}
-        </div> */}
+        <div className="col-10 page">
+          {URL === "My Students" ? (
+            <MyStudents studentId={supervisorId} />
+            ) 
+          //   : URL === "Reports" ? (
+          //   <Reports studentID={studentID}></Reports>
+          // ) 
+          // : URL === "Thesis" ? (
+          //   <Courses studentID={studentID}></Courses>
+          // )
+          :null}
+        </div>
       </Row>
     </div>
   );
