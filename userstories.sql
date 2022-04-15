@@ -59,11 +59,13 @@ END
 
 ------------------- (2) Registered User's Features -------------------
 -- 2.a: login using my username and pASsword.
+drop proc userlogin
 GO
 CREATE PROC userLogin
     @ID INT,
     @pASsword VARCHAR(20),
-    @Success BIT OUTPUT
+    @Success BIT OUTPUT,
+    @userType INT OUTPUT
 AS
 BEGIN
     IF EXISTS (
@@ -71,7 +73,23 @@ BEGIN
     FROM PostGradUser
     WHERE id = @ID AND pASsword = @pASsword
     )
-        BEGIN
+    BEGIN
+        IF Exists(select * from GUCianStudent where id = @id)
+        begin
+            set @userType = 0;
+        end
+        Else if Exists(select * from NonGUCianStudent where id = @id)
+        begin
+            set @userType = 1;
+        end
+        Else if Exists(select * from Supervisor where id = @id)
+        begin
+            set @userType = 2;
+        end
+        Else if Exists(select * from Examiner where id = @id)
+        begin
+            set @userType = 3;
+        end
         SET @Success = 1;
     END
     ELSE
@@ -1285,6 +1303,7 @@ END
 
 
 GO
+GO
 CREATE PROC getIdOfSelectedThesisByStudent
 
     @studentId INT,
@@ -1312,4 +1331,8 @@ BEGIN
     END
 END
 
-   
+
+
+select * from postgraduser
+select * from Supervisor
+
