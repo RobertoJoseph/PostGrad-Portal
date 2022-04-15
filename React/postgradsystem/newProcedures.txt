@@ -147,6 +147,61 @@ BEGIN
         SET @Success = 0;
     END
 END
+-----------
+
+
+
+
+
+
+
+------------- Payment Procedures ---------------
+----------------To Be Replaced------------------
+
+GO
+CREATE PROC ViewCoursePaymentsInstall
+    @studentID INT
+AS
+BEGIN
+    SELECT CP.course_id, I.*, C.code
+    FROM NonGUCianPayCourse CP
+        INNER JOIN Installment I ON I.paymentID = CP.payment_id
+        INNER JOIN Course C ON C.id = CP.course_id 
+    WHERE CP.NonGUCianID = @studentID
+END
+
+
+
+-----
+
+GO
+CREATE PROC ViewThesisPaymentsInstall 
+    @studentID INT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+        FROM GUCianStudent
+        WHERE GUCianStudent.id = @studentID
+    )
+        BEGIN
+        SELECT GUCianThesis.thesisSerialNumber, I.*, T.title
+        FROM GUCianRegisterThesis GUCianThesis
+            INNER JOIN Thesis T ON T.serialNumber = GUCianThesis.thesisSerialNumber
+            INNER JOIN Installment I ON I.paymentID = T.payment_id
+        WHERE GUCianThesis.GUCianID = @studentID
+    END
+    ELSE
+        BEGIN
+        SELECT NonGUCianThesis.thesisSerialNumber, I.*, T.title
+        FROM NonGUCianRegisterThesis NonGUCianThesis
+            INNER JOIN Thesis T ON T.serialNumber = NonGUCianThesis.thesisSerialNumber
+            INNER JOIN Installment I ON I.paymentID = T.payment_id
+        WHERE NonGUCianThesis.NonGUCianID = @studentID
+        END
+END
+
+------------------------------------------------
 
  
 CREATE PROC getIdOfSelectedThesisByStudent
