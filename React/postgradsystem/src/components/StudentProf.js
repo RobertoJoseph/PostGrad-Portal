@@ -9,16 +9,11 @@ import Reports from "./Reports";
 import Courses from "./Courses";
 import Publications from "./Publications";
 import EditProfile from "./StudentEditProfile";
+import NonGUCpayments from "./nonGUCpayments";
+import GUCpayments from "./GUCpayments";
 
 import * as MdIcons from "react-icons/md";
 import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Form,
-  FormGroup,
-  Label,
   Nav,
   NavItem,
   Navbar,
@@ -62,10 +57,8 @@ function Student(props) {
   };
 
   useEffect(() => {
-    console.log("The student is: " + isGUCian);
     getUserInformation();
     checkGUCian();
-    console.log("The student is: " + isGUCian);
   }, []);
 
   return (
@@ -173,7 +166,7 @@ function Student(props) {
           ) : URL === "Personal Info" ? (
             <EditProfile studentID={studentID}></EditProfile>
           ) : URL === "Payment Info" ? (
-            <></>
+            isGUCian ? (<GUCpayments studentID={studentID}></GUCpayments>) : (<NonGUCpayments studentID={studentID}></NonGUCpayments>)
           ) : URL === "Log Out" ? (
             <></>
           ) : null}

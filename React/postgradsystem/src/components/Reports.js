@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../css/Navbar.css";
+import "../css/newNav.css";
 import Axios from "axios";
 import { Table } from "reactstrap";
 
@@ -21,7 +22,7 @@ function Reports(props) {
   return (
     <div>
           <div className="col-12 mt-3">
-      <Table striped style={{backgroundColor:'white',height:'300px'}}>
+      <Table striped>
         <thead>
           <tr align="center">
             <th>#</th>

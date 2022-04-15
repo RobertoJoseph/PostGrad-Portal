@@ -43,5 +43,10 @@ router.get("/studentProgressReports/:studentID", studentOperations.ViewEvalProgr
 router.post("/isGUCian/:studentID", studentOperations.checkGUCian);
 
 
+router.get("/thesispayments/:studentID", studentOperations.ViewThesisPaymentsInstall);
+router.get("/coursepayments/:studentID", studentOperations.ViewCoursePaymentsInstall);
+
+
+
 
 module.exports = router;

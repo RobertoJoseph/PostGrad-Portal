@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../css/Navbar.css";
+import "../css/newNav.css";
 import Axios from "axios";
 import { Card, CardTitle, CardText, Table } from "reactstrap";
 
@@ -17,11 +18,11 @@ function Courses(props) {
 
   return (
     <div className="col-12 mt-3">
-      <Table striped style={{backgroundColor:'white',height:'300px'}}>
+      <Table striped>
         <thead>
           <tr align="center">
             <th>#</th>
-            <th>Code</th>
+            <th>Course Name</th>
             <th>Credit hours</th>
             <th>Fees</th>
             <th>Grade</th>
@@ -32,10 +33,10 @@ function Courses(props) {
           {courses.map((item, index) => {
             return (
               <tr key={index} align="center">
-                <th scope="row">{index}</th>
+                <th scope="row">{index + 1}</th>
                 <td>{item.code}</td>
                 <td>{item.creditHours}</td>
-                <td>${item.fees}</td>
+                <td>{item.fees}</td>
                 <td>{item.grade}</td>
               </tr>
             );

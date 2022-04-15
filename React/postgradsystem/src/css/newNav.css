@@ -139,3 +139,35 @@
   #Navbar {
       position: fixed;
   }
+
+
+  .tab {
+      width: 50%;
+      font-size:20px;
+      background:white;
+      border:none;
+      outline:none;
+      padding:10px 20px ;
+      cursor:pointer;
+      color:rgba(0,0,0,.4);
+      transition:all ease-in-out .2s;
+      border-bottom:2px solid transparent;
+      text-align: center;
+      text-decoration: none;
+  }
+
+  .content{
+      background-color: white;
+      min-height: auto;
+  }
+
+  #act {
+      background-color: #1C2D43 ;
+      color: white;
+      border-radius: 15px;
+  }
+
+  NavLink {
+text-decoration: none;
+color: black;
+  }

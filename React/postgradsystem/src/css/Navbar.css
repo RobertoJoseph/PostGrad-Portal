@@ -112,3 +112,9 @@
 .theadAlign {
   text-align: center
 }
+
+Table tr { 
+  line-height: 50px;
+  background-color: white;
+  height: 100%;
+ }
