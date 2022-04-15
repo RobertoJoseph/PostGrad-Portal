@@ -63,6 +63,35 @@ BEGIN
     END
 END
 
+create PROC linkPubThesis
+    @PubID INT,
+    @thesisSerialNo INT,
+    @SuccessBit BIT OUTPUT
+AS
+BEGIN
+    IF EXISTS(
+    SELECT *
+    From Thesis_Publication
+    Where Thesis_Publication.thesisSerialNumber = @thesisSerialNo AND Thesis_Publication.publication_id = @PubID
+    )
+        BEGIN
+        SET @SuccessBit = 0
+    END
+    ELSE
+        BEGIN
+        INSERT INTO Thesis_Publication
+            (publication_id, thesisSerialNumber)
+        VALUES
+            (@PubID, @thesisSerialNo)
+        SET @SuccessBit = 1
+    END
+END
+
+
+
+
+
+
 
 ----------ADD NEW-----------
 
@@ -83,6 +112,34 @@ BEGIN
     ELSE
         BEGIN
         SET @Success = 0;
+    END
+END
+
+ 
+CREATE PROC getIdOfSelectedThesisByStudent
+
+    @studentId INT,
+    @thesisTitle VARCHAR(20)
+AS
+BEGIN
+    IF EXISTS (Select *
+    from GUCianStudent
+    where id = @studentId)
+
+    BEGIN
+        SELECT T.serialNumber
+        from GUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON GUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE GUCianRegisterThesis.GUCianID = @studentId AND T.title = @thesisTitle
+    END
+    ELSE
+    BEGIN
+        SELECT T.serialNumber
+        from NonGUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON NonGUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
     END
 END
 -----------

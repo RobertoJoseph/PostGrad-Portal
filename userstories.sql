@@ -1372,3 +1372,23 @@ VALUES
 select * from postgraduser
 select * from Supervisor
 
+GO
+CREATE PROC checkGUCian
+    @ID INT,
+    @Success BIT OUTPUT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+    FROM GUCianStudent S
+    WHERE S.id = @ID
+    )
+        BEGIN
+        SET @Success = 1;
+    END
+    ELSE
+        BEGIN
+        SET @Success = 0;
+    END
+END
+
