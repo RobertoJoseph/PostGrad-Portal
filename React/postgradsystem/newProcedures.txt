@@ -87,6 +87,24 @@ BEGIN
     END
 END
 
+CREATE PROC viewStudentThesisById
+    @id int
+AS
+IF exists(Select *
+from GUCianStudent
+Where GUCianStudent.id = @id)
+BEGIN
+    SELECT *
+    FROM Thesis
+        INNER JOIN GUCianRegisterThesis ON GUCianRegisterThesis.thesisSerialNumber = Thesis.serialNumber
+END
+ELSE
+BEGIN
+    SELECT *
+    FROM Thesis
+        INNER JOIN NonGUCianRegisterThesis ON NonGUCianRegisterThesis.thesisSerialNumber = Thesis.serialNumber
+END
+
 
 
 
