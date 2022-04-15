@@ -232,7 +232,7 @@ function Publications(props) {
               </Control.select>
             </FormGroup>
             {isPublicationLinked ? (
-              <Alert color="success">Publication Linked Successfully</Alert>
+              <Alert color="success">Publication Linked Successsfully</Alert>
             ) : isPublicationExists ? (
               <Alert color="danger">Publication Already Linked</Alert>
             ) : null}
