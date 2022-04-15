@@ -107,11 +107,17 @@
     background-color: white;
 }
 
-.edit{
+#edit{
     border: none;
     background-color: transparent;
     color:#1C2D43;
  }
+
+ #edit:hover {
+    color:#2955C8;
+ }
+
+
  .header {
      padding: 3px;
      text-align: center;

@@ -1,6 +1,6 @@
 import "../css/newNav.css";
 import React, { Component, useEffect, useState } from "react";
-import { Row } from "reactstrap";
+import { Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { Route, Redirect, Routes } from "react-router-dom";
 import Thesis from "./Thesis";
 import { useParams } from "react-router-dom";
@@ -31,10 +31,10 @@ function Student(props) {
   const [Active, setActive] = useState("");
 
   let { studentID } = useParams();
-  const [isModalOpen, toggleModal] = useState(false);
-  const setTheModal = () => toggleModal(!isModalOpen);
   const [userName, setUsername] = useState("");
   const [isGUCian, setIsGUCian] = useState(false);
+  const [isDropdownOpen, toggleDropdown] = useState(false);
+  const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
 
 
   const getUserInformation = () => {
@@ -48,24 +48,24 @@ function Student(props) {
 
   const checkGUCian = () => {
     Axios.post(`http://localhost:9000/students/isGUCian/${studentID}`,
-    {
-      sid: studentID
-    }).then(
-      (res) => {
-        if(res.data.isGUCian){
-          setIsGUCian(true);
+      {
+        sid: studentID
+      }).then(
+        (res) => {
+          if (res.data.isGUCian) {
+            setIsGUCian(true);
+
+          }
 
         }
-
-      }
-    );
+      );
   };
 
   useEffect(() => {
-    console.log("The student is: "+isGUCian);
+    console.log("The student is: " + isGUCian);
     getUserInformation();
     checkGUCian();
-    console.log("The student is: "+isGUCian);
+    console.log("The student is: " + isGUCian);
   }, []);
 
   return (
@@ -81,14 +81,38 @@ function Student(props) {
             <span style={{ fontWeight: "bolder", color: "#1C2D43" }}>
               Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <button
+            {/* <button
               className="edit"
               onClick={() => {
                 setURL("My Profile");
               }}
             >
               <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
-            </button>
+            </button> */}
+            <ButtonDropdown
+              isOpen={isDropdownOpen}
+              toggle={setTheDropdown}
+              className="edit"
+            >
+              <DropdownToggle caret id="edit">
+                <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>
+                  My Account
+                </DropdownItem>
+                <DropdownItem onClick={() => {setURL("Personal Info");}}>
+                  Personal Info
+                </DropdownItem>
+                <DropdownItem onClick={() => {setURL("Payment Info");}}>
+                  Payment Info
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem onClick={() => {setURL("Log Out");}}>
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           </NavItem>
         </Nav>
       </Navbar>
@@ -111,28 +135,28 @@ function Student(props) {
                 </div>
               </span>
               {
-              
-              StudentData.map((item, index) => {
 
-                if(item.title === "Courses"){
-                  if(isGUCian) return false;
-                }
+                StudentData.map((item, index) => {
 
-                return (
-                  <li
-                    key={index}
-                    className="row"
-                    onClick={() => {
-                      setURL(item.title);
-                    }}
-                  >
-                    <div id="icon">{item.icon}</div>
-                    <div id="title" className="titleSize">
-                      {item.title}
-                    </div>
-                  </li>
-                );
-              })}
+                  if (item.title === "Courses") {
+                    if (isGUCian) return false;
+                  }
+
+                  return (
+                    <li
+                      key={index}
+                      className="row"
+                      onClick={() => {
+                        setURL(item.title);
+                      }}
+                    >
+                      <div id="icon">{item.icon}</div>
+                      <div id="title" className="titleSize">
+                        {item.title}
+                      </div>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>
@@ -146,8 +170,12 @@ function Student(props) {
             <Courses studentID={studentID}></Courses>
           ) : URL === "Publications" ? (
             <Publications studentID={studentID}></Publications>
-          ) : URL === "My Profile" ? (
+          ) : URL === "Personal Info" ? (
             <EditProfile studentID={studentID}></EditProfile>
+          ) : URL === "Payment Info" ? (
+            <></>
+          ) : URL === "Log Out" ? (
+            <></>
           ) : null}
         </div>
       </Row>
