@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Home from "./HomeComponent";
 import { Route, Redirect, Routes } from "react-router-dom";
-import SupervisorNavbar from "./SupervisorComponents/SupervisorProf";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 import { getStudents, addStudent } from "../redux/actionCreators";
 import Student from "./StudentProf";
+import SupervisorProf from "./SupervisorComponents/SupervisorProf";
 
 const mapStateToProps = (state) => {
   return {
@@ -73,7 +73,7 @@ class Main extends Component {
           ></Route>
 
           <Route
-            path="/supervisor/:supervisorID" element={<SupervisorNavbar></SupervisorNavbar>}
+            path="/supervisor/:supervisorId" element={<SupervisorProf></SupervisorProf>}
           ></Route>
           <Route path="/studentprofile/:studentID" element={<Student></Student>}></Route>
         </Routes>

@@ -25,11 +25,24 @@ function SupervisorProf() {
   const [URL, setURL] = useState("");
   const [Active, setActive] = useState("");
 
-  let { studentID } = useParams();
+  let { supervisorId } = useParams();
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);
   const [userName, setUsername] = useState("");
-  const [isGUCian, setIsGUCian] = useState(false);
+
+  const getUserInformation = () => {
+    console.log("I am in the supervisorProf, the id is: "+ supervisorId);
+    Axios.get(`http://localhost:9000/supervisor/supervisordata/${supervisorId}`).then(
+      (res) => {
+        console.log(res.data);
+        setUsername(res.data[0].firstName + " " + res.data[0].lastName);
+      }
+    );
+  };
+
+  useEffect(() => {
+    getUserInformation();
+  }, []);
 
   return (
     <div>

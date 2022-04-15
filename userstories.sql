@@ -1331,7 +1331,6 @@ BEGIN
     END
 END
 
-   
 
 
 select * from postgraduser
