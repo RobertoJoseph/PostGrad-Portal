@@ -48,3 +48,131 @@ From Thesis t inner join NonGUCianRegisterThesis sr on t.serialNumber=sr.thesisS
 inner join Supervisor s on s.id=sr.supervisor_id inner join NonGucianStudent gs on sr.nongucianID=gs.id
 where s.id = @id
 
+----------
+
+#### TO BE ALTERED ####
+^
+^
+^
+^
+GO
+CREATE PROC ViewEvalProgressReport
+    @studentId INT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+        FROM GUCianProgressReport
+        WHERE student_id = @studentId
+    )
+        BEGIN
+        SELECT PR.evaluation, S.firstName, S.lastName, T.title
+        FROM GUCianProgressReport PR, Supervisor S, Thesis T
+        WHERE PR.student_id = @studentId AND PR.supervisor_id = S.id AND T.serialNumber = PR.thesisSerialNumber
+    END
+    ELSE
+        BEGIN
+        SELECT NPR.evaluation, S.firstName, S.lastName, T.title
+        FROM NonGUCianProgressReport NPR, Supervisor S, Thesis T
+        WHERE NPR.student_id = student_id AND NPR.supervisor_id = S.id AND T.serialNumber = NPR.thesisSerialNumber
+    END
+END
+
+create PROC linkPubThesis
+    @PubID INT,
+    @thesisSerialNo INT,
+    @SuccessBit BIT OUTPUT
+AS
+BEGIN
+    IF EXISTS(
+    SELECT *
+    From Thesis_Publication
+    Where Thesis_Publication.thesisSerialNumber = @thesisSerialNo AND Thesis_Publication.publication_id = @PubID
+    )
+        BEGIN
+        SET @SuccessBit = 0
+    END
+    ELSE
+        BEGIN
+        INSERT INTO Thesis_Publication
+            (publication_id, thesisSerialNumber)
+        VALUES
+            (@PubID, @thesisSerialNo)
+        SET @SuccessBit = 1
+    END
+END
+
+CREATE PROC viewStudentThesisById
+    @id int
+AS
+IF exists(Select *
+from GUCianStudent
+Where GUCianStudent.id = @id)
+BEGIN
+    SELECT *
+    FROM Thesis
+        INNER JOIN GUCianRegisterThesis ON GUCianRegisterThesis.thesisSerialNumber = Thesis.serialNumber
+END
+ELSE
+BEGIN
+    SELECT *
+    FROM Thesis
+        INNER JOIN NonGUCianRegisterThesis ON NonGUCianRegisterThesis.thesisSerialNumber = Thesis.serialNumber
+END
+
+
+
+
+
+
+
+----------ADD NEW-----------
+
+GO
+CREATE PROC checkGUCian
+    @ID INT,
+    @Success BIT OUTPUT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+    FROM GUCianStudent S
+    WHERE S.id = @ID
+    )
+        BEGIN
+        SET @Success = 1;
+    END
+    ELSE
+        BEGIN
+        SET @Success = 0;
+    END
+END
+
+ 
+CREATE PROC getIdOfSelectedThesisByStudent
+
+    @studentId INT,
+    @thesisTitle VARCHAR(20)
+AS
+BEGIN
+    IF EXISTS (Select *
+    from GUCianStudent
+    where id = @studentId)
+
+    BEGIN
+        SELECT T.serialNumber
+        from GUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON GUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE GUCianRegisterThesis.GUCianID = @studentId AND T.title = @thesisTitle
+    END
+    ELSE
+    BEGIN
+        SELECT T.serialNumber
+        from NonGUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON NonGUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
+    END
+END
+-----------

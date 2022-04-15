@@ -34,6 +34,8 @@ function Student(props) {
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);
   const [userName, setUsername] = useState("");
+  const [isGUCian, setIsGUCian] = useState(false);
+
 
   const getUserInformation = () => {
     Axios.get(`http://localhost:9000/students/studentdata/${studentID}`).then(
@@ -43,8 +45,27 @@ function Student(props) {
       }
     );
   };
+
+  const checkGUCian = () => {
+    Axios.post(`http://localhost:9000/students/isGUCian/${studentID}`,
+    {
+      sid: studentID
+    }).then(
+      (res) => {
+        if(res.data.isGUCian){
+          setIsGUCian(true);
+
+        }
+
+      }
+    );
+  };
+
   useEffect(() => {
+    console.log("The student is: "+isGUCian);
     getUserInformation();
+    checkGUCian();
+    console.log("The student is: "+isGUCian);
   }, []);
 
   return (
@@ -89,7 +110,14 @@ function Student(props) {
                   <br></br>
                 </div>
               </span>
-              {StudentData.map((item, index) => {
+              {
+              
+              StudentData.map((item, index) => {
+
+                if(item.title === "Courses"){
+                  if(isGUCian) return false;
+                }
+
                 return (
                   <li
                     key={index}
@@ -113,7 +141,7 @@ function Student(props) {
           {URL === "Theses" ? (
             <Thesis studentID={studentID} />
           ) : URL === "Reports" ? (
-            <Reports></Reports>
+            <Reports studentID={studentID}></Reports>
           ) : URL === "Courses" ? (
             <Courses studentID={studentID}></Courses>
           ) : URL === "Publications" ? (

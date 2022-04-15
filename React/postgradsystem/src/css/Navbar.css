@@ -94,15 +94,12 @@
     background: linear-gradient(-45deg, #1f2f89, #071A2E);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
-    min-height: 327px;
-    
+    min-height: 385px;
+    box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.1);
+
 
   }
-  #Card:hover {
-    box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
-    -webkit-transform: translate(0px, -1px) scale(0.005);
-            transform: translate(0px, -1px) scale(1.005);
-  }
+
 
   .bg-primary {
     color: #fff;
@@ -112,3 +109,38 @@
     border-color: cutom-cor;
 }
 
+.letter {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin: 26px auto 0;
+  max-width: 550px;
+  min-height: 300px;
+  padding: 24px;
+  position: relative;
+  width: 80%;
+}
+.letter:before, .letter:after {
+  content: "";
+  height: 98%;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+}
+.letter:before {
+  background: #fafafa;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  left: -5px;
+  top: 4px;
+  transform: rotate(-2.5deg);
+}
+.letter:after {
+  background: #f6f6f6;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  right: -3px;
+  top: 1px;
+  transform: rotate(1.4deg);
+}
+
+.theadAlign {
+  text-align: center
+}

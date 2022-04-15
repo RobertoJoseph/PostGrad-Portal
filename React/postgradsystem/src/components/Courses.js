@@ -19,7 +19,7 @@ function Courses(props) {
     <div className="col-12 mt-3">
       <Table striped style={{backgroundColor:'white',height:'300px'}}>
         <thead>
-          <tr>
+          <tr align="center">
             <th>#</th>
             <th>Code</th>
             <th>Credit hours</th>
@@ -31,7 +31,7 @@ function Courses(props) {
         <tbody>
           {courses.map((item, index) => {
             return (
-              <tr key={index}>
+              <tr key={index} align="center">
                 <th scope="row">{index}</th>
                 <td>{item.code}</td>
                 <td>{item.creditHours}</td>

@@ -1,7 +1,4 @@
 node_modules
 dbconfig.js
 insertions.sql
-procedures.sql
 tables.sql
-userstories.sql
-tablecreations.sql

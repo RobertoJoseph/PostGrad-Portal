@@ -262,8 +262,15 @@ exports.linkPublicationToThesis = async function (req, res) {
       .request()
       .input("PubID", sql.Int, req.body.publicationId)
       .input("thesisSerialNo", sql.Int, req.body.thesisSerialNumber)
+      .output("SuccessBit", sql.Bit)
       .execute(`linkPubThesis`);
-    res.send({ isPublicationLinked: true });
+    sql.close();
+    console.log("Result from backend: " + result.output.SuccessBit);
+    if (result.output.SuccessBit) {
+      res.send({ isPublicationLinked: true });
+    } else {
+      res.send({ isPublicationLinked: false });
+    }
   } catch (error) {
     console.log(error);
     sql.close();
@@ -323,18 +330,77 @@ exports.editMyPassword = async function (req, res) {
 
 exports.getIdOfSelectedThesis = async function (req, res) {
   try {
+    console.log("Iam here Bitch: " + req.params.thesisTitle);
     let pool = await sql.connect(config);
     const result = (
       await pool
         .request()
         .input("studentID", sql.Int, req.params.studentID)
-        .input("thesisTitle", sql.VarChar, "Thesis On Algorithms")
+        .input("thesisTitle", sql.VarChar, req.params.thesisTitle)
         .execute(`getIdOfSelectedThesisByStudent`)
     ).recordset;
     console.log(result);
     res.send(result);
   } catch (err) {
     console.log(err);
+    sql.close();
+  }
+};
+
+exports.ViewEvalProgressReport = async function (req, res) {
+  try {
+    console.log(req.params.studentID);
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentId", sql.Int, req.params.studentID)
+        .execute(`ViewEvalProgressReport`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+    sql.close();
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};
+
+// exports.checkGUCian = async function (req, res) {
+//   try {
+//     let pool = await sql.connect(config);
+//     const result = await pool
+//       .request()
+//       .input("ID", sql.Int, req.body.studentID)
+//       .output("Success", sql.Bit)
+//       .execute(`checkGUCian`);
+//     sql.close();
+//     console.log("GUC???" + result.output.Success)
+//     res.send({ isGucian: result.output.Success });
+//   } catch (error) {
+//     console.log(error);
+//     sql.close();
+//   }
+// };
+
+exports.checkGUCian = async function (req, res) {
+  try {
+    console.log("HELLO" + req.body.sid);
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("ID", sql.VarChar, req.body.sid)
+      .output("Success", sql.Bit)
+      .execute(`checkGUCian`);
+    console.log("result" + " " + result);
+    console.log("result" + " " + result.output.Success);
+
+    const GUCian = result.output.Success;
+    console.log("GUCian: " + GUCian);
+    res.send({
+      isGUCian: result.output.Success,
+    });
+  } catch (erorr) {
     sql.close();
   }
 };
