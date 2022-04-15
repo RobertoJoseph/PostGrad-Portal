@@ -12,7 +12,6 @@ exports.Login = async function (req, res) {
       .output("id", sql.Int)
       .output("Success", sql.Bit)
       .execute(`getIDbyEmail`);
-    console.log("result" + " " + result);
     const userid = result.output.id;
     const foundEmail = result.output.Success;
     console.log("Found email: " + foundEmail);

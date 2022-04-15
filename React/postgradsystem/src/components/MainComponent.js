@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Home from "./HomeComponent";
 import { Route, Redirect, Routes } from "react-router-dom";
-import SupervisorNavbar from "./SupervisorNavbar";
+import SupervisorNavbar from "./SupervisorComponents/SupervisorProf";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 import { getStudents, addStudent } from "../redux/actionCreators";
