@@ -79,3 +79,26 @@
 .titleSize{
     font-size: 20px;
  }
+
+ #thead{
+    text-align: center;
+    background-color: #1C2D43;
+    color: white;
+    line-height: 50px;
+    font-size: large;
+  }
+  
+  Table tr { 
+    line-height: 50px;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+   }
+
+   #thead2{
+    text-align: right;
+    background-color: #1C2D43;
+    color: white;
+    line-height: 50px;
+    font-size: large;
+  }

@@ -5,16 +5,26 @@ import { AdminData } from "../../data/AdminData"
 import * as MdIcons from "react-icons/md";
 import { Nav, NavItem, Navbar, NavbarBrand } from "reactstrap";
 import Axios from "axios";
+import "../../css/Admin.css";
+
+import Supervisors from "./ViewSupervisors";
+import SupervisorTheses from "./SupAllThesis";
 
 
 
 
 function Admin(props) {
   const [URL, setURL] = useState("");
+  const [supID, setSupID] = useState("");
   let { adminID } = useParams();
   const [userName, setUsername] = useState("");
   const [isDropdownOpen, toggleDropdown] = useState(false);
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
+
+  const viewSupervisorThesis = (supervisorID) => {
+    setURL("Supervisor's Theses");
+    setSupID(supervisorID);
+  }
 
 
   const getUserInformation = () => {
@@ -113,13 +123,15 @@ function Admin(props) {
           ) : URL === "Courses" ? (
               <></>
           ) : URL === "Supervisors" ? (
-              <></>
+              <Supervisors func={viewSupervisorThesis}></Supervisors>
           ) : URL === "Defenses" ? (
               <></>
           ) : URL === "Installments" ? (
               <></>
           ) : URL === "Log Out" ? (
               <></>
+          ) : URL === "Supervisor's Theses" ? (
+              <SupervisorTheses supervisorID={supID}></SupervisorTheses>
           ) : null }
         </div>
       </Row>
