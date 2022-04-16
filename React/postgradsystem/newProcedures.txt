@@ -146,32 +146,156 @@ BEGIN
         SET @Success = 0;
     END
 END
+-----------
 
- 
-CREATE PROC getIdOfSelectedThesisByStudent
 
-    @studentId INT,
-    @thesisTitle VARCHAR(20)
+
+
+
+
+
+------------- Payment Procedures ---------------
+----------------To Be Replaced------------------
+
+GO
+CREATE PROC ViewCoursePaymentsInstall
+    @studentID INT
 AS
 BEGIN
-    IF EXISTS (Select *
-    from GUCianStudent
-    where id = @studentId)
+    SELECT CP.course_id, I.*, C.code
+    FROM NonGUCianPayCourse CP
+        INNER JOIN Installment I ON I.paymentID = CP.payment_id
+        INNER JOIN Course C ON C.id = CP.course_id 
+    WHERE CP.NonGUCianID = @studentID
+END
 
-    BEGIN
-        SELECT T.serialNumber
-        from GUCianRegisterThesis
-            INNER JOIN Thesis T
-            ON GUCianRegisterThesis.thesisSerialNumber = T.serialNumber
-        WHERE GUCianRegisterThesis.GUCianID = @studentId AND T.title = @thesisTitle
+
+
+-----
+
+GO
+CREATE PROC ViewThesisPaymentsInstall 
+    @studentID INT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+        FROM GUCianStudent
+        WHERE GUCianStudent.id = @studentID
+    )
+        BEGIN
+        SELECT GUCianThesis.thesisSerialNumber, I.*, T.title
+        FROM GUCianRegisterThesis GUCianThesis
+            INNER JOIN Thesis T ON T.serialNumber = GUCianThesis.thesisSerialNumber
+            INNER JOIN Installment I ON I.paymentID = T.payment_id
+        WHERE GUCianThesis.GUCianID = @studentID
     END
     ELSE
+        BEGIN
+        SELECT NonGUCianThesis.thesisSerialNumber, I.*, T.title
+        FROM NonGUCianRegisterThesis NonGUCianThesis
+            INNER JOIN Thesis T ON T.serialNumber = NonGUCianThesis.thesisSerialNumber
+            INNER JOIN Installment I ON I.paymentID = T.payment_id
+        WHERE NonGUCianThesis.NonGUCianID = @studentID
+        END
+END
+
+------------------------------------------------
+
+ 
+-----------
+
+
+
+
+------------------------ADMIN---------------------------
+
+---ADD
+Go
+CREATE PROC viewAdminProfile 
+@id INT
+AS 
+BEGIN
+    SELECT * FROM Admin WHERE Admin.id = @id
+END
+
+
+--------------------------------
+---ALTERED
+
+Go
+CREATE PROC userLogin
+    @ID INT,
+    @pASsword VARCHAR(20),
+    @Success BIT OUTPUT,
+    @userType INT OUTPUT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+    FROM PostGradUser
+    WHERE id = @ID AND pASsword = @pASsword
+    )
     BEGIN
-        SELECT T.serialNumber
-        from NonGUCianRegisterThesis
-            INNER JOIN Thesis T
-            ON NonGUCianRegisterThesis.thesisSerialNumber = T.serialNumber
-        WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
+        IF Exists(select * from GUCianStudent where id = @id)
+        begin
+            set @userType = 0;
+        end
+        Else if Exists(select * from NonGUCianStudent where id = @id)
+        begin
+            set @userType = 1;
+        end
+        Else if Exists(select * from Supervisor where id = @id)
+        begin
+            set @userType = 2;
+        end
+        Else if Exists(select * from Examiner where id = @id)
+        begin
+            set @userType = 3;
+        end
+        Else if Exists(select * from Admin where id = @id)
+        begin
+            set @userType = 4;
+        end
+        SET @Success = 1;
+    END
+    ELSE
+        BEGIN
+        SET @Success = 0;
     END
 END
------------
+
+-------------- ALTER---------------
+GO
+CREATE PROC AdminListSup
+AS
+    SELECT S.*, U.email, U.password
+    FROM Supervisor S
+    INNER JOIN PostGradUser U ON U.id = S.id;
+
+------
+
+GO
+CREATE PROC AdminViewStudentThesisBySupervisor
+@supervisorID INT
+AS
+    SELECT S1.firstName, S1.lastName, T1.title AS Thesis, GUCianStudent.firstName AS First_name, GUCianStudent.lastName AS Last_name, GUCianStudent.id AS studentID
+    FROM GUCianRegisterThesis
+        INNER JOIN Supervisor S1 On S1.id = GUCianRegisterThesis.supervisor_id
+        INNER JOIN Thesis T1 on T1.serialNumber = GUCianRegisterThesis.thesisSerialNumber
+        INNER JOIN GUCianStudent ON GUCianStudent.id = GUCianRegisterThesis.GUCianID
+        WHERE T1.endDate > GETDATE() AND S1.id = @supervisorID
+
+    UNION
+    
+    SELECT S2.firstName, S2.lastName, T2.title AS Thesis, NonGUCianStudent.firstName AS First_name, NonGUCianStudent.lastName AS Last_name, NonGUCianStudent.id AS studentID
+    FROM NonGUCianRegisterThesis
+        INNER JOIN Supervisor S2 On S2.id = NonGUCianRegisterThesis.supervisor_id
+        INNER JOIN Thesis T2 on T2.serialNumber = NonGUCianRegisterThesis.thesisSerialNumber
+        INNER JOIN NonGUCianStudent ON NonGUCianStudent.id = NonGUCianRegisterThesis.NonGUCianID
+        WHERE T2.endDate > GETDATE() AND S2.id = @supervisorID
+
+
+
+
+-----------------

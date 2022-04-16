@@ -10,6 +10,7 @@ const allReducers = combineReducers({
     loginForm: "anything",
     addPublicationForm: "anything",
     linkPublicationForm: "anything",
+    examinerForm: "anything",
   }),
 });
 export default allReducers;

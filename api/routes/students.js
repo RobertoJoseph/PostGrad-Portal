@@ -36,6 +36,12 @@ router.get(
 
 router.post("/isGUCian/:studentID", studentOperations.checkGUCian);
 
+
+router.get("/thesispayments/:studentID", studentOperations.ViewThesisPaymentsInstall);
+router.get("/coursepayments/:studentID", studentOperations.ViewCoursePaymentsInstall);
+
+
+
 router.get(
   "/studentProgressReports/:studentID",
   studentOperations.ViewEvalProgressReport

@@ -1,0 +1,70 @@
+CREATE PROC ExaminerProfile
+    @examinerId INT
+AS
+Select E.name, E.fieldOfWork, P.email
+from Examiner E
+    INNER JOIN PostGradUser P on E.id = P.id
+WHERE P.id = @examinerId
+
+
+CREATE  PROC  ExaminerAttendedDefense
+    @id int
+as
+    select T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, GS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
+    from ExaminerEvaluateDefense EV inner join GUCianRegisterThesis GRT on EV.thesisSerialNumber=GRT.thesisSerialNumber
+        inner join Thesis T on EV.thesisSerialNumber=T.serialNumber
+        inner join GucianStudent GS on GRT.GUCianID = GS.id
+        inner join Supervisor S on GRT.supervisor_id=S.id
+        Inner join Defense D on EV.thesisSerialNumber =D.thesisSerialNumber AND ev.[date]=D.[date]
+    where EV.examiner_id = @id
+UNION
+    select T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, NGS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
+    from ExaminerEvaluateDefense EV inner join NonGUCianRegisterThesis NGRT on EV.thesisSerialNumber=NGRT.thesisSerialNumber
+        inner join Thesis T on EV.thesisSerialNumber=T.serialNumber
+        inner join NonGucianStudent NGS on NGRT.NonGUCianID = NGS.id
+        inner join Supervisor S on NGRT.supervisor_id=S.id
+        Inner join Defense D on EV.thesisSerialNumber =D.thesisSerialNumber AND ev.[date]=D.[date]
+    where EV.examiner_id = @id
+GO
+
+Create Proc editExaminer
+    @ID varchar(20),
+    @Name varchar(20) ,
+    @Field varchar(20)
+AS
+Update Examiner 
+Set name = @Name,
+fieldOfWork = @Field
+where id =@ID
+
+
+
+
+-- Not related to examiner--
+
+CREATE PROC getIdOfSelectedThesisByStudent
+
+    @studentId INT,
+    @thesisTitle VARCHAR(20)
+AS
+BEGIN
+    IF EXISTS (Select *
+    from GUCianStudent
+    where id = @studentId)
+
+    BEGIN
+        SELECT T.serialNumber
+        from GUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON GUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE GUCianRegisterThesis.GUCianID = @studentId AND T.title = @thesisTitle
+    END
+    ELSE
+    BEGIN
+        SELECT T.serialNumber
+        from NonGUCianRegisterThesis
+            INNER JOIN Thesis T
+            ON NonGUCianRegisterThesis.thesisSerialNumber = T.serialNumber
+        WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
+    END
+END

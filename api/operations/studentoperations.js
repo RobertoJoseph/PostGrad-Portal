@@ -366,23 +366,6 @@ exports.ViewEvalProgressReport = async function (req, res) {
   }
 };
 
-// exports.checkGUCian = async function (req, res) {
-//   try {
-//     let pool = await sql.connect(config);
-//     const result = await pool
-//       .request()
-//       .input("ID", sql.Int, req.body.studentID)
-//       .output("Success", sql.Bit)
-//       .execute(`checkGUCian`);
-//     sql.close();
-//     console.log("GUC???" + result.output.Success)
-//     res.send({ isGucian: result.output.Success });
-//   } catch (error) {
-//     console.log(error);
-//     sql.close();
-//   }
-// };
-
 exports.checkGUCian = async function (req, res) {
   try {
     console.log("HELLO" + req.body.sid);
@@ -401,6 +384,41 @@ exports.checkGUCian = async function (req, res) {
       isGUCian: result.output.Success,
     });
   } catch (erorr) {
+    sql.close();
+  }
+};
+
+
+exports.ViewThesisPaymentsInstall = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentID", sql.Int, req.params.studentID)
+        .execute(`ViewThesisPaymentsInstall`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};
+
+exports.ViewCoursePaymentsInstall = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentID", sql.Int, req.params.studentID)
+        .execute(`ViewCoursePaymentsInstall`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
     sql.close();
   }
 };
