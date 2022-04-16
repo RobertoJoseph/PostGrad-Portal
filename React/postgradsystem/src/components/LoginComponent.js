@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { Component } from "react";
 import { Card, CardBody, CardTitle, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,15 +31,24 @@ function Login(props) {
           switch(response.data.userType){
             case 0:
               //GucianStudent
-              navigate(`/studentprofile/${response.data.userID}`);break;
+              navigate(`/studentprofile/${response.data.userID}`);
+              break;
             case 1:
               //NonGucianStudent
-              navigate(`/studentprofile/${response.data.userID}`);break;
+              navigate(`/studentprofile/${response.data.userID}`);
+              break;
             case 2:
               //Supervisor
-              navigate(`/supervisor/${response.data.userID}`);break;
+              navigate(`/supervisor/${response.data.userID}`);
+              break;
             case 3:
-              //Examiner                            
+              //Examiner 
+              break;
+            case 4:
+              //Admin
+              navigate(`/admin/${response.data.userID}`);
+              break; 
+            default: break;                          
           }
 
         } else {

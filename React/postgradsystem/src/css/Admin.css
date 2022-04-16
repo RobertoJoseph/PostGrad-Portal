@@ -1,0 +1,81 @@
+#edit{
+    border: none;
+    background-color: transparent;
+    color:#1C2D43;
+ }
+
+ #edit:hover {
+    color:#2955C8;
+ }
+
+ 
+.sideBar {
+    height: 100%;
+    width: 15%;
+    background: #1C2D43;
+    position: fixed;
+}
+
+
+
+
+
+.sidebarList {
+    height: 100%;
+    width: 100%;
+    padding: 0%;
+}
+
+
+
+.sidebarList .row {
+    width: 100%;
+    height: 50px;
+    list-style-type: none;
+    margin: 0%;
+    display: flex;
+    flex-direction: row;
+    color: aliceblue;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.sidebarList .row:hover {
+    cursor: pointer;
+    background-color: #0a4d8b;
+}
+
+.row #icon {
+    flex: 30%;
+    display: grid;
+    place-items: center;
+
+}
+
+.row #title {
+    flex: 70%;
+}
+
+#heading {
+    color: aliceblue;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#sub-heading {
+    color: aliceblue;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: lighter;
+
+}
+
+.titleSize{
+    font-size: 20px;
+ }
