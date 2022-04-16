@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { IconContext } from 'react-icons';
 import { Col, Table, Badge } from 'reactstrap';
 import Axios from "axios";
-import "../css/newNav.css";
-import "../css/Navbar.css";
+import "../../css/newNav.css";
+import "../../css/Navbar.css";
 
 
 

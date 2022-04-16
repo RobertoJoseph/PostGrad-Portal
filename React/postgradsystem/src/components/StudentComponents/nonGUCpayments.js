@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
-
-import { useForm } from "react-hook-form";
 import { IconContext } from 'react-icons';
-import * as AiIcons from "react-icons/ai";
 import {
-  Nav, NavItem, NavLink, TabContent, TabPane, Row, Col, Table, Badge
+  Nav, NavItem, NavLink, TabContent, TabPane, Col, Table, Badge
 } from 'reactstrap';
 import Axios from "axios";
-import "../css/newNav.css";
-import { IoMdTennisball } from 'react-icons/io';
-import { MdNoEncryption } from 'react-icons/md';
+import "../../css/newNav.css";
+import "../../css/Navbar.css";
+
+
 
 function NonGUCpayments(props) {
 

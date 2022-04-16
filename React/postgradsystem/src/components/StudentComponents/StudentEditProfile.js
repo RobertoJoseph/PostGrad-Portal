@@ -5,10 +5,10 @@ import { IconContext } from 'react-icons';
 import * as AiIcons from "react-icons/ai";
 import {
     Button, Modal, ModalHeader, ModalBody, Label, Row, Col,
-    Form, FormGroup, Input, InputGroup
+    Form, FormGroup, Input
 } from 'reactstrap';
 import Axios from "axios";
-import "../css/newNav.css";
+import "../../css/newNav.css";
 
 
 

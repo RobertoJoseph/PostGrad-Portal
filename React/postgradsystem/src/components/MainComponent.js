@@ -4,8 +4,9 @@ import { Route, Redirect, Routes } from "react-router-dom";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 import { getStudents, addStudent } from "../redux/actionCreators";
-import Student from "./StudentProf";
+import Student from "./StudentComponents/StudentProf";
 import SupervisorProf from "./SupervisorComponents/SupervisorProf";
+import Admin from "./AdminComponents/AdminProfile"
 
 const mapStateToProps = (state) => {
   return {
@@ -76,6 +77,8 @@ class Main extends Component {
             path="/supervisor/:supervisorId" element={<SupervisorProf></SupervisorProf>}
           ></Route>
           <Route path="/studentprofile/:studentID" element={<Student></Student>}></Route>
+          <Route path="/admin/:adminID" element={<Admin></Admin>}></Route>
+
         </Routes>
       </div>
     );

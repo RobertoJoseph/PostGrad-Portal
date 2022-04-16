@@ -1,64 +1,34 @@
-import "../css/newNav.css";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
-import { Route, Redirect, Routes } from "react-router-dom";
-import Thesis from "./Thesis";
 import { useParams } from "react-router-dom";
-import { StudentData } from "../data/StudentData";
-import Reports from "./Reports";
-import Courses from "./Courses";
-import Publications from "./Publications";
-import EditProfile from "./StudentEditProfile";
-import NonGUCpayments from "./nonGUCpayments";
-import GUCpayments from "./GUCpayments";
-
+import { AdminData } from "../../data/AdminData"
 import * as MdIcons from "react-icons/md";
-import {
-  Nav,
-  NavItem,
-  Navbar,
-  NavbarBrand,
-} from "reactstrap";
+import { Nav, NavItem, Navbar, NavbarBrand } from "reactstrap";
 import Axios from "axios";
 
-function Student(props) {
-  const [URL, setURL] = useState("");
-  const [Active, setActive] = useState("");
 
-  let { studentID } = useParams();
+
+
+function Admin(props) {
+  const [URL, setURL] = useState("");
+  let { adminID } = useParams();
   const [userName, setUsername] = useState("");
-  const [isGUCian, setIsGUCian] = useState(false);
   const [isDropdownOpen, toggleDropdown] = useState(false);
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
 
 
   const getUserInformation = () => {
-    Axios.get(`http://localhost:9000/students/studentdata/${studentID}`).then(
+    Axios.get(`http://localhost:9000/admin/admindata/${adminID}`).then(
       (res) => {
-        console.log(res.data);
-        setUsername(res.data[0].firstName + " " + res.data[0].lastName);
+        setUsername(res.data[0].Name);
       }
     );
   };
 
-  const checkGUCian = () => {
-    Axios.post(`http://localhost:9000/students/isGUCian/${studentID}`,
-      {
-        sid: studentID
-      }).then(
-        (res) => {
-          if (res.data.isGUCian) {
-            setIsGUCian(true);
 
-          }
-
-        }
-      );
-  };
 
   useEffect(() => {
     getUserInformation();
-    checkGUCian();
   }, []);
 
   return (
@@ -74,14 +44,6 @@ function Student(props) {
             <span style={{ fontWeight: "bolder", color: "#1C2D43" }}>
               Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            {/* <button
-              className="edit"
-              onClick={() => {
-                setURL("My Profile");
-              }}
-            >
-              <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
-            </button> */}
             <ButtonDropdown
               isOpen={isDropdownOpen}
               toggle={setTheDropdown}
@@ -94,13 +56,6 @@ function Student(props) {
                 <DropdownItem header>
                   My Account
                 </DropdownItem>
-                <DropdownItem onClick={() => {setURL("Personal Info");}}>
-                  Personal Info
-                </DropdownItem>
-                <DropdownItem onClick={() => {setURL("Payment Info");}}>
-                  Payment Info
-                </DropdownItem>
-                <DropdownItem divider />
                 <DropdownItem onClick={() => {setURL("Log Out");}}>
                   Log Out
                 </DropdownItem>
@@ -119,7 +74,7 @@ function Student(props) {
                   <br></br>
                 </div>
               </span>
-              <span id="heading">Student Profile </span>
+              <span id="heading">Admin Profile </span>
               <span id="sub-heading">{URL}</span>
               <span>
                 <div>
@@ -129,11 +84,7 @@ function Student(props) {
               </span>
               {
 
-                StudentData.map((item, index) => {
-
-                  if (item.title === "Courses") {
-                    if (isGUCian) return false;
-                  }
+                AdminData.map((item, index) => {
 
                   return (
                     <li
@@ -156,24 +107,24 @@ function Student(props) {
 
         <div className="col-10 page">
           {URL === "Theses" ? (
-            <Thesis studentID={studentID} />
-          ) : URL === "Reports" ? (
-            <Reports studentID={studentID}></Reports>
+              <></>
+          ) : URL === "Students" ? (
+              <></>
           ) : URL === "Courses" ? (
-            <Courses studentID={studentID}></Courses>
-          ) : URL === "Publications" ? (
-            <Publications studentID={studentID}></Publications>
-          ) : URL === "Personal Info" ? (
-            <EditProfile studentID={studentID}></EditProfile>
-          ) : URL === "Payment Info" ? (
-            isGUCian ? (<GUCpayments studentID={studentID}></GUCpayments>) : (<NonGUCpayments studentID={studentID}></NonGUCpayments>)
+              <></>
+          ) : URL === "Supervisors" ? (
+              <></>
+          ) : URL === "Defenses" ? (
+              <></>
+          ) : URL === "Installments" ? (
+              <></>
           ) : URL === "Log Out" ? (
-            <></>
-          ) : null}
+              <></>
+          ) : null }
         </div>
       </Row>
     </div>
   );
 }
 
-export default Student;
+export default Admin;

@@ -1,15 +1,12 @@
+/* eslint-disable react/jsx-pascal-case */
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "../css/Navbar.css";
+import "../../css/Navbar.css";
 import Axios from "axios";
 import {
   Card,
-  CardTitle,
-  CardText,
   CardBody,
   CardHeader,
-  Row,
   Button,
   FormGroup,
   Label,
@@ -17,12 +14,13 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  Col,
   Alert,
 } from "reactstrap";
 import * as AiIcons from "react-icons/ai";
-import { get, useForm } from "react-hook-form";
-import { Control, Form, Errors, actions } from "react-redux-form";
+import { Control, Form} from "react-redux-form";
+
+
+
 
 function Publications(props) {
   const [publications, setPublications] = useState([]);

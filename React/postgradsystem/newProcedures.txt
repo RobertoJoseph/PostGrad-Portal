@@ -231,3 +231,65 @@ BEGIN
     END
 END
 -----------
+
+
+
+
+------------------------ADMIN---------------------------
+
+---ADD
+Go
+CREATE PROC viewAdminProfile 
+@id INT
+AS 
+BEGIN
+    SELECT * FROM Admin WHERE Admin.id = @id
+END
+
+
+--------------------------------
+---ALTERED
+
+Go
+CREATE PROC userLogin
+    @ID INT,
+    @pASsword VARCHAR(20),
+    @Success BIT OUTPUT,
+    @userType INT OUTPUT
+AS
+BEGIN
+    IF EXISTS (
+        SELECT *
+    FROM PostGradUser
+    WHERE id = @ID AND pASsword = @pASsword
+    )
+    BEGIN
+        IF Exists(select * from GUCianStudent where id = @id)
+        begin
+            set @userType = 0;
+        end
+        Else if Exists(select * from NonGUCianStudent where id = @id)
+        begin
+            set @userType = 1;
+        end
+        Else if Exists(select * from Supervisor where id = @id)
+        begin
+            set @userType = 2;
+        end
+        Else if Exists(select * from Examiner where id = @id)
+        begin
+            set @userType = 3;
+        end
+        Else if Exists(select * from Admin where id = @id)
+        begin
+            set @userType = 4;
+        end
+        SET @Success = 1;
+    END
+    ELSE
+        BEGIN
+        SET @Success = 0;
+    END
+END
+
+-----------------------------
