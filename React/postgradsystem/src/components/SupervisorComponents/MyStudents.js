@@ -25,14 +25,13 @@ import {
   Table,
 } from "reactstrap";
 
-
 function MyStudents(props) {
-  const [students, setStudents] = useState([]);
-  const [clickedId, setClickedId] = useState(0);
+  const [students, setStudents] = useState([]); //state 1
+  const [clickedId, setClickedId] = useState(0); //state 2
   const navigate = useNavigate();
-  const [isModalOpen, toggleModal] = useState(false);
+  const [isModalOpen, toggleModal] = useState(false); //state 3
   const setTheModal = () => toggleModal(!isModalOpen);
-  const [publications, setPublications] = useState([]);
+  const [publications, setPublications] = useState([]); //state 4
   const clickMe = (id) => {
     console.log("clickMe: " + id);
     console.log(clickedId);
@@ -40,20 +39,8 @@ function MyStudents(props) {
     getPublications();
     console.log(clickedId);
     setTheModal();
-    //    navigate(`/supervisorpublications/${id}`);
-  }
+  };
 
-
-
-
-  const getPublications = () => {
-    Axios.get(
-      `http://localhost:9000/supervisor/publications/${clickedId}`
-    ).then((res) => {
-      setPublications(res.data);
-      console.log(res.data);
-    });
-  }
   const Button = styled.button`
     background-color: #243b55;
     color: white;
@@ -73,36 +60,37 @@ function MyStudents(props) {
     }
   `;
 
-
   const ButtonToggle = styled(Button)`
-  opacity: 0.7;
-  ${({ active }) =>
+    opacity: 0.7;
+    ${({ active }) =>
       active &&
       `
     opacity: 1; 
   `}
-`;
+  `;
 
-  useEffect(() => {
+  const getStudents = () => {
     Axios.get(
       `http://localhost:9000/supervisor/mystudents/${props.supervisorId}`
     ).then((res) => {
       setStudents(res.data);
     });
-  }, []);
-
-  useEffect(() => {
+  };
+  const getPublications = () => {
     Axios.get(
       `http://localhost:9000/supervisor/publications/${clickedId}`
     ).then((res) => {
       setPublications(res.data);
-      console.log(res.data);
     });
-  }, []);
+  };
+  useEffect(() => {
+    getStudents();
+    getPublications();
+  }, [clickedId]);
 
   return (
     <div className="col-12 mt-3">
-      <Table striped style={{ backgroundColor: 'white', height: '300px' }}>
+      <Table striped style={{ backgroundColor: "white", height: "300px" }}>
         <thead>
           <tr>
             <th>#</th>
@@ -121,11 +109,16 @@ function MyStudents(props) {
                 <td>{item.StudentFirstName + " " + item.StudentLastName}</td>
                 <td>{item.ThesisTitle}</td>
                 <td>{item.Years}</td>
-                <td><Button onClick={() => {
-                  console.log("id is: " + item.StudentId)
-                  setClickedId(item.StudentId)
-                  clickMe(item.StudentId);
-                }}>View</Button></td>
+                <td>
+                  <Button
+                    onClick={() => {
+                      console.log("id is: " + item.StudentId);
+                      clickMe(item.StudentId);
+                    }}
+                  >
+                    View
+                  </Button>
+                </td>
               </tr>
             );
           })}
@@ -145,7 +138,7 @@ function MyStudents(props) {
           Publications
         </ModalHeader>
         <ModalBody>
-          <Table striped style={{ backgroundColor: 'white', height: '300px' }}>
+          <Table striped style={{ backgroundColor: "white", height: "300px" }}>
             <thead>
               <tr>
                 <th>#</th>
@@ -165,23 +158,26 @@ function MyStudents(props) {
                     <th scope="row">{index}</th>
                     <td>{item.id}</td>
                     <td>{item.title}</td>
-                    <td>{new Intl.DateTimeFormat("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "2-digit",
-                    }).format(new Date(Date.parse(item.date)))}</td>
+                    <td>
+                      {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      }).format(new Date(Date.parse(item.date)))}
+                    </td>
                     <td>{item.place}</td>
-                    <td>{item.isAccepted = 0 ? "Not Accepted" : "Accepted"}</td>
+                    <td>
+                      {(item.isAccepted = 0 ? "Not Accepted" : "Accepted")}
+                    </td>
                     <td>{item.host}</td>
                   </tr>
                 );
               })}
             </tbody>
-          </Table>        </ModalBody>
+          </Table>{" "}
+        </ModalBody>
       </Modal>
     </div>
   );
-
-
 }
 export default MyStudents;
