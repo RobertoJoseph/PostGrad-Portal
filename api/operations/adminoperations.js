@@ -1,19 +1,7 @@
 var config = require('./dbconfig')
 const sql = require('mssql')
 
-// async function AdminListSup() {
-//     try {
-//         let pool = await sql.connect(config);
-//         const result = (await pool.request().execute(`AdminListSup`)).recordset;
-//         console.log(result);
-//         sql.close();
-//         return result;
 
-//     } catch (erorr) {
-//         console.log(erorr);
-//         sql.close();
-//     }
-// };
 
 // async function AdminViewSupervisorProfile(supID) {
 //     try {
@@ -62,23 +50,46 @@ const sql = require('mssql')
 
 exports.viewAdminProfile = async function (req, res) {
     try {
-      console.log("PRINT THE ID" + req.params.adminID);
-      let pool = await sql.connect(config);
-      const result = (
-        await pool
-          .request()
-          .input("id", sql.Int, req.params.adminID)
-          .execute(`viewAdminProfile`)
-      ).recordset;
-      console.log("PRINT THE RESULT" + result);
-      res.send(result);
+        let pool = await sql.connect(config);
+        const result = (
+            await pool
+                .request()
+                .input("id", sql.Int, req.params.adminID)
+                .execute(`viewAdminProfile`)
+        ).recordset;
+        res.send(result);
     } catch (err) {
-      console.log(err);
-      sql.close();
+        console.log(err);
+        sql.close();
     }
-  };
+};
 
+exports.AdminListSup = async function (req, res) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request().execute(`AdminListSup`)).recordset;
+        res.send(result);
+    } catch (erorr) {
+        console.log(erorr);
+        sql.close();
+    }
+};
 
+exports.AdminViewStudentThesisBySupervisor = async function (req, res) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (
+            await pool
+                .request()
+                .input("supervisorID", sql.Int, req.params.supervisorID)
+                .execute(`AdminViewStudentThesisBySupervisor`)
+        ).recordset;
+        res.send(result);
+    } catch (err) {
+        console.log(err);
+        sql.close();
+    }
+};
 
 
 

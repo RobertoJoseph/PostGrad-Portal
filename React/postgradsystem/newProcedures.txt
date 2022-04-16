@@ -292,4 +292,37 @@ BEGIN
     END
 END
 
------------------------------
+-------------- ALTER---------------
+GO
+CREATE PROC AdminListSup
+AS
+    SELECT S.*, U.email, U.password
+    FROM Supervisor S
+    INNER JOIN PostGradUser U ON U.id = S.id;
+
+------
+
+GO
+CREATE PROC AdminViewStudentThesisBySupervisor
+@supervisorID INT
+AS
+    SELECT S1.firstName, S1.lastName, T1.title AS Thesis, GUCianStudent.firstName AS First_name, GUCianStudent.lastName AS Last_name, GUCianStudent.id AS studentID
+    FROM GUCianRegisterThesis
+        INNER JOIN Supervisor S1 On S1.id = GUCianRegisterThesis.supervisor_id
+        INNER JOIN Thesis T1 on T1.serialNumber = GUCianRegisterThesis.thesisSerialNumber
+        INNER JOIN GUCianStudent ON GUCianStudent.id = GUCianRegisterThesis.GUCianID
+        WHERE T1.endDate > GETDATE() AND S1.id = @supervisorID
+
+    UNION
+    
+    SELECT S2.firstName, S2.lastName, T2.title AS Thesis, NonGUCianStudent.firstName AS First_name, NonGUCianStudent.lastName AS Last_name, NonGUCianStudent.id AS studentID
+    FROM NonGUCianRegisterThesis
+        INNER JOIN Supervisor S2 On S2.id = NonGUCianRegisterThesis.supervisor_id
+        INNER JOIN Thesis T2 on T2.serialNumber = NonGUCianRegisterThesis.thesisSerialNumber
+        INNER JOIN NonGUCianStudent ON NonGUCianStudent.id = NonGUCianRegisterThesis.NonGUCianID
+        WHERE T2.endDate > GETDATE() AND S2.id = @supervisorID
+
+
+
+
+-----------------
