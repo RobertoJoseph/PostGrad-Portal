@@ -7,6 +7,12 @@ import * as MdIcons from "react-icons/md";
 import ExaminerEditProfile from "./ExaminerEditProf";
 import Defense from "./Defense";
 import * as IoIcons from "react-icons/io";
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
 import {
   Button,
@@ -31,6 +37,8 @@ function ExaminerProf() {
   const setTheModal = () => toggleModal(!isModalOpen);
   const [userName, setUsername] = useState("");
   const [examinerData, setExaminerData] = useState([]);
+  const [isDropdownOpen, toggleDropdown] = useState(false);
+  const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
 
   const getExaminerInformation = () => {
     Axios.get(`http://localhost:9000/examiner/examinerdata/${examinerID}`).then(
@@ -58,14 +66,35 @@ function ExaminerProf() {
             <span style={{ fontWeight: "bolder", color: "#1C2D43" }}>
               Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <button
+
+            <ButtonDropdown
+              isOpen={isDropdownOpen}
+              toggle={setTheDropdown}
               className="edit"
-              onClick={() => {
-                setURL("My Profile");
-              }}
             >
-              <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
-            </button>
+              <DropdownToggle caret id="edit">
+                <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>My Account</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    setURL("Personal Info");
+                  }}
+                >
+                  Personal Info
+                </DropdownItem>
+               
+                <DropdownItem divider />
+                <DropdownItem
+                  onClick={() => {
+                    setURL("Log Out");
+                  }}
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           </NavItem>
         </Nav>
       </Navbar>
@@ -107,7 +136,7 @@ function ExaminerProf() {
         <div className="col-10 page">
           {URL === "Defenses" ? (
             <Defense examinerID={examinerID} />
-          ) : URL === "My Profile" ? (
+          ) : URL === "Personal Info" ? (
             <ExaminerEditProfile
               examinerID={examinerID}
               examinerData={examinerData}
