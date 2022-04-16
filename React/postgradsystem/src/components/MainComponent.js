@@ -7,15 +7,14 @@ import { getStudents, addStudent } from "../redux/actionCreators";
 import Student from "./StudentComponents/StudentProf";
 import SupervisorProf from "./SupervisorComponents/SupervisorProf";
 import Admin from "./AdminComponents/AdminProfile"
+import ExaminerProf from "./ExaminerComponents/ExaminerProf";
 
 const mapStateToProps = (state) => {
   return {
     isLogged: state.isLogged,
-    students: state.students,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  getStudents: () => dispatch(getStudents()),
   resetFeedBackForm: () => {
     dispatch(actions.reset("studentForm"));
   },
@@ -47,7 +46,6 @@ class Main extends Component {
   }
   componentDidMount() {
     console.log("Hey");
-    this.props.getStudents();
   }
 
   render() {
@@ -74,7 +72,16 @@ class Main extends Component {
           ></Route>
 
           <Route
-            path="/supervisor/:supervisorId" element={<SupervisorProf></SupervisorProf>}
+            path="/supervisor/:supervisorId"
+            element={<SupervisorProf></SupervisorProf>}
+          ></Route>
+          <Route
+            path="/studentprofile/:studentID"
+            element={<Student></Student>}
+          ></Route>
+          <Route
+            path="/examiner/:examinerID"
+            element={<ExaminerProf></ExaminerProf>}
           ></Route>
           <Route path="/studentprofile/:studentID" element={<Student></Student>}></Route>
           <Route path="/admin/:adminID" element={<Admin></Admin>}></Route>
