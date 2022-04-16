@@ -107,7 +107,7 @@
     background-color: white;
 }
 
-#edit{
+.edit{
     border: none;
     background-color: transparent;
     color:#1C2D43;
@@ -167,7 +167,7 @@
       border-radius: 15px;
   }
 
-  NavLink {
+.NavLink {
 text-decoration: none;
 color: black;
   }
