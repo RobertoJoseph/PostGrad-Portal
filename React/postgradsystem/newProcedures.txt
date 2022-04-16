@@ -34,16 +34,15 @@ IF(exists(select * from PostGradUser where @studentId=id and @oldPassword= passw
 
 -------
 
-GO
 CREATE Proc SupervisorViewMyStudents
 @id int
 As
-Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName,gs.id as StudentId
 From Thesis t inner join GUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
 inner join Supervisor s on s.id=sr.supervisor_id inner join GucianStudent gs on sr.GUCianID=gs.id
 where s.id = @id
 union
-Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName,gs.id as StudentId
 From Thesis t inner join NonGUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
 inner join Supervisor s on s.id=sr.supervisor_id inner join NonGucianStudent gs on sr.nongucianID=gs.id
 where s.id = @id

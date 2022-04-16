@@ -2,3 +2,5 @@ node_modules
 dbconfig.js
 insertions.sql
 tables.sql
+userstories.sql
+tablecreations.sql

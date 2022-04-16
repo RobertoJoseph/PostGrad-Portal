@@ -35,3 +35,20 @@ exports.showSupervisorStudents = async function (req,res){
     sql.close();
   }
 };
+
+exports.ViewStudentPublications = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentID", sql.Int, req.params.studentId)
+        .execute(`ViewAStudentPublications`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};

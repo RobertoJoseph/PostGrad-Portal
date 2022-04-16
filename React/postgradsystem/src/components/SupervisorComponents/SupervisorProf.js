@@ -113,7 +113,7 @@ function SupervisorProf() {
 
         <div className="col-10 page">
           {URL === "My Students" ? (
-            <MyStudents studentId={supervisorId} />
+            <MyStudents supervisorId={supervisorId} />
             ) 
           //   : URL === "Reports" ? (
           //   <Reports studentID={studentID}></Reports>

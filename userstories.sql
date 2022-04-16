@@ -472,6 +472,7 @@ BEGIN
 END
 
 -- 4.d: View all publications of a student.
+exec ViewAStudentPublications 1
 GO
 CREATE PROC ViewAStudentPublications
     @studentID INT
@@ -1368,5 +1369,19 @@ VALUES
 
 select * from postgraduser
 select * from Supervisor
-
-
+exec SupervisorViewMyStudents 11
+go
+drop proc SupervisorViewMyStudents
+GO
+CREATE Proc SupervisorViewMyStudents
+@id int
+As
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName,gs.id as StudentId
+From Thesis t inner join GUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join GucianStudent gs on sr.GUCianID=gs.id
+where s.id = @id
+union
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName,gs.id as StudentId
+From Thesis t inner join NonGUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join NonGucianStudent gs on sr.nongucianID=gs.id
+where s.id = @id
