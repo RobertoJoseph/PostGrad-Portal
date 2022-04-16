@@ -204,32 +204,6 @@ END
 ------------------------------------------------
 
  
-CREATE PROC getIdOfSelectedThesisByStudent
-
-    @studentId INT,
-    @thesisTitle VARCHAR(20)
-AS
-BEGIN
-    IF EXISTS (Select *
-    from GUCianStudent
-    where id = @studentId)
-
-    BEGIN
-        SELECT T.serialNumber
-        from GUCianRegisterThesis
-            INNER JOIN Thesis T
-            ON GUCianRegisterThesis.thesisSerialNumber = T.serialNumber
-        WHERE GUCianRegisterThesis.GUCianID = @studentId AND T.title = @thesisTitle
-    END
-    ELSE
-    BEGIN
-        SELECT T.serialNumber
-        from NonGUCianRegisterThesis
-            INNER JOIN Thesis T
-            ON NonGUCianRegisterThesis.thesisSerialNumber = T.serialNumber
-        WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
-    END
-END
 -----------
 
 
