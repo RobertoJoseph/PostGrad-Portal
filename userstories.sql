@@ -74,19 +74,27 @@ BEGIN
     WHERE id = @ID AND pASsword = @pASsword
     )
     BEGIN
-        IF Exists(select * from GUCianStudent where id = @id)
+        IF Exists(select *
+        from GUCianStudent
+        where id = @id)
         begin
             set @userType = 0;
         end
-        Else if Exists(select * from NonGUCianStudent where id = @id)
+        Else if Exists(select *
+        from NonGUCianStudent
+        where id = @id)
         begin
             set @userType = 1;
         end
-        Else if Exists(select * from Supervisor where id = @id)
+        Else if Exists(select *
+        from Supervisor
+        where id = @id)
         begin
             set @userType = 2;
         end
-        Else if Exists(select * from Examiner where id = @id)
+        Else if Exists(select *
+        from Examiner
+        where id = @id)
         begin
             set @userType = 3;
         end
@@ -1239,20 +1247,6 @@ drop proc GetUserInformation
 
     
 
- GO
-CREATE PROC StudentData
-    @studentId INT
-
-
-AS
-BEGIN
-    SELECT *
-    FROM GUCianStudent G
-        INNER JOIN PostGradUser U
-        ON G.id = @studentId
-            AND G.id = U.id
-
-END
 
 --------
 
@@ -1316,6 +1310,7 @@ END
 
 
 
+
 GO
 GO
 CREATE PROC getIdOfSelectedThesisByStudent
@@ -1360,13 +1355,101 @@ INSERT INTO
     )
 VALUES
     (1, 11, 2)
-   
 
 
 
 
 
-select * from postgraduser
-select * from Supervisor
+
+select *
+from postgraduser
+select *
+from Supervisor
+
+
+
+
+
+
+
+-- Examiner Proceudres
+GO
+CREATE PROC ExaminerProfile
+    @examinerId INT
+AS
+Select E.name, E.fieldOfWork, P.email
+from Examiner E
+    INNER JOIN PostGradUser P on E.id = P.id
+WHERE P.id = @examinerId
+
+
+
+
+GO
+CREATE  PROC  ExaminerAttendedDefense
+    @id int
+as
+    select T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, GS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
+    from ExaminerEvaluateDefense EV inner join GUCianRegisterThesis GRT on EV.thesisSerialNumber=GRT.thesisSerialNumber
+        inner join Thesis T on EV.thesisSerialNumber=T.serialNumber
+        inner join GucianStudent GS on GRT.GUCianID = GS.id
+        inner join Supervisor S on GRT.supervisor_id=S.id
+        Inner join Defense D on EV.thesisSerialNumber =D.thesisSerialNumber AND ev.[date]=D.[date]
+    where EV.examiner_id = @id
+UNION
+    select T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, NGS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
+    from ExaminerEvaluateDefense EV inner join NonGUCianRegisterThesis NGRT on EV.thesisSerialNumber=NGRT.thesisSerialNumber
+        inner join Thesis T on EV.thesisSerialNumber=T.serialNumber
+        inner join NonGucianStudent NGS on NGRT.NonGUCianID = NGS.id
+        inner join Supervisor S on NGRT.supervisor_id=S.id
+        Inner join Defense D on EV.thesisSerialNumber =D.thesisSerialNumber AND ev.[date]=D.[date]
+    where EV.examiner_id = @id
+
+drop proc ExaminerAttendedDefense
+exec ExaminerAttendedDefense 16
+select *
+from ExaminerEvaluateDefense
+select *
+from Defense
+
+
+
+
+
+GO
+CREATE PROC editExaminerPassword
+    @examinerID INT,
+    @oldPassword VARCHAR(10),
+    @newPassword VARCHAR(10),
+    @Success BIT OUTPUT
+
+AS
+
+IF(exists(select *
+from PostGradUser
+where @examinerID=id and @oldPassword= password))
+    BEGIN
+    SET @Success = 1;
+
+    UPDATE PostGradUser
+        SET  password = @newPassword
+        WHERE PostGradUser.id = @examinerID
+
+END
+ELSE
+BEGIN
+    SET @Success = 0;
+END
+
+
+drop proc editExaminerPassword
+select *
+from PostGradUser INNER JOIN Examiner
+    ON PostGradUser.id = Examiner.id
+where PostGradUser.id = 16;
+
+UPDATE EXAMINER 
+SET fieldOfWork = 'Software Engineering', NAME = 'Tyson'
+WHERE id = 16;
 
 
