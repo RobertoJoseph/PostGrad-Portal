@@ -18,9 +18,11 @@ CREATE TABLE PostGradUser
 CREATE TABLE Admin
 (
     id INT PRIMARY KEY,
+   
 
     FOREIGN KEY(id) REFERENCES PostGradUser(id) ON DELETE CASCADE ON UPDATE CASCADE
 )
+
 
 
 CREATE TABLE GUCianStudent
@@ -311,3 +313,5 @@ CREATE TABLE NonGucianStudent_Publications
 
 
 select * from Publication;
+
+select * from THesis
