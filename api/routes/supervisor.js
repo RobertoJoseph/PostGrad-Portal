@@ -6,6 +6,9 @@ router.get('/supervisordata/:supervisorId',supervisoroperations.getSupervisorDat
 
 router.get('/mystudents/:supervisorId',supervisoroperations.showSupervisorStudents);
 
+router.get('/publications/:studentId',supervisoroperations.ViewStudentPublications);
+
+
 
 
 

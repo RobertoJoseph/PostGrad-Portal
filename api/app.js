@@ -1,6 +1,6 @@
 var createError = require("http-errors");
 var express = require("express");
-var session = require('express-session');
+var session = require("express-session");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -12,7 +12,7 @@ const bodyParser = require("body-parser");
 const login = require("./routes/login");
 const admin = require("./routes/admin");
 const supervisor = require("./routes/supervisor");
-
+const examiner = require("./routes/examiner");
 
 
 // dbOperations.getOrders();
@@ -28,24 +28,26 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({
-  secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-  saveUninitialized:true,
-  resave: false 
-}))
+app.use(
+  session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized: true,
+    resave: false,
+  })
+);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/students", students);
 app.use("/login", login);
-app.use('/supervisor',supervisor);
 app.use('/admin',admin);
+app.use("/supervisor", supervisor);
+app.use("/examiner", examiner);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
 
 // error handler
 app.use(function (err, req, res, next) {

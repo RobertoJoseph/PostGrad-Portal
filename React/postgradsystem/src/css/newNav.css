@@ -167,7 +167,7 @@
       border-radius: 15px;
   }
 
-  NavLink {
+.NavLink {
 text-decoration: none;
 color: black;
   }

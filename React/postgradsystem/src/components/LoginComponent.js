@@ -28,7 +28,7 @@ function Login(props) {
       .then((response) => {
         if (response.data.isLogged) {
           setUserID(response.data.userID);
-          switch(response.data.userType){
+          switch (response.data.userType) {
             case 0:
               //GucianStudent
               navigate(`/studentprofile/${response.data.userID}`);
@@ -42,15 +42,17 @@ function Login(props) {
               navigate(`/supervisor/${response.data.userID}`);
               break;
             case 3:
-              //Examiner 
+              navigate(`/examiner/${response.data.userID}`);
               break;
             case 4:
               //Admin
               navigate(`/admin/${response.data.userID}`);
-              break; 
-            default: break;                          
-          }
+              break;
+            default:
+              break;
 
+            //Examiner
+          }
         } else {
           alert(
             "The email or password you entered is incorrect. Please try again."

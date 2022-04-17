@@ -2,13 +2,45 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "../../css/Navbar.css";
 import Axios from "axios";
-import { Card, CardTitle, CardText, Table } from "reactstrap";
 import styled from "styled-components";
-
+import SupervisorPublications from "./SupervisorPublications";
+import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardTitle,
+  CardText,
+  CardBody,
+  CardHeader,
+  Row,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Col,
+  Alert,
+  Table,
+} from "reactstrap";
 
 function MyStudents(props) {
-  const [students, setStudents] = useState([]);
-  
+  const [students, setStudents] = useState([]); //state 1
+  const [clickedId, setClickedId] = useState(0); //state 2
+  const navigate = useNavigate();
+  const [isModalOpen, toggleModal] = useState(false); //state 3
+  const setTheModal = () => toggleModal(!isModalOpen);
+  const [publications, setPublications] = useState([]); //state 4
+  const clickMe = (id) => {
+    console.log("clickMe: " + id);
+    console.log(clickedId);
+    setClickedId(id);
+    getPublications();
+    console.log(clickedId);
+    setTheModal();
+  };
+
   const Button = styled.button`
     background-color: #243b55;
     color: white;
@@ -27,31 +59,38 @@ function MyStudents(props) {
       opacity: 0.7;
     }
   `;
-  
-  
-  function clickMe() {
-    alert("You clicked me!");
-  }
+
   const ButtonToggle = styled(Button)`
-  opacity: 0.7;
-  ${({ active }) =>
-    active &&
-    `
+    opacity: 0.7;
+    ${({ active }) =>
+      active &&
+      `
     opacity: 1; 
   `}
-`;
+  `;
 
-  useEffect(() => {
+  const getStudents = () => {
     Axios.get(
-      `http://localhost:9000/supervisor/mystudents/${props.studentId}`
+      `http://localhost:9000/supervisor/mystudents/${props.supervisorId}`
     ).then((res) => {
       setStudents(res.data);
     });
-  }, []);
+  };
+  const getPublications = () => {
+    Axios.get(
+      `http://localhost:9000/supervisor/publications/${clickedId}`
+    ).then((res) => {
+      setPublications(res.data);
+    });
+  };
+  useEffect(() => {
+    getStudents();
+    getPublications();
+  }, [clickedId]);
 
   return (
     <div className="col-12 mt-3">
-      <Table striped style={{backgroundColor:'white',height:'300px'}}>
+      <Table striped style={{ backgroundColor: "white", height: "300px" }}>
         <thead>
           <tr>
             <th>#</th>
@@ -65,17 +104,79 @@ function MyStudents(props) {
         <tbody>
           {students.map((item, index) => {
             return (
-              <tr key={index}>
+              <tr key={index} id={index}>
                 <th scope="row">{index}</th>
-                <td>{item.StudentFirstName+" "+item.StudentLastName}</td>
+                <td>{item.StudentFirstName + " " + item.StudentLastName}</td>
                 <td>{item.ThesisTitle}</td>
                 <td>{item.Years}</td>
-                <td><Button onClick={clickMe}>View</Button></td>
+                <td>
+                  <Button
+                    onClick={() => {
+                      console.log("id is: " + item.StudentId);
+                      clickMe(item.StudentId);
+                    }}
+                  >
+                    View
+                  </Button>
+                </td>
               </tr>
             );
           })}
         </tbody>
       </Table>
+      <Modal size="lg" centered isOpen={isModalOpen} toggle={setTheModal}>
+        <ModalHeader
+          style={{ backgroundColor: "#081A2D", color: "white" }}
+          toggle={setTheModal}
+          close={
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <a className="close link-underline" onClick={setTheModal}>
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+          }
+        >
+          Publications
+        </ModalHeader>
+        <ModalBody>
+          <Table striped style={{ backgroundColor: "white", height: "300px" }}>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Place</th>
+                <th>State</th>
+                <th>Host</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {publications.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <th scope="row">{index}</th>
+                    <td>{item.id}</td>
+                    <td>{item.title}</td>
+                    <td>
+                      {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      }).format(new Date(Date.parse(item.date)))}
+                    </td>
+                    <td>{item.place}</td>
+                    <td>
+                      {(item.isAccepted = 0 ? "Not Accepted" : "Accepted")}
+                    </td>
+                    <td>{item.host}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>{" "}
+        </ModalBody>
+      </Modal>
     </div>
   );
 }
