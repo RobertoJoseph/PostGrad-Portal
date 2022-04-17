@@ -91,7 +91,30 @@ exports.AdminViewStudentThesisBySupervisor = async function (req, res) {
     }
 };
 
+exports.AdminViewAllTheses = async function (req, res) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request().execute(`AdminViewAllTheses`)).recordset;
+        res.send(result);
+    } catch (erorr) {
+        console.log(erorr);
+        sql.close();
+    }
+};
 
+exports.AdminUpdateExtension = async function (req, res) {
+    try {
+      let pool = await sql.connect(config);
+      const result = await pool
+        .request()
+        .input("ThesisSerial", sql.Int, req.params.serialNumber)
+        .execute(`AdminUpdateExtension`);
+      res.send({ isIncremented: true });
+    } catch (error) {
+      console.log(error);
+      sql.close();
+    }
+  };
 
 
 

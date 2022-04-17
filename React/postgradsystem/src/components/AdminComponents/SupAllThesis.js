@@ -22,7 +22,7 @@ function SupervisorTheses(props) {
         
         <thead id="thead">
                 <th></th>
-                <th>Supervisor's currently supervising students</th>
+                <th>Supervisor's on going theses</th>
                 <th></th>
         </thead>
 

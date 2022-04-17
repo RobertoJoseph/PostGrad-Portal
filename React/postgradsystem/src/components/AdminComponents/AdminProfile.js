@@ -9,6 +9,7 @@ import "../../css/Admin.css";
 
 import Supervisors from "./ViewSupervisors";
 import SupervisorTheses from "./SupAllThesis";
+import ListTheses from "./AllTheses";
 
 
 
@@ -117,7 +118,7 @@ function Admin(props) {
 
         <div className="col-10 page">
           {URL === "Theses" ? (
-              <></>
+              <ListTheses></ListTheses>
           ) : URL === "Students" ? (
               <></>
           ) : URL === "Courses" ? (
