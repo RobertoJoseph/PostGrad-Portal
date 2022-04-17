@@ -9,6 +9,8 @@ router.get('/listsupervisors/', adminoperations.AdminListSup);
 
 router.get('/listsuptheses/:supervisorID', adminoperations.AdminViewStudentThesisBySupervisor);
 
+router.get('/listtheses/', adminoperations.AdminViewAllTheses);
+
 
 
 
