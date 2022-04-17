@@ -94,7 +94,7 @@
     background: linear-gradient(-45deg, #1f2f89, #071A2E);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
-    min-height: 385px;
+    min-height: 300px;
     box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.1);
 
 

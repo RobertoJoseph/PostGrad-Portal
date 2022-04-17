@@ -5,47 +5,38 @@ import Axios from "axios";
 import { Button, Card, CardBody, CardHeader } from "reactstrap";
 import * as HiIcons from "react-icons/hi";
 
-
 function ListTheses(props) {
-  const [theses, setTheses] = useState([]);
-  const [selectedSerial, setSelectedSerial] = useState(0);
-  const [isIncremented, setIsIncremented] = useState(false);
-
-
+  const [theses, setTheses] = useState([]); // all theses
+  const [selectedSerial, setSelectedSerial] = useState(0); //Id of the selected thesis
+  const [isClicked, setIsClicked] = useState(0); // to check if the button is clicked
   const onClickButton = (serialNumber) => {
-      console.log("serial is: "+serialNumber);
-      setSelectedSerial(serialNumber);
-      console.log("serial after is: "+selectedSerial);
-      incrementExtension();
-  }
-
+    setIsClicked(!isClicked);
+    setSelectedSerial(serialNumber);
+  };
 
   const incrementExtension = () => {
-    Axios.get(`http://localhost:9000/admin/incrementExtension/${selectedSerial}`).then(
-      (res) => {
-          if(res.data.isIncremented){
-              setIsIncremented(true);
-          }
-      }
-    ).catch((error) => {
+    Axios.post(
+      `http://localhost:9000/admin/incrementExtension/${selectedSerial}`
+    )
+      .then((res) => {})
+      .catch((error) => {
         console.log(error);
       });
+    listTheses();
   };
 
   const listTheses = () => {
-    Axios.get(
-        `http://localhost:9000/admin/listtheses/`
-      ).then((res) => {
-        setTheses(res.data);
-      });
+    Axios.get(`http://localhost:9000/admin/listtheses/`).then((res) => {
+      setTheses(res.data);
+    });
   };
-
-
   useEffect(() => {
     listTheses();
+  }, []);
+
+  useEffect(() => {
     incrementExtension();
-    
-  }, [selectedSerial, isIncremented]);
+  }, [isClicked]);
 
   return (
     <div className="row">
@@ -103,16 +94,20 @@ function ListTheses(props) {
                   <dt className="col-6">No. of Extensions</dt>
                   <dd className="col-6">{item.noExtension}</dd>
                 </dl>
-                <Button onClick={() => {onClickButton(item.serialNumber)}}>
-                    <HiIcons.HiPlusCircle size="18px"></HiIcons.HiPlusCircle>{"  "}
-                    Increment Extensions
+                <Button
+                  onClick={() => {
+                    onClickButton(item.serialNumber);
+                  }}
+                >
+                  <HiIcons.HiPlusCircle size="18px"></HiIcons.HiPlusCircle>
+                  {"  "}
+                  Increment Extensions
                 </Button>
               </CardBody>
             </Card>
           </div>
         );
       })}
-
     </div>
   );
 }

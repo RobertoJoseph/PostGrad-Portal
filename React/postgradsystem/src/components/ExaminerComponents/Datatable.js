@@ -21,8 +21,9 @@ import {
   Alert,
 } from "reactstrap";
 import "../../css/Navbar.css";
+import * as AiIcons from "react-icons/ai";
 
-export default function DataTable({ data }) {
+function DataTable({ data }) {
   console.log(data);
   return (
     <div className="row">
@@ -70,11 +71,13 @@ export default function DataTable({ data }) {
                 </dl>
                 {/* Compare between two dates if the endDate>=today ==> create Button else null */}
                 {/* --------------- */}
-                <div className="col-3 offset-9">
-                  <Button>Add comment</Button>
+                <div className="offset-9">
+                  <Button>
+                    <AiIcons.AiOutlineInfoCircle size="19px"></AiIcons.AiOutlineInfoCircle>{" "}
+                    More Info
+                  </Button>
                 </div>
               </CardBody>
-             
             </Card>
           </div>
         );
@@ -82,3 +85,4 @@ export default function DataTable({ data }) {
     </div>
   );
 }
+export default DataTable;
