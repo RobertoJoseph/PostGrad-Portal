@@ -2,20 +2,50 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "../../css/Admin.css";
 import Axios from "axios";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Button, Card, CardBody, CardHeader } from "reactstrap";
+import * as HiIcons from "react-icons/hi";
+
 
 function ListTheses(props) {
   const [theses, setTheses] = useState([]);
+  const [selectedSerial, setSelectedSerial] = useState(0);
+  const [isIncremented, setIsIncremented] = useState(false);
 
+
+  const onClickButton = (serialNumber) => {
+      console.log("serial is: "+serialNumber);
+      setSelectedSerial(serialNumber);
+      console.log("serial after is: "+selectedSerial);
+      incrementExtension();
+  }
+
+
+  const incrementExtension = () => {
+    Axios.get(`http://localhost:9000/admin/incrementExtension/${selectedSerial}`).then(
+      (res) => {
+          if(res.data.isIncremented){
+              setIsIncremented(true);
+          }
+      }
+    ).catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const listTheses = () => {
+    Axios.get(
+        `http://localhost:9000/admin/listtheses/`
+      ).then((res) => {
+        setTheses(res.data);
+      });
+  };
 
 
   useEffect(() => {
-    Axios.get(
-      `http://localhost:9000/admin/listtheses/`
-    ).then((res) => {
-      setTheses(res.data);
-    });
-  }, []);
+    listTheses();
+    incrementExtension();
+    
+  }, [selectedSerial, isIncremented]);
 
   return (
     <div className="row">
@@ -70,7 +100,13 @@ function ListTheses(props) {
                       day: "2-digit",
                     }).format(new Date(Date.parse(item.defenseDate)))}
                   </dd>
+                  <dt className="col-6">No. of Extensions</dt>
+                  <dd className="col-6">{item.noExtension}</dd>
                 </dl>
+                <Button onClick={() => {onClickButton(item.serialNumber)}}>
+                    <HiIcons.HiPlusCircle size="18px"></HiIcons.HiPlusCircle>{"  "}
+                    Increment Extensions
+                </Button>
               </CardBody>
             </Card>
           </div>

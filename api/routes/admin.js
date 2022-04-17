@@ -11,6 +11,8 @@ router.get('/listsuptheses/:supervisorID', adminoperations.AdminViewStudentThesi
 
 router.get('/listtheses/', adminoperations.AdminViewAllTheses);
 
+router.get('/incrementExtension/:serialNumber', adminoperations.AdminUpdateExtension);
+
 
 
 
