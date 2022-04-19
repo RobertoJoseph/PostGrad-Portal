@@ -11,6 +11,7 @@ import Supervisors from "./ViewSupervisors";
 import SupervisorTheses from "./SupAllThesis";
 import ListTheses from "./AllTheses";
 import Students from "./AllStudents";
+import StudentProfile from "./StudentProfile";
 
 
 
@@ -18,6 +19,8 @@ import Students from "./AllStudents";
 function Admin(props) {
   const [URL, setURL] = useState("");
   const [supID, setSupID] = useState("");
+  const [studentID, setStudentID] = useState("");
+
   let { adminID } = useParams();
   const [userName, setUsername] = useState("");
   const [isDropdownOpen, toggleDropdown] = useState(false);
@@ -26,6 +29,10 @@ function Admin(props) {
   const viewSupervisorThesis = (supervisorID) => {
     setURL("Supervisor's Theses");
     setSupID(supervisorID);
+  }
+  const viewStudentProfile = (studentID) => {
+    setURL("Student's Profile");
+    setStudentID(studentID);
   }
 
 
@@ -121,7 +128,7 @@ function Admin(props) {
           {URL === "Theses" ? (
               <ListTheses></ListTheses>
           ) : URL === "Students" ? (
-              <Students></Students>
+              <Students func={viewStudentProfile}></Students>
           ) : URL === "Courses" ? (
               <></>
           ) : URL === "Supervisors" ? (
@@ -134,7 +141,9 @@ function Admin(props) {
               <></>
           ) : URL === "Supervisor's Theses" ? (
               <SupervisorTheses supervisorID={supID}></SupervisorTheses>
-          ) : null }
+          ) : URL === "Student's Profile" ? (
+              <StudentProfile studentID={studentID}></StudentProfile>
+          ) : null}
         </div>
       </Row>
     </div>

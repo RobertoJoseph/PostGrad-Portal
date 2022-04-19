@@ -368,11 +368,10 @@ exports.ViewEvalProgressReport = async function (req, res) {
 
 exports.checkGUCian = async function (req, res) {
   try {
-    console.log("HELLO" + req.body.sid);
     let pool = await sql.connect(config);
     const result = await pool
       .request()
-      .input("ID", sql.VarChar, req.body.sid)
+      .input("ID", sql.VarChar, req.params.studentID)
       .output("Success", sql.Bit)
       .execute(`checkGUCian`);
     console.log("result" + " " + result);

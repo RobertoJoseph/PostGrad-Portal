@@ -15,6 +15,10 @@ function Students(props) {
     const [nonGucians, setNonGucians] = useState([]);
     const [activeTab, setActiveTab] = useState('1');
 
+    const onClickButton = (studentID) => {
+        props.func(studentID);
+      };
+
     const viewAllGUCians = () => {
         Axios.get(`http://localhost:9000/admin/allgucians/`).then(
             (res) => {
@@ -71,7 +75,7 @@ function Students(props) {
                                             <tr key={index} align="center">
                                                 <th scope="row">{item.id}</th>
                                                 <td>{item.firstName + " " + item.lastName}</td>
-                                                <td><Button>View Profile</Button></td>
+                                                <td><Button onClick={() => {onClickButton(item.id)}}>View Profile</Button></td>
                                             </tr>
                                         );
                                     })}
@@ -94,7 +98,7 @@ function Students(props) {
                                             <tr key={index} align="center">
                                                 <th scope="row">{item.id}</th>
                                                 <td>{item.firstName + " " + item.lastName}</td>
-                                                <td><Button>View Profile</Button></td>
+                                                <td><Button onClick={() => {onClickButton(item.id)}}>View Profile</Button></td>
                                             </tr>
                                         );
                                     })}
