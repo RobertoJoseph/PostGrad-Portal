@@ -116,7 +116,27 @@ exports.AdminUpdateExtension = async function (req, res) {
     }
   };
 
+  exports.viewAllGUCians = async function (req, res) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request().execute(`viewAllGUCians`)).recordset;
+        res.send(result);
+    } catch (erorr) {
+        console.log(erorr);
+        sql.close();
+    }
+};
 
+exports.viewAllNonGUCians = async function (req, res) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request().execute(`viewAllNonGUCians`)).recordset;
+        res.send(result);
+    } catch (erorr) {
+        console.log(erorr);
+        sql.close();
+    }
+};
 
 // module.exports = {
 //     AdminListSup: AdminListSup,

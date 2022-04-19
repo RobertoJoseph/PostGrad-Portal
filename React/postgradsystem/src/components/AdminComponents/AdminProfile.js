@@ -10,6 +10,7 @@ import "../../css/Admin.css";
 import Supervisors from "./ViewSupervisors";
 import SupervisorTheses from "./SupAllThesis";
 import ListTheses from "./AllTheses";
+import Students from "./AllStudents";
 
 
 
@@ -120,7 +121,7 @@ function Admin(props) {
           {URL === "Theses" ? (
               <ListTheses></ListTheses>
           ) : URL === "Students" ? (
-              <></>
+              <Students></Students>
           ) : URL === "Courses" ? (
               <></>
           ) : URL === "Supervisors" ? (

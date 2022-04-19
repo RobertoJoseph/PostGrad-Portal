@@ -13,6 +13,9 @@ router.get('/listtheses/', adminoperations.AdminViewAllTheses);
 
 router.post('/incrementExtension/:serialNumber', adminoperations.AdminUpdateExtension);
 
+router.get('/allgucians/', adminoperations.viewAllGUCians);
+
+router.get('/allnongucians/', adminoperations.viewAllNonGUCians);
 
 
 
