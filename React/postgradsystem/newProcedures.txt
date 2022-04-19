@@ -299,3 +299,32 @@ AS
 
 
 -----------------
+
+
+
+
+
+--------------NEW---------------
+
+
+
+Go
+CREATE PROC viewAllGUCians
+AS
+    BEGIN
+        SELECT GUCianStudent.*, PostGradUser.email, PostGradUser.password FROM GUCianStudent 
+        INNER JOIN PostGradUser
+        ON GUCianStudent.id = PostGradUser.id
+    END
+
+
+Go
+CREATE PROC viewAllNonGUCians
+AS
+    BEGIN
+        SELECT NonGUCianStudent.*, PostGradUser.email, PostGradUser.password FROM NonGUCianStudent
+        INNER JOIN PostGradUser
+        ON NonGUCianStudent.id = PostGradUser.id
+    END
+
+
