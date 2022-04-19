@@ -36,10 +36,7 @@ function Student(props) {
   };
 
   const checkGUCian = () => {
-    Axios.post(`http://localhost:9000/students/isGUCian/${studentID}`,
-      {
-        sid: studentID
-      }).then(
+    Axios.post(`http://localhost:9000/students/isGUCian/${studentID}`,{}).then(
         (res) => {
           if (res.data.isGUCian) {
             setIsGUCian(true);
