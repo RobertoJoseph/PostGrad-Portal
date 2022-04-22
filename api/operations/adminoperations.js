@@ -149,6 +149,22 @@ exports.viewAllCourses = async function (req, res) {
     }
 };
 
+exports.addCourse = async function (req, res) {
+    try {
+      let pool = await sql.connect(config);
+      const result = await pool
+        .request()
+        .input("coursecode", sql.VarChar, req.body.courseName)
+        .input("creditHrs", sql.Int, req.body.creditHours)
+        .input("fees", sql.Float, req.body.fees)
+        .execute(`AddCourse`);
+      res.send({ courseAdded: true });
+    } catch (error) {
+      console.log(error);
+      sql.close();
+    }
+  };
+
 // module.exports = {
 //     AdminListSup: AdminListSup,
 //     AdminViewSupervisorProfile: AdminViewSupervisorProfile,

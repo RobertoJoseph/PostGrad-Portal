@@ -19,6 +19,9 @@ router.get('/allnongucians/', adminoperations.viewAllNonGUCians);
 
 router.get('/courses/', adminoperations.viewAllCourses);
 
+router.post('/addcourse/', adminoperations.addCourse);
+
+
 
 
 module.exports = router;
