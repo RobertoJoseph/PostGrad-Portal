@@ -328,3 +328,12 @@ AS
     END
 
 
+
+-------------NEW----------------
+
+GO
+CREATE PROC  viewAllCourses
+AS
+    BEGIN 
+        SELECT * FROM Course
+    END
