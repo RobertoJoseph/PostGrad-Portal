@@ -13,7 +13,9 @@ import {
     ModalHeader,
     ModalBody,
     Alert,
-    Form
+    Form,
+    Row,
+    Col
 } from "reactstrap";
 import * as AiIcons from "react-icons/ai";
 import { useForm } from "react-hook-form";
@@ -110,50 +112,58 @@ function Courses(props) {
                 </ModalHeader>
                 <ModalBody>
                     <Form onSubmit={handleSubmit(addCourse)}>
-                        <FormGroup>
-                            <Label htmlFor="name">Course Name</Label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                ref={register}
-                                className="form-control"
-                            />
+                        <FormGroup >
+                            <Row>
+                                <Label htmlFor="name" className="col-3">Course Name</Label>
+                                <Col md={9}>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        ref={register}
+                                        className="form-control"
+                                    />
+                                </Col>
+                            </Row>
                         </FormGroup>
                         <FormGroup>
-                            <Label htmlFor="credit">Credit Hours</Label>
-                            <select
-                                id="credit"
-                                name="credit"
-                                type="select"
-                                ref={register}
-                                className="form-control"
+                            <Row>
+                                <Label htmlFor="credit" className="col-3">Credit Hours</Label>
+                                <Col md={9}>
+                                    <select
+                                        id="credit"
+                                        name="credit"
+                                        type="select"
+                                        ref={register}
+                                        className="form-control"
 
-                            >
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                            </select>
+                                    >
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </select>
+                                </Col>
+                            </Row>
                         </FormGroup>
                         <FormGroup>
-                            <Label htmlFor="fees">Course Fees</Label>
-                            <input
-                                type="number"
-                                id="fees"
-                                name="fees"
-                                ref={register}
-                                className="form-control"
-                            />
+                            <Row>
+                                <Label htmlFor="fees" className="col-3">Course Fees</Label>
+                                <Col md={9}>
+                                    <input
+                                        type="number"
+                                        id="fees"
+                                        name="fees"
+                                        ref={register}
+                                        className="form-control"
+                                    />
+                                </Col>
+                            </Row>
                         </FormGroup>
                         {courseAdded ? (
-                            <p style={{ color: "green" }}>
-                                {" "}
-                                <AiIcons.AiFillCheckCircle></AiIcons.AiFillCheckCircle>
-                                Course Added Successfully
-                            </p>
+                            <Alert color="success">Course Added Successfully</Alert>
                         ) : null}
                         <input
                             type="submit"
