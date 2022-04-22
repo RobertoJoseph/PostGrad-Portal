@@ -8,6 +8,7 @@ router.get('/mystudents/:supervisorId',supervisoroperations.showSupervisorStuden
 
 router.get('/publications/:studentId',supervisoroperations.ViewStudentPublications);
 
+router.get('/reports/:supervisorId',supervisoroperations.supervisorListProgressReport);
 
 
 

@@ -5,6 +5,7 @@ import { Route, Redirect, Routes } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SupervisorData } from "../../data/SupervisorData";
 import MyStudents from "./MyStudents"
+import Reports from "./Reports"
 
 
 import * as MdIcons from "react-icons/md";
@@ -115,9 +116,9 @@ function SupervisorProf() {
           {URL === "My Students" ? (
             <MyStudents supervisorId={supervisorId} />
             ) 
-          //   : URL === "Reports" ? (
-          //   <Reports studentID={studentID}></Reports>
-          // ) 
+            : URL === "Reports" ? (
+            <Reports supervisorId={supervisorId}></Reports>
+          ) 
           // : URL === "Thesis" ? (
           //   <Courses studentID={studentID}></Courses>
           // )

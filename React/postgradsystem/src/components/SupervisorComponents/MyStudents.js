@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import "../../css/Navbar.css";
 import Axios from "axios";
 import styled from "styled-components";
-import SupervisorPublications from "./SupervisorPublications";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -124,7 +123,7 @@ function MyStudents(props) {
           })}
         </tbody>
       </Table>
-      <Modal size="lg" centered isOpen={isModalOpen} toggle={setTheModal}>
+      <Modal size="lg" centered isOpen={isModalOpen} toggle={setTheModal} >
         <ModalHeader
           style={{ backgroundColor: "#081A2D", color: "white" }}
           toggle={setTheModal}
