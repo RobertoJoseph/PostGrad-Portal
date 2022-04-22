@@ -138,6 +138,17 @@ exports.viewAllNonGUCians = async function (req, res) {
     }
 };
 
+exports.viewAllCourses = async function (req, res) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (await pool.request().execute(`viewAllCourses`)).recordset;
+        res.send(result);
+    } catch (erorr) {
+        console.log(erorr);
+        sql.close();
+    }
+};
+
 // module.exports = {
 //     AdminListSup: AdminListSup,
 //     AdminViewSupervisorProfile: AdminViewSupervisorProfile,

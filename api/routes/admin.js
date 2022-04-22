@@ -17,6 +17,7 @@ router.get('/allgucians/', adminoperations.viewAllGUCians);
 
 router.get('/allnongucians/', adminoperations.viewAllNonGUCians);
 
+router.get('/courses/', adminoperations.viewAllCourses);
 
 
 

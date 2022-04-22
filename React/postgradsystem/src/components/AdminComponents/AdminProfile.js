@@ -12,6 +12,7 @@ import SupervisorTheses from "./SupAllThesis";
 import ListTheses from "./AllTheses";
 import Students from "./AllStudents";
 import StudentProfile from "./StudentProfile";
+import Courses from "./Courses";
 
 
 
@@ -130,7 +131,7 @@ function Admin(props) {
           ) : URL === "Students" ? (
               <Students func={viewStudentProfile}></Students>
           ) : URL === "Courses" ? (
-              <></>
+              <Courses></Courses>
           ) : URL === "Supervisors" ? (
               <Supervisors func={viewSupervisorThesis}></Supervisors>
           ) : URL === "Defenses" ? (
