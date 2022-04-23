@@ -25,7 +25,7 @@ router.post('/linkcourse/', adminoperations.linkCourse);
 
 router.post('/addgrade/', adminoperations.addGrade);
 
-
+router.get('/enrolledstudents/:courseID', adminoperations.AdminListNonGucianCourse);
 
 
 module.exports = router;

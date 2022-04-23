@@ -219,7 +219,7 @@ function StudentProfile(props) {
                 <Table striped>
                   <thead>
                     <tr align="center">
-                      <th>#</th>
+                      <th>Course ID</th>
                       <th>Course Name</th>
                       <th>Credit hours</th>
                       <th>Fees</th>
@@ -231,13 +231,13 @@ function StudentProfile(props) {
                     {courses.map((item, index) => {
                       return (
                         <tr key={index} align="center">
-                          <th scope="row">{item.id}</th>
+                          <th scope="row">{"#" + item.id}</th>
                           <td>{item.code}</td>
                           <td>{item.creditHours}</td>
                           <td>{item.fees}</td>
                           <td>
                             {item.grade ? (
-                              item.grade
+                              item.grade+"%"
                             ) : (
                               <Button
                                 color="success"
@@ -255,7 +255,7 @@ function StudentProfile(props) {
                 <div className="mt-5">
                   <Row>
                     <Col md={{ offset: 10, size: 2 }}>
-                      <Button onClick={() => setTheModal}>Add Course</Button>
+                      <Button onClick={setTheModal}>Add Course</Button>
                     </Col>
                   </Row>
                 </div>
@@ -269,7 +269,7 @@ function StudentProfile(props) {
             toggle={setTheModal}
             close={
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <a className="close link-underline" onClick={()=>setTheModal}>
+              <a className="close link-underline" onClick={setTheModal}>
                 <i class="fa fa-times" aria-hidden="true"></i>
               </a>
             }
@@ -318,7 +318,7 @@ function StudentProfile(props) {
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
               <a
                 className="close link-underline"
-                onClick={() => setTheGradeModal}
+                onClick={setTheGradeModal}
               >
                 <i class="fa fa-times" aria-hidden="true"></i>
               </a>

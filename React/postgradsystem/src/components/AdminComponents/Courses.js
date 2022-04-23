@@ -47,7 +47,6 @@ function Courses(props) {
             fees: values.fees,
         })
             .then((response) => {
-                console.log("The response is amazing");
                 setCourseAdded(true);
 
             })
@@ -55,6 +54,10 @@ function Courses(props) {
                 console.log(error);
             });
     };
+
+    const onClickButton = (courseID, courseName) => {
+        props.func(courseID, courseName);
+      };
 
 
 
@@ -70,14 +73,15 @@ function Courses(props) {
                         <MdIcons.MdPostAdd></MdIcons.MdPostAdd> Add New Course
                     </Button>
                 </div>
-                <div className="col-12 mt-3">
+                <div className="col-10 mt-3 offset-1">
                     <Table striped>
                         <thead>
                             <tr align="center">
-                                <th>#</th>
+                                <th>Course ID</th>
                                 <th>Course Name</th>
                                 <th>Credit hours</th>
                                 <th>Fees</th>
+                                <th>Enrolled Students</th>
                             </tr>
                         </thead>
 
@@ -85,10 +89,11 @@ function Courses(props) {
                             {courses.map((item, index) => {
                                 return (
                                     <tr key={index} align="center">
-                                        <th scope="row">{item.id}</th>
+                                        <th scope="row">{"#"+item.id}</th>
                                         <td>{item.code}</td>
                                         <td>{item.creditHours}</td>
                                         <td>{item.fees}</td>
+                                        <td><Button color="success" onClick={() => onClickButton(item.id, item.code)}>Enrolled Students</Button></td>
                                     </tr>
                                 );
                             })}
