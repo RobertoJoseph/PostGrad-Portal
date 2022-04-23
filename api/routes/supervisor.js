@@ -10,7 +10,9 @@ router.get('/publications/:studentId',supervisoroperations.ViewStudentPublicatio
 
 router.get('/reports/:supervisorId',supervisoroperations.supervisorListProgressReport);
 
+router.get('/examiners',supervisoroperations.getExaminers);
 
+router.post('/addDefense',supervisoroperations.SupervisorAddDefense);
 
 
 module.exports = router;
