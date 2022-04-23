@@ -118,3 +118,7 @@ Table tr {
   background-color: white;
   height: 100%;
  }
+
+ .label{
+  font-weight: bold;
+ }
