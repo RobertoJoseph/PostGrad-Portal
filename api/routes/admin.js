@@ -21,6 +21,10 @@ router.get('/courses/', adminoperations.viewAllCourses);
 
 router.post('/addcourse/', adminoperations.addCourse);
 
+router.post('/linkcourse/', adminoperations.linkCourse);
+
+router.post('/addgrade/', adminoperations.addGrade);
+
 
 
 

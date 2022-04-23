@@ -165,9 +165,33 @@ exports.addCourse = async function (req, res) {
     }
   };
 
-// module.exports = {
-//     AdminListSup: AdminListSup,
-//     AdminViewSupervisorProfile: AdminViewSupervisorProfile,
-//     AdminViewAllTheses: AdminViewAllTheses,
-//     AdminViewOnGOingTheses: AdminViewOnGOingTheses
-// }
+  exports.linkCourse = async function (req, res) {
+    try {
+      let pool = await sql.connect(config);
+      const result = await pool
+        .request()
+        .input("coursecode", sql.VarChar, req.body.courseName)
+        .input("studentID", sql.Int, req.body.studentID)
+        .execute(`linkCourseHelper`);
+      res.send({ courseLinked: true });
+    } catch (error) {
+      console.log(error);
+      sql.close();
+    }
+  };
+
+  exports.addGrade = async function (req, res) {
+    try {
+      let pool = await sql.connect(config);
+      const result = await pool
+        .request()
+        .input("courseID", sql.Int, req.body.courseID)
+        .input("studentID", sql.Int, req.body.studentID)
+        .input("grade", sql.Float, req.body.grade)
+        .execute(`AddStudentCourseGrade`);
+      res.send({ gradeAdded: true });
+    } catch (error) {
+      console.log(error);
+      sql.close();
+    }
+  };

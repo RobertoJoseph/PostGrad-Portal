@@ -8,7 +8,6 @@ import {
     Button,
     FormGroup,
     Label,
-    Input,
     Modal,
     ModalHeader,
     ModalBody,
@@ -17,7 +16,7 @@ import {
     Row,
     Col
 } from "reactstrap";
-import * as AiIcons from "react-icons/ai";
+import * as MdIcons from "react-icons/md";
 import { useForm } from "react-hook-form";
 
 
@@ -68,7 +67,7 @@ function Courses(props) {
                 <div className="col-md-12 mb-3 mt-3">
                     <Button onClick={setTheModal}>
                         {" "}
-                        <AiIcons.AiFillFileAdd></AiIcons.AiFillFileAdd> Add New Course
+                        <MdIcons.MdPostAdd></MdIcons.MdPostAdd> Add New Course
                     </Button>
                 </div>
                 <div className="col-12 mt-3">
