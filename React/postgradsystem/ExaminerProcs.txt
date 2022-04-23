@@ -7,10 +7,11 @@ from Examiner E
 WHERE P.id = @examinerId
 
 
-CREATE  PROC  ExaminerAttendedDefense
+
+CREATE  PROC  [dbo].[ExaminerAttendedDefense]
     @id int
 as
-    select T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, GS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
+    select  GS.id, T.serialNumber, T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, GS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
     from ExaminerEvaluateDefense EV inner join GUCianRegisterThesis GRT on EV.thesisSerialNumber=GRT.thesisSerialNumber
         inner join Thesis T on EV.thesisSerialNumber=T.serialNumber
         inner join GucianStudent GS on GRT.GUCianID = GS.id
@@ -18,7 +19,7 @@ as
         Inner join Defense D on EV.thesisSerialNumber =D.thesisSerialNumber AND ev.[date]=D.[date]
     where EV.examiner_id = @id
 UNION
-    select T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, NGS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
+    select NGS.id, T.serialNumber, T.title as Title, T.field, T.[type], CONCAT(S.firstName,s.lastName) as Supervisor, NGS.firstName as Student, EV.[date] as DATE, D.grade as GRADE, Ev.comment as COMMENT
     from ExaminerEvaluateDefense EV inner join NonGUCianRegisterThesis NGRT on EV.thesisSerialNumber=NGRT.thesisSerialNumber
         inner join Thesis T on EV.thesisSerialNumber=T.serialNumber
         inner join NonGucianStudent NGS on NGRT.NonGUCianID = NGS.id
@@ -68,3 +69,31 @@ BEGIN
         WHERE NonGUCianRegisterThesis.NonGUCianID = @studentId AND T.title = @thesisTitle
     END
 END
+
+
+
+
+
+
+
+   GO
+CREATE PROC AddCommentsGrade
+    @ThesisSerialNo INT ,
+    @DefenseDate Datetime ,
+    @comments VARCHAR(300),
+    @grade DECIMAL
+AS
+BEGIN
+    UPDATE ExaminerEvaluateDefense
+    SET comment = @comments
+    
+    WHERE thesisSerialNumber = @ThesisSerialNo AND date = @DefenseDate
+    --EXECUTE ADDdefensegrade
+    EXEC AddDefenseGrade @ThesisSerialNo, @DefenseDate, @grade
+END
+
+
+------------------- (6) Registered Student's Features -------------------
+
+-- 6.a: View my profile that contains all my information.
+GO

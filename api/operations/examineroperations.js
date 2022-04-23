@@ -53,3 +53,19 @@ exports.examinerEvaluateDefense = async function (req, res) {
     sql.close();
   }
 };
+exports.addCommentAndGrade = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("ThesisSerialNo", sql.Int, req.body.serialNumber)
+      .input("comments", sql.VarChar, req.body.comment)
+      .input("DefenseDate", sql.Date, req.body.defenseDate)
+      .input("grade", sql.Int, req.body.grade)
+      .execute(`AddCommentsGrade`);
+    res.send({ isUpdated: true });
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};

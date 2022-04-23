@@ -13,4 +13,5 @@ router.get(
   "/attenddefense/:examinerID",
   examinerOperations.examinerEvaluateDefense
 );
+router.post("/addCommentGrade", examinerOperations.addCommentAndGrade);
 module.exports = router;
