@@ -13,7 +13,7 @@ export const SupervisorData=[
         cName:"nav-text"
     },
     {
-        title:"Thesis",
+        title:"Defenses",
         path:"/supervisortheses",
         icon:<BsIcons.BsBook/>,
         cName:"nav-text"

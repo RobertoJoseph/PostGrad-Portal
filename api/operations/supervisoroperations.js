@@ -69,3 +69,40 @@ exports.supervisorListProgressReport = async function (req,res){
     sql.close();
   }
 };
+
+exports.getExaminers = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .execute(`getExaminers`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};
+
+exports.SupervisorAddDefense = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("thesisSerialNumber", sql.Int, req.body.thesisSerialNumber)
+        .input("examinerId", sql.Int, req.body.examinerId)
+        .input("defenseDate", sql.Date, req.body.date)
+        .input("defenseLocation", sql.VarChar, req.body.defenseLocation)
+        .input("comment", sql.VarChar, req.body.comment)
+        .execute(`SupervisorAddDefense`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};
