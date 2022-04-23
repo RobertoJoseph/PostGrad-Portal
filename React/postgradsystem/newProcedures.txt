@@ -337,3 +337,31 @@ AS
     BEGIN 
         SELECT * FROM Course
     END
+
+
+GO
+CREATE PROC linkCourseHelper
+@coursecode varchar(10),
+@studentID INT
+AS
+    BEGIN
+        DECLARE @courseID INT = (SELECT Course.id FROM Course
+                                WHERE Course.code = @coursecode)
+        EXEC linkCourseStudent @courseID, @studentID
+    END
+
+
+
+
+-----------UPDATE-----------
+
+GO
+CREATE PROC AdminListNonGucianCourse
+    @courseID Int
+AS
+    SELECT NG.firstName , NG.lastName, C.code, NonGUCianTakeCourse.grade, NG.id
+    FROM NonGUCianTakeCourse
+        INNER JOIN NonGUCianStudent NG ON NG.id = NonGUCianTakeCourse.NonGUCianID
+        INNER JOIN Course C ON C.id = NonGUCianTakeCourse.course_id
+        Where NonGUCianTakeCourse.course_id = @courseID;
+----------------------------

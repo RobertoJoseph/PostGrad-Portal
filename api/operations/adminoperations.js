@@ -3,50 +3,6 @@ const sql = require('mssql')
 
 
 
-// async function AdminViewSupervisorProfile(supID) {
-//     try {
-//         let pool = await sql.connect(config);
-//         const result = (await pool.request().input("supID", sql.Int, supID).execute(`AdminViewSupervisorProfile`)).recordset;
-//         console.log(result);
-//         sql.close();
-//         return result;
-
-
-//     } catch (erorr) {
-//         console.log(erorr);
-//         sql.close();
-//     }
-// };
-
-// async function AdminViewAllTheses() {
-//     try {
-//         let pool = await sql.connect(config);
-//         const result = (await pool.request().execute(`AdminViewAllTheses`)).recordset;
-//         //console.log(result);
-//         sql.close();
-//         return result;
-
-
-//     } catch (erorr) {
-//         console.log(erorr);
-//         sql.close();
-//     }
-// };
-
-// async function AdminViewOnGOingTheses() {
-//     try {
-//         let pool = await sql.connect(config);
-//         const result = (await pool.request().output("ThesisCount",sql.Int,0).execute(`AdminViewOnGOingTheses`));
-//         console.log(result.output.ThesisCount);
-//         sql.close();
-//         return result.output.ThesisCount;
-
-
-//     } catch (erorr) {
-//         console.log(erorr);
-//         sql.close();
-//     }
-// };
 
 exports.viewAdminProfile = async function (req, res) {
     try {
@@ -195,3 +151,19 @@ exports.addCourse = async function (req, res) {
       sql.close();
     }
   };
+
+  exports.AdminListNonGucianCourse = async function (req, res) {
+    try {
+        let pool = await sql.connect(config);
+        const result = (
+            await pool
+                .request()
+                .input("courseID", sql.Int, req.params.courseID)
+                .execute(`AdminListNonGucianCourse`)
+        ).recordset;
+        res.send(result);
+    } catch (err) {
+        console.log(err);
+        sql.close();
+    }
+};

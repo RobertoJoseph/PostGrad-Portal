@@ -13,6 +13,7 @@ import ListTheses from "./AllTheses";
 import Students from "./AllStudents";
 import StudentProfile from "./StudentProfile";
 import Courses from "./Courses";
+import EnrolledStudents from "./EnrolledStudents";
 
 
 
@@ -21,7 +22,8 @@ function Admin(props) {
   const [URL, setURL] = useState("");
   const [supID, setSupID] = useState("");
   const [studentID, setStudentID] = useState("");
-
+  const [courseID, setCourseID] = useState("");
+  const [courseName, setCourseName] = useState("");
   let { adminID } = useParams();
   const [userName, setUsername] = useState("");
   const [isDropdownOpen, toggleDropdown] = useState(false);
@@ -44,7 +46,11 @@ function Admin(props) {
       }
     );
   };
-
+  const viewEnrolledStudents = (courseID, courseName) => {
+    setURL("Enrolled Students");
+    setCourseID(courseID);
+    setCourseName(courseName);
+  }
 
 
   useEffect(() => {
@@ -131,7 +137,7 @@ function Admin(props) {
           ) : URL === "Students" ? (
               <Students func={viewStudentProfile}></Students>
           ) : URL === "Courses" ? (
-              <Courses></Courses>
+              <Courses func={viewEnrolledStudents}></Courses>
           ) : URL === "Supervisors" ? (
               <Supervisors func={viewSupervisorThesis}></Supervisors>
           ) : URL === "Defenses" ? (
@@ -144,7 +150,9 @@ function Admin(props) {
               <SupervisorTheses supervisorID={supID}></SupervisorTheses>
           ) : URL === "Student's Profile" ? (
               <StudentProfile studentID={studentID}></StudentProfile>
-          ) : null}
+          ) : URL === "Enrolled Students" ? (
+              <EnrolledStudents courseID={courseID} courseName={courseName}></EnrolledStudents>
+          ) : null} 
         </div>
       </Row>
     </div>

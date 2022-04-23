@@ -63,7 +63,7 @@ function Students(props) {
                             <Table striped>
                                 <thead>
                                     <tr align="center">
-                                        <th>Student ID.</th>
+                                        <th>Student ID</th>
                                         <th>Full Name</th>
                                         <th>Student Profile</th>
                                     </tr>
@@ -73,7 +73,7 @@ function Students(props) {
                                     {gucians.map((item, index) => {
                                         return (
                                             <tr key={index} align="center">
-                                                <th scope="row">{item.id}</th>
+                                                <th scope="row">{"#"+item.id}</th>
                                                 <td>{item.firstName + " " + item.lastName}</td>
                                                 <td><Button onClick={() => {onClickButton(item.id)}}>View Profile</Button></td>
                                             </tr>
@@ -86,7 +86,7 @@ function Students(props) {
                             <Table striped>
                                 <thead>
                                     <tr align="center">
-                                        <th>Student ID.</th>
+                                        <th>Student ID</th>
                                         <th>Full Name</th>
                                         <th>Student Profile</th>
                                     </tr>
@@ -96,7 +96,7 @@ function Students(props) {
                                     {nonGucians.map((item, index) => {
                                         return (
                                             <tr key={index} align="center">
-                                                <th scope="row">{item.id}</th>
+                                                <th scope="row">{"#"+item.id}</th>
                                                 <td>{item.firstName + " " + item.lastName}</td>
                                                 <td><Button onClick={() => {onClickButton(item.id)}}>View Profile</Button></td>
                                             </tr>
