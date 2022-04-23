@@ -255,7 +255,7 @@ function StudentProfile(props) {
                 <div className="mt-5">
                   <Row>
                     <Col md={{ offset: 10, size: 2 }}>
-                      <Button onClick={setTheModal}>Add Course</Button>
+                      <Button onClick={() => setTheModal}>Add Course</Button>
                     </Col>
                   </Row>
                 </div>
@@ -269,7 +269,7 @@ function StudentProfile(props) {
             toggle={setTheModal}
             close={
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <a className="close link-underline" onClick={setTheModal}>
+              <a className="close link-underline" onClick={()=>setTheModal}>
                 <i class="fa fa-times" aria-hidden="true"></i>
               </a>
             }
