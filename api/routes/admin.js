@@ -17,6 +17,14 @@ router.get('/allgucians/', adminoperations.viewAllGUCians);
 
 router.get('/allnongucians/', adminoperations.viewAllNonGUCians);
 
+router.get('/courses/', adminoperations.viewAllCourses);
+
+router.post('/addcourse/', adminoperations.addCourse);
+
+router.post('/linkcourse/', adminoperations.linkCourse);
+
+router.post('/addgrade/', adminoperations.addGrade);
+
 
 
 
