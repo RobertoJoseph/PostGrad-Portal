@@ -29,7 +29,7 @@ import {
 } from "reactstrap";
 import Axios from "axios";
 
-function ExaminerProf() {
+function ExaminerProf(props) {
   const [URL, setURL] = useState("");
   const [Active, setActive] = useState("");
   let { examinerID } = useParams();
@@ -84,7 +84,7 @@ function ExaminerProf() {
                 >
                   Personal Info
                 </DropdownItem>
-               
+
                 <DropdownItem divider />
                 <DropdownItem
                   onClick={() => {
@@ -135,7 +135,10 @@ function ExaminerProf() {
 
         <div className="col-10 page">
           {URL === "Defenses" ? (
-            <Defense examinerID={examinerID} />
+            <Defense
+              resetFeedbackForm2={props.resetFeedbackForm2}
+              examinerID={examinerID}
+            />
           ) : URL === "Personal Info" ? (
             <ExaminerEditProfile
               examinerID={examinerID}

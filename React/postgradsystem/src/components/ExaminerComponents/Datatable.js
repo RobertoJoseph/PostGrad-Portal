@@ -10,7 +10,6 @@ import {
   CardHeader,
   Row,
   Button,
-  Form,
   FormGroup,
   Label,
   Input,
@@ -22,9 +21,35 @@ import {
 } from "reactstrap";
 import "../../css/Navbar.css";
 import * as AiIcons from "react-icons/ai";
+import { Control, Form } from "react-redux-form";
+import Axios from "axios";
 
-function DataTable({ data }) {
+function DataTable({ data, resetFeedBackForm2 }) {
   console.log(data);
+  const [isModalOpen, setModal] = useState(false);
+  const [thesisSerialNumber, setThesisSerialNumber] = useState(0);
+  const toggleModal = () => {
+    setModal(!isModalOpen);
+  };
+
+  const handleMoreInfoButton = (thesisSerialNumber) => {
+    //clear forms value
+
+    toggleModal();
+    setThesisSerialNumber(thesisSerialNumber);
+  };
+  const [value, setValue] = useState(0);
+  const handleSubmit = (values) => {
+    console.log("S:" + values.comment);
+    // Axios.post("http://localhost:9000/examiner/addCommentGrade", {
+    //   comment: values.comment,
+    // })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => console.log(error));
+  };
+
   return (
     <div className="row">
       {data.map((item, index) => {
@@ -72,7 +97,7 @@ function DataTable({ data }) {
                 {/* Compare between two dates if the endDate>=today ==> create Button else null */}
                 {/* --------------- */}
                 <div className="offset-9">
-                  <Button>
+                  <Button onClick={handleMoreInfoButton}>
                     <AiIcons.AiOutlineInfoCircle size="19px"></AiIcons.AiOutlineInfoCircle>{" "}
                     More Info
                   </Button>
@@ -82,6 +107,60 @@ function DataTable({ data }) {
           </div>
         );
       })}
+      <Modal centered isOpen={isModalOpen} toggle={toggleModal}>
+        <ModalHeader
+          style={{ backgroundColor: "#081A2D", color: "white" }}
+          toggle={toggleModal}
+          close={
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <a className="close link-underline" onClick={toggleModal}>
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+          }
+        >
+          Add Progress Report
+        </ModalHeader>
+        <ModalBody>
+          <Form
+            model="moreInfoForm"
+            onSubmit={(values) => {
+              handleSubmit(values);
+            }}
+          >
+            <FormGroup>
+              <Label htmlFor="comment">Comment</Label>
+              <Control.text
+                type="text"
+                id="comment"
+                model=".comment"
+                name="comment"
+                className="form-control"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label>
+                Grade:<span style={{ fontWeight: "bold" }}>{value}</span>{" "}
+              </Label>
+              <Control
+                type="range"
+                min={0}
+                max={10}
+                className="slider red"
+                model=".password"
+                onChange={(values) => {
+                  setValue(values.target.value);
+                }}
+              ></Control>
+            </FormGroup>
+
+            <input
+              type="submit"
+              value="Submit"
+              className="form-control btn-primary"
+            />
+          </Form>
+        </ModalBody>
+      </Modal>
     </div>
   );
 }

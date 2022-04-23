@@ -7,10 +7,11 @@ const allReducers = combineReducers({
   students: studentReducer,
   ...createForms({
     studentForm: StudentForm,
-    loginForm: "anything",
-    addPublicationForm: "anything",
-    linkPublicationForm: "anything",
-    examinerForm: "anything",
+    loginForm: "1",
+    addPublicationForm: "2",
+    linkPublicationForm: "3",
+    examinerForm: "4",
+    moreInfoForm: "5",
   }),
 });
 export default allReducers;
