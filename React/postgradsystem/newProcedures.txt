@@ -298,6 +298,16 @@ AS
 
 
 
+CREATE PROC [dbo].[AdminListAcceptPublication]
+    @serialNumber INT
+AS
+select P.title, P.place, P.host
+FROM Thesis_Publication
+    INNER JOIN Publication P ON P.id = Thesis_Publication.publication_id
+Where P.isAccepted = 1 AND Thesis_Publication.thesisSerialNumber = @serialNumber
+
+
+
 -----------------
 
 

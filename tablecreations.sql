@@ -315,3 +315,6 @@ CREATE TABLE NonGucianStudent_Publications
 select * from Publication;
 
 select * from THesis
+
+
+EXEC AdminListAcceptPublication 3
