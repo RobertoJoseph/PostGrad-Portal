@@ -43,4 +43,9 @@ router.get(
 );
 router.get("/getAllThesis", adminoperations.getAllThesis);
 
+router.get("/listongoingtheses/", adminoperations.ViewOnGOingTheses);
+
+router.get("/listexpiredtheses/", adminoperations.ViewExpiredTheses);
+
+
 module.exports = router;
