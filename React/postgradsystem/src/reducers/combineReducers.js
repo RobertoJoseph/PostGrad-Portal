@@ -12,6 +12,7 @@ const allReducers = combineReducers({
     linkPublicationForm: "3",
     examinerForm: "4",
     moreInfoForm: "5",
+    payment: "6",
   }),
 });
 export default allReducers;

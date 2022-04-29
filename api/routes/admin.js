@@ -30,6 +30,8 @@ router.post("/linkcourse/", adminoperations.linkCourse);
 
 router.post("/addgrade/", adminoperations.addGrade);
 
+router.post("/addInstallment", adminoperations.AdminIssueThesisPayment);
+
 router.get(
   "/enrolledstudents/:courseID",
   adminoperations.AdminListNonGucianCourse
@@ -39,5 +41,6 @@ router.get(
   "/getAcceptedPublication/:serialNumber",
   adminoperations.AdminListAcceptPublication
 );
+router.get("/getAllThesis", adminoperations.getAllThesis);
 
 module.exports = router;
