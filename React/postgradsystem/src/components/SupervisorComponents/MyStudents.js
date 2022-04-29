@@ -25,16 +25,17 @@ import {
 } from "reactstrap";
 
 function MyStudents(props) {
-  const [students, setStudents] = useState([]); 
-  const [clickedId, setClickedId] = useState(0); 
-  const [isPublicationModalOpen, togglePublicationModal] = useState(false); 
+  const [students, setStudents] = useState([]);
+  const [clickedId, setClickedId] = useState(0);
+  const [isPublicationModalOpen, togglePublicationModal] = useState(false);
   const setPublicationModal = () => togglePublicationModal(!isPublicationModalOpen);
-  const [isDefenseModalOpen, toggleDefenseModal] = useState(false); 
+  const [isDefenseModalOpen, toggleDefenseModal] = useState(false);
   const setDefenseModal = () => toggleDefenseModal(!isDefenseModalOpen);
-  const [publications, setPublications] = useState([]); 
-  const [examiners, setExaminers] = useState([]); 
-  const [examinerId, setExaminerId] = useState(0); 
-  const [isDefenseAdded, setDefenseAdded] = useState(false); 
+  const [publications, setPublications] = useState([]);
+  const [examiners, setExaminers] = useState([]);
+  const [examinerId, setExaminerId] = useState(0);
+  const [examinerName, setExaminerName] = useState("");
+  const [isDefenseAdded, setDefenseAdded] = useState(false);
   const { register, handleSubmit } = useForm();
 
   const publicationButtton = (id) => {
@@ -98,16 +99,12 @@ function MyStudents(props) {
       setExaminers(res.data);
     });
   };
-  const addDefense = (values) => {
-    for(let i=0;i<examiners.length;i++){
-      if(examiners[i].examinerName===values.examinerName){
-        setExaminerId(examiners[i].examinerId)
-      }
-    }
-    console.log(examinerId);
-    console.log(values.defenseDate)
-    console.log(values.examinerName)
 
+  const Submit1 = (values) => {
+    console.log(values.examinerName);
+    setExaminerName(values.examinerName);
+    console.log(values.defenseDate)
+    Submit2();
     Axios.post("http://localhost:9000/supervisor/addDefense", {
       thesisSerialNumber: clickedId,
       examinerId: examinerId,
@@ -121,12 +118,22 @@ function MyStudents(props) {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
+  const Submit2 = (values) => {
+    for (let i = 0; i < examiners.length; i++) {
+      if (examiners[i].examinerName === examinerName) {
+        setExaminerId(examiners[i].examinerId)
+      }
+    }
+    console.log(examinerId);
+  }
+
   useEffect(() => {
     getStudents();
     getPublications();
     getExaminers();
-  }, [clickedId,examinerId,isDefenseAdded]);
+    Submit2();
+  }, [clickedId, examinerId, isDefenseAdded, examinerName]);
 
   return (
     <div className="col-12 mt-3">
@@ -182,7 +189,7 @@ function MyStudents(props) {
           close={
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a className="close link-underline" onClick={setPublicationModal}>
-              <i class="fa fa-times" aria-hidden="true"></i>
+              <i className="fa fa-times" aria-hidden="true"></i>
             </a>
           }
         >
@@ -234,74 +241,72 @@ function MyStudents(props) {
           toggle={setDefenseModal}
           close={
             <a className="close link-underline" onClick={setDefenseModal}>
-              <i class="fa fa-times" aria-hidden="true"></i>
+              <i className="fa fa-times" aria-hidden="true"></i>
             </a>
           }
         >
           Add Defense
         </ModalHeader>
         <ModalBody>
-            <Form onSubmit={handleSubmit(addDefense)}>
-              <FormGroup>
-                <Row>
-                  <Label htmlFor="defenseDate" className="col-3">
-                    Select Date:
-                  </Label>
-                  <input type="date" className="col-7" id="defenseDate" name="defenseDate">
-                  </input>
-                </Row>
-                </FormGroup>
-                <FormGroup>
-                <Row>
+          <Form onSubmit={handleSubmit(Submit1)}>
+            <FormGroup>
+              <Row>
+                <Label htmlFor="defenseDate" className="col-3">
+                  Select Date:
+                </Label>
+                <input type="date" className="col-7" id="defenseDate" name="defenseDate" ref={register} />
+              </Row>
+            </FormGroup>
+            <FormGroup>
+              <Row>
                 <Label htmlFor="defenseLocation" className="col-3">
-                    Select Location:
-                  </Label>
-                  <input type="text" className="col-7" id="defenseLocation" name="defenseLocation">
-                  </input>
-                </Row>
-                </FormGroup>
-                <FormGroup>
-                <Row>
+                  Select Location:
+                </Label>
+                <input type="text" className="col-7" name="defenseLocation" id="defenseLocation" ref={register} />
+              </Row>
+            </FormGroup>
+            <FormGroup>
+              <Row>
                 <Label htmlFor="comment" className="col-3">
-                    Leave a comment:
-                  </Label>
-                  <input type="text" className="col-7" id="comment" name="comment">
-                  </input>
-                </Row>
-                </FormGroup>
-                <FormGroup>
-                <Row>
-                  <Label htmlFor="examinerName" className="col-3">
-                    Select Examiner:
-                  </Label>
-                  <Col md={9}>
-                    <select
-                      id="examinerName"
-                      name="examinerName"
-                      type="select"
-                      ref={register}
-                      className="form-control"
-                      >
-                      {examiners.map((item, index) => {
-                        return <option>{item.examinerName}</option>;
-                      })}
-                    </select>
-                  </Col>
-                </Row>
-              </FormGroup>
+                  Leave a comment:
+                </Label>
+                <input type="text" className="col-7" id="comment" name="comment" ref={register}>
+                </input>
+              </Row>
+            </FormGroup>
+            <FormGroup>
+              <Row>
+                <Label htmlFor="examinerName" className="col-3">
+                  Select Examiner:
+                </Label>
+                <Col md={8}>
+                  <select
+                    id="examinerName"
+                    name="examinerName"
+                    type="select"
+                    ref={register}
+                    className="form-control col-9"
+                  >
+                {examiners.map((item, index) => {
+                  return <option>{item.examinerName}</option>;
+                })}
+              </select>
+              </Col>
+            </Row>
+          </FormGroup>
 
-              {isDefenseAdded ? (
-                <Alert color="success">Course Added Successfully</Alert>
-              ) : null}
-              <input
-                type="submit"
-                value="Add Defense"
-                className="form-control btn-primary"
-              />
-            </Form>
-          </ModalBody>
-      </Modal>
-    </div>
+          {isDefenseAdded ? (
+            <Alert color="success">Defense Added Successfully</Alert>
+          ) : null}
+          <input
+            type="submit"
+            value="Add Defense"
+            className="form-control btn-primary"
+          />
+        </Form>
+      </ModalBody>
+    </Modal>
+    </div >
   );
 }
 export default MyStudents;

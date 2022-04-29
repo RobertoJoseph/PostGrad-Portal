@@ -32,7 +32,6 @@ exports.showSupervisorStudents = async function (req,res){
     res.send(result);
   } catch (err) {
     console.log(err);
-    sql.close();
   }
 };
 
@@ -82,7 +81,6 @@ exports.getExaminers = async function (req,res){
     res.send(result);
   } catch (err) {
     console.log(err);
-    sql.close();
   }
 };
 
@@ -94,7 +92,7 @@ exports.SupervisorAddDefense = async function (req,res){
         .request()
         .input("thesisSerialNumber", sql.Int, req.body.thesisSerialNumber)
         .input("examinerId", sql.Int, req.body.examinerId)
-        .input("defenseDate", sql.Date, req.body.date)
+        .input("defenseDate", sql.Date, req.body.defenseDate)
         .input("defenseLocation", sql.VarChar, req.body.defenseLocation)
         .input("comment", sql.VarChar, req.body.comment)
         .execute(`SupervisorAddDefense`)
@@ -103,6 +101,5 @@ exports.SupervisorAddDefense = async function (req,res){
     res.send(result);
   } catch (err) {
     console.log(err);
-    sql.close();
   }
 };
