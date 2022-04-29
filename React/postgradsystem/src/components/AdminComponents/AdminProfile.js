@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import {
+  Row,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import { useParams } from "react-router-dom";
-import { AdminData } from "../../data/AdminData"
+import { AdminData } from "../../data/AdminData";
 import * as MdIcons from "react-icons/md";
 import { Nav, NavItem, Navbar, NavbarBrand } from "reactstrap";
 import Axios from "axios";
@@ -14,12 +20,9 @@ import Students from "./AllStudents";
 import StudentProfile from "./StudentProfile";
 import Courses from "./Courses";
 import EnrolledStudents from "./EnrolledStudents";
-
-
-
+import { useNavigate } from "react-router-dom";
 
 function Admin(props) {
-  const [URL, setURL] = useState("");
   const [supID, setSupID] = useState("");
   const [studentID, setStudentID] = useState("");
   const [courseID, setCourseID] = useState("");
@@ -28,16 +31,51 @@ function Admin(props) {
   const [userName, setUsername] = useState("");
   const [isDropdownOpen, toggleDropdown] = useState(false);
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
+  const [finishStatus, setfinishStatus] = useState(false);
+  const [prevAndNextURL, setPrevAndNextURL] = useState(["", ""]);
+
+  const onBackButtonEvent = (e) => {
+    e.preventDefault();
+    console.log("I am in the back button");
+    if (!finishStatus) {
+      if (window.confirm("Do you want to go back ?")) {
+        setfinishStatus(true);
+        // your logic
+        setPrevAndNextURL((prev) => [prev[1], prev[0]]);
+      } else {
+        window.history.pushState(null, null, window.location.pathname);
+        setfinishStatus(false);
+      }
+    }
+  };
+  const windowOpenAndClose = () => {
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener("popstate", onBackButtonEvent);
+  };
+
+  useEffect(() => {
+    windowOpenAndClose();
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
+  }, []);
+  useEffect(() => {
+    windowOpenAndClose();
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
+  }, [finishStatus]);
 
   const viewSupervisorThesis = (supervisorID) => {
-    setURL("Supervisor's Theses");
+    setfinishStatus(false);
+    setPrevAndNextURL((prev) => [prev[1], "Supervisor's Theses"]);
     setSupID(supervisorID);
-  }
+  };
   const viewStudentProfile = (studentID) => {
-    setURL("Student's Profile");
+    setfinishStatus(false);
+    setPrevAndNextURL((prev) => [prev[1], "Student's Profile"]);
     setStudentID(studentID);
-  }
-
+  };
 
   const getUserInformation = () => {
     Axios.get(`http://localhost:9000/admin/admindata/${adminID}`).then(
@@ -47,11 +85,10 @@ function Admin(props) {
     );
   };
   const viewEnrolledStudents = (courseID, courseName) => {
-    setURL("Enrolled Students");
+    setPrevAndNextURL((prev) => [prev[1], "Enrolled Students"]);
     setCourseID(courseID);
     setCourseName(courseName);
-  }
-
+  };
 
   useEffect(() => {
     getUserInformation();
@@ -79,10 +116,12 @@ function Admin(props) {
                 <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>
-                  My Account
-                </DropdownItem>
-                <DropdownItem onClick={() => {setURL("Log Out");}}>
+                <DropdownItem header>My Account</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    setfinishStatus(false);
+                  }}
+                >
                   Log Out
                 </DropdownItem>
               </DropdownMenu>
@@ -108,51 +147,52 @@ function Admin(props) {
                   <br></br>
                 </div>
               </span>
-              {
-
-                AdminData.map((item, index) => {
-
-                  return (
-                    <li
-                      key={index}
-                      className="row"
-                      onClick={() => {
-                        setURL(item.title);
-                      }}
-                    >
-                      <div id="icon">{item.icon}</div>
-                      <div id="title" className="titleSize">
-                        {item.title}
-                      </div>
-                    </li>
-                  );
-                })}
+              {AdminData.map((item, index) => {
+                return (
+                  <li
+                    key={index}
+                    className="row"
+                    onClick={() => {
+                      setfinishStatus(false);
+                      setPrevAndNextURL((prevURL) => [prevURL[1], item.title]);
+                    }}
+                  >
+                    <div id="icon">{item.icon}</div>
+                    <div id="title" className="titleSize">
+                      {item.title}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
 
         <div className="col-10 page">
-          {URL === "Theses" ? (
-              <ListTheses></ListTheses>
-          ) : URL === "Students" ? (
-              <Students func={viewStudentProfile}></Students>
-          ) : URL === "Courses" ? (
-              <Courses func={viewEnrolledStudents}></Courses>
-          ) : URL === "Supervisors" ? (
-              <Supervisors func={viewSupervisorThesis}></Supervisors>
-          ) : URL === "Defenses" ? (
-              <></>
-          ) : URL === "Installments" ? (
-              <></>
-          ) : URL === "Log Out" ? (
-              <></>
-          ) : URL === "Supervisor's Theses" ? (
-              <SupervisorTheses supervisorID={supID}></SupervisorTheses>
-          ) : URL === "Student's Profile" ? (
-              <StudentProfile studentID={studentID}></StudentProfile>
-          ) : URL === "Enrolled Students" ? (
-              <EnrolledStudents courseID={courseID} courseName={courseName}></EnrolledStudents>
-          ) : null} 
+          {prevAndNextURL[1] === "Theses" ? (
+            <ListTheses></ListTheses>
+          ) : prevAndNextURL[1] === "Students" ? (
+            <Students func={viewStudentProfile}></Students>
+          ) : prevAndNextURL[1] === "Courses" ? (
+            <Courses func={viewEnrolledStudents}></Courses>
+          ) : prevAndNextURL[1] === "Supervisors" ? (
+            <Supervisors func={viewSupervisorThesis}></Supervisors>
+          ) : prevAndNextURL[1] === "Defenses" ? (
+            <></>
+          ) : prevAndNextURL[1] === "Installments" ? (
+            <></>
+          ) : prevAndNextURL[1] === "Log Out" ? (
+            <></>
+          ) : prevAndNextURL[1] === "Supervisor's Theses" ? (
+            <SupervisorTheses supervisorID={supID}></SupervisorTheses>
+          ) : prevAndNextURL[1] === "Student's Profile" ? (
+            <StudentProfile studentID={studentID}></StudentProfile>
+          ) : prevAndNextURL[1] === "Enrolled Students" ? (
+            <EnrolledStudents
+              courseID={courseID}
+              courseName={courseName}
+            ></EnrolledStudents>
+          ) : null}
         </div>
       </Row>
     </div>
