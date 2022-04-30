@@ -86,7 +86,6 @@ class Main extends Component {
           ></Route>
           <Route path="/studentprofile/:studentID" element={<Student></Student>}></Route>
           <Route path="/admin/:adminID" element={<Admin></Admin>}></Route>
-
         </Routes>
       </div>
     );

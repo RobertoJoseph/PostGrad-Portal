@@ -8,11 +8,12 @@ router.get('/mystudents/:supervisorId',supervisoroperations.showSupervisorStuden
 
 router.get('/publications/:studentId',supervisoroperations.ViewStudentPublications);
 
-router.get('/reports/:supervisorId',supervisoroperations.supervisorListProgressReport);
+router.get('/reports/:studentId',supervisoroperations.supervisorListProgressReport);
 
 router.get('/examiners',supervisoroperations.getExaminers);
 
 router.post('/addDefense',supervisoroperations.SupervisorAddDefense);
 
+router.get('/cancelthesis/:thesisSerialNumber',supervisoroperations.CancelThesis);
 
 module.exports = router;

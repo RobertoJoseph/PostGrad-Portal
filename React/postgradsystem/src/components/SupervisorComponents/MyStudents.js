@@ -4,12 +4,8 @@ import "../../css/Navbar.css";
 import Axios from "axios";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
-  Card,
-  CardTitle,
-  CardText,
-  CardBody,
-  CardHeader,
   Row,
   Button,
   Form,
@@ -38,6 +34,7 @@ function MyStudents(props) {
   const [isDefenseAdded, setDefenseAdded] = useState(false);
   const { register, handleSubmit } = useForm();
 
+
   const publicationButtton = (id) => {
     setClickedId(id);
     getPublications();
@@ -49,6 +46,9 @@ function MyStudents(props) {
     setDefenseModal();
     console.log(examiners)
   };
+  const reportsButton = (student) => {
+      props.func(student);
+  }
 
   const Button = styled.button`
     background-color: #243b55;
@@ -146,6 +146,7 @@ function MyStudents(props) {
             <th>Years</th>
             <th>Publications</th>
             <th>Add Defense</th>
+            <th>Reports</th>
           </tr>
         </thead>
 
@@ -160,7 +161,6 @@ function MyStudents(props) {
                 <td>
                   <Button
                     onClick={() => {
-                      console.log("id is: " + item.StudentId);
                       publicationButtton(item.StudentId);
                     }}
                   >
@@ -175,6 +175,16 @@ function MyStudents(props) {
                     }}
                   >
                     Add
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    onClick={() => {
+                      console.log(item);
+                      reportsButton(item);
+                    }}
+                  >
+                    View
                   </Button>
                 </td>
               </tr>
@@ -287,25 +297,25 @@ function MyStudents(props) {
                     ref={register}
                     className="form-control col-9"
                   >
-                {examiners.map((item, index) => {
-                  return <option>{item.examinerName}</option>;
-                })}
-              </select>
-              </Col>
-            </Row>
-          </FormGroup>
+                    {examiners.map((item, index) => {
+                      return <option>{item.examinerName}</option>;
+                    })}
+                  </select>
+                </Col>
+              </Row>
+            </FormGroup>
 
-          {isDefenseAdded ? (
-            <Alert color="success">Defense Added Successfully</Alert>
-          ) : null}
-          <input
-            type="submit"
-            value="Add Defense"
-            className="form-control btn-primary"
-          />
-        </Form>
-      </ModalBody>
-    </Modal>
+            {isDefenseAdded ? (
+              <Alert color="success">Defense Added Successfully</Alert>
+            ) : null}
+            <input
+              type="submit"
+              value="Add Defense"
+              className="form-control btn-primary"
+            />
+          </Form>
+        </ModalBody>
+      </Modal>
     </div >
   );
 }

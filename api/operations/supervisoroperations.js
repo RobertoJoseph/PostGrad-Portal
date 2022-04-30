@@ -58,7 +58,7 @@ exports.supervisorListProgressReport = async function (req,res){
     const result = (
       await pool
         .request()
-        .input("supervisorId", sql.Int, req.params.supervisorId)
+        .input("studentId", sql.Int, req.params.studentId)
         .execute(`supervisorListProgressReport`)
     ).recordset;
     console.log(result);
@@ -96,6 +96,22 @@ exports.SupervisorAddDefense = async function (req,res){
         .input("defenseLocation", sql.VarChar, req.body.defenseLocation)
         .input("comment", sql.VarChar, req.body.comment)
         .execute(`SupervisorAddDefense`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.CancelThesis = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("thesisSerialNo", sql.Int, req.params.thesisSerialNumber)
+        .output("successBit",sql.Bit)
+        .execute(`CancelThesis`)
     ).recordset;
     console.log(result);
     res.send(result);
