@@ -140,3 +140,10 @@
     outline: none;
     border: none;
  }
+
+ .tableHeader {
+  background-color: #1C2D43;
+  font-size: large;
+  color: white;
+
+}

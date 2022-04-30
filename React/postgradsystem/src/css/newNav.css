@@ -3,8 +3,8 @@
     height: 100%;
     min-height: 100vh;
     background: linear-gradient(-45deg, #d4e6f8, #e6e9ec);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
 }
 
 
@@ -72,15 +72,16 @@
     justify-content: center;
     align-items: center;
     font-weight: lighter;
-    
+
 
 
 }
 
-.titleSize{
-   font-size: 20px;
+.titleSize {
+    font-size: 20px;
 }
-.buttonColors{
+
+.buttonColors {
     background-color: #2955C8;
 }
 
@@ -107,74 +108,74 @@
     background-color: white;
 }
 
-#edit{
+#edit {
     border: none;
     background-color: transparent;
-    color:#1C2D43;
- }
+    color: #1C2D43;
+}
 
- #edit:hover {
-    color:#2955C8;
- }
+#edit:hover {
+    color: #2955C8;
+}
 
 
- .header {
-     padding: 3px;
-     text-align: center;
-     background:white;
-     color: black;
-     font-size: 10px;
+.header {
+    padding: 3px;
+    text-align: center;
+    background: white;
+    color: black;
+    font-size: 10px;
     position: relative;
-   }
- 
- /* make gucImage too small
+}
+
+/* make gucImage too small
   */
-  .gucImage{
-      left: -530px;
-     width: 130px;
-     height: 55px;
-     position: relative;
-  }
+.gucImage {
+    left: -530px;
+    width: 130px;
+    height: 55px;
+    position: relative;
+}
 
-  #Navbar {
-      position: fixed;
-  }
+#Navbar {
+    position: fixed;
+}
 
 
-  .tab {
-      width: 50%;
-      font-size:20px;
-      background:white;
-      border:none;
-      outline:none;
-      padding:10px 20px ;
-      cursor:pointer;
-      color:rgba(0,0,0,.4);
-      transition:all ease-in-out .2s;
-      border-bottom:2px solid transparent;
-      text-align: center;
-      text-decoration: none;
-  }
+.tab {
+    width: 50%;
+    font-size: 20px;
+    background: white;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, .4);
+    transition: all ease-in-out .2s;
+    border-bottom: 2px solid transparent;
+    text-align: center;
+    text-decoration: none;
+}
 
-  .content{
-      background-color: white;
-      min-height: auto;
-  }
+.content {
+    background-color: white;
+    min-height: auto;
+}
 
-  #act {
-      background-color: #1C2D43 ;
-      color: white;
-      border-radius: 15px;
-  }
+#act {
+    background-color: #1C2D43;
+    color: white;
+    border-radius: 15px;
+}
 
 .NavLink {
-text-decoration: none;
-color: black;
-  }
+    text-decoration: none;
+    color: black;
+}
 
-  .tableHeader{
-      background-color: #1C2D43;
-      font-size: large;
-      color: white;
-      
-  }
+.tableHeader {
+    background-color: #1C2D43;
+    font-size: large;
+    color: white;
+
+}

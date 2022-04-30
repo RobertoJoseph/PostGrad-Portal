@@ -39,14 +39,9 @@ function Admin(props) {
     e.preventDefault();
     console.log("I am in the back button");
     if (!finishStatus) {
-      if (window.confirm("Do you want to go back ?")) {
         setfinishStatus(true);
-        // your logic
         setPrevAndNextURL((prev) => [prev[1], prev[0]]);
-      } else {
-        window.history.pushState(null, null, window.location.pathname);
-        setfinishStatus(false);
-      }
+      
     }
   };
   const windowOpenAndClose = () => {
