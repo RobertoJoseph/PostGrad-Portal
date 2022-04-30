@@ -7,8 +7,6 @@ import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
 import { Control, Form } from "react-redux-form";
 
-
-
 import {
   Card,
   CardBody,
@@ -27,7 +25,7 @@ import {
   DropdownItem,
   DropdownMenu,
   Col,
-  Row
+  Row,
 } from "reactstrap";
 
 function ListTheses(props) {
@@ -36,8 +34,7 @@ function ListTheses(props) {
   const [onGoingTheses, setOnGoingTheses] = useState([]);
   const [expiredTheses, setExpiredTheses] = useState([]);
   const [status, setStatus] = useState("All Theses");
-  const [resultCount, setReslutCount] = useState(0);
-
+  const [resultCount, setResultCount] = useState(theses.length);
 
   const [selectedSerial, setSelectedSerial] = useState(0); //Id of the selected thesis
   const [isClicked, setIsClicked] = useState(0); // to check if the button is clicked
@@ -48,7 +45,6 @@ function ListTheses(props) {
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
   const [currentWord, setCurrentWord] = useState("");
 
-
   const search = (rows) => {
     var word = currentWord.toLowerCase();
     return rows.filter((row) => row.title.toLowerCase().indexOf(word) > -1);
@@ -56,9 +52,8 @@ function ListTheses(props) {
 
   const getLength = (rows) => {
     let temp = search(rows);
-    setReslutCount(temp.length);
-    
-  }
+    setResultCount(temp.length);
+  };
 
   const setModalAcceptedPublications = () => {
     toggleAcceptedPublications(!acceptedPublications);
@@ -90,7 +85,7 @@ function ListTheses(props) {
     Axios.post(
       `http://localhost:9000/admin/incrementExtension/${selectedSerial}`
     )
-      .then((res) => { })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -101,7 +96,7 @@ function ListTheses(props) {
     Axios.get(`http://localhost:9000/admin/listtheses/`).then((res) => {
       setAllTheses(res.data);
       setTheses(res.data);
-      setReslutCount(theses.length);
+      setResultCount(theses.length);
     });
   };
   const listOnGoingTheses = () => {
@@ -129,14 +124,17 @@ function ListTheses(props) {
   }, [isClicked2]);
 
   useEffect(() => {
-    getLength(theses)
+    getLength(theses);
   }, [currentWord]);
+  useEffect(() => {
+    setResultCount(theses.length);
+  }, [theses]);
 
   return (
     <div className="row">
       <div className="row">
         <label className="label mt-3">
-          <h3>Search {status +" "+ resultCount}</h3>
+          <h3>Search {status + " " + resultCount}</h3>
         </label>
         <Col sm={11}>
           <input
@@ -150,18 +148,35 @@ function ListTheses(props) {
           ></input>
         </Col>
         <Col sm={1}>
-          <ButtonDropdown
-            isOpen={isDropdownOpen}
-            toggle={setTheDropdown}
-            
-          >
+          <ButtonDropdown isOpen={isDropdownOpen} toggle={setTheDropdown}>
             <DropdownToggle id="filter" caret>
               <FaIcons.FaFilter></FaIcons.FaFilter>
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem onClick={() => { setTheses(allTheses); setStatus("All Theses"); }}>All Theses</DropdownItem>
-              <DropdownItem onClick={() => { setTheses(onGoingTheses); setStatus("On-Going Theses"); }}>On-Going</DropdownItem>
-              <DropdownItem onClick={() => { setTheses(expiredTheses); setStatus("Expired Theses"); }}>Expired</DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  setTheses(allTheses);
+                  setStatus("All Theses");
+                }}
+              >
+                All Theses
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  setTheses(onGoingTheses);
+                  setStatus("On-Going Theses");
+                }}
+              >
+                On-Going
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  setTheses(expiredTheses);
+                  setStatus("Expired Theses");
+                }}
+              >
+                Expired
+              </DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
         </Col>
