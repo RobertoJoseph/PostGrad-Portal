@@ -7,3 +7,5 @@ export const StudentForm = {
   address: "",
   isGucian: false,
 };
+
+

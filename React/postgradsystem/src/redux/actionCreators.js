@@ -38,18 +38,23 @@ export const addStudent =
         console.log(err);
       });
   };
-
-// export const loginStudent = (email, password) => async (dispatch) => {
-//   return Axios.post("http://localhost:9000/students/login", {
-//     email: email,
-//     password: password,
-//   })
-//     .then((response) => {
-
-//       console.log(response.data);
-//       dispatch(loginStudentSuccess(response.data));
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
+export const addSupervisor =
+  (firstName, lastName, email, password, faculty) => (dispatch) => {
+    const newSupervisor = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      faculty: faculty,
+    };
+    return Axios.post(
+      "http://localhost:9000/supervisor/addSupervisor",
+      newSupervisor
+    )
+      .then((res) => {
+        alert("Successfuly Added an Supervisor");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
