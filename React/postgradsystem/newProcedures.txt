@@ -393,3 +393,15 @@ AS
     Where T.endDate < GETDATE();
 
 -------------------------
+
+
+GO
+CREATE PROC ListAllPayments 
+AS 
+    SELECT Payment.*, Thesis.title, Thesis.serialNumber FROM Payment
+    INNER JOIN Thesis
+    ON Thesis.payment_id = Payment.id;
+
+
+
+

@@ -5,27 +5,21 @@ import Axios from "axios";
 import * as HiIcons from "react-icons/hi";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
-import { Control, Form } from "react-redux-form";
 
 import {
   Card,
   CardBody,
   CardHeader,
   Button,
-  FormGroup,
-  Label,
-  Input,
   Modal,
   ModalHeader,
   ModalBody,
-  Alert,
   Table,
   DropdownToggle,
   ButtonDropdown,
   DropdownItem,
   DropdownMenu,
   Col,
-  Row,
 } from "reactstrap";
 
 function ListTheses(props) {
@@ -134,7 +128,7 @@ function ListTheses(props) {
     <div className="row">
       <div className="row">
         <label className="label mt-3">
-          <h3>Search {status + " " + resultCount}</h3>
+          <h3><span style={{fontWeight:'bold'}}>Search {status}</span> <span style={{fontSize: '12px', fontWeight:'lighter', fontStyle: 'italic'}}>Showing {" " + resultCount} Thesis</span></h3>
         </label>
         <Col sm={11}>
           <input

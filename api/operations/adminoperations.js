@@ -251,3 +251,31 @@ exports.ViewExpiredTheses = async function (req, res) {
     sql.close();
   }
 };
+
+exports.AdminIssueInstallPayment = async function (req, res) {
+  try {
+    console.log();
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("paymentID", sql.Int, req.body.paymentNumber)
+      .input("installStartDate", sql.Date, req.body.date)
+      .execute(`AdminIssueInstallPayment`);
+    res.send({ isIssued: true });
+  } catch (error) {
+    console.log(error);
+    sql.close();
+  }
+};
+
+exports.ListAllPayments = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`ListAllPayments`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};

@@ -1,25 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Alert,
-  Row,
-  Col,
-  Table,
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
-import * as AiIcons from "react-icons/ai";
-import { Control, Form } from "react-redux-form";
+import { Table } from "reactstrap";
 import Axios from "axios";
 import "../../css/newNav.css";
 
@@ -52,7 +32,7 @@ function Defense() {
       <div className="col-12 mt-3">
         <div>
           <label className="label">
-            <h3 style={{ fontWeight: "bold" }}>Search</h3>
+            <h3 style={{ fontWeight: "bold" }}>Search Defense By Date</h3>
           </label>
 
           <input
@@ -82,7 +62,13 @@ function Defense() {
                   <th scope="row">{index + 1}</th>
                   <td>{item.name}</td>
                   <td>{item.firstName + " " + item.lastName}</td>
-                  <td>{item.date}</td>
+                  <td>
+                    {new Intl.DateTimeFormat("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                    }).format(new Date(Date.parse(item.date)))}
+                  </td>
                 </tr>
               );
             })}
