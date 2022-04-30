@@ -11,6 +11,12 @@ export const SupervisorData=[
         path:"/supervisorstudents",
         icon: <FaIcons.FaUserGraduate/>,
         cName:"nav-text"
+    },
+    {
+        title:"All Reports",
+        path:"/supervisorstudents",
+        icon: <FaIcons.FaNewspaper/>,
+        cName:"nav-text"
     }
     
     
