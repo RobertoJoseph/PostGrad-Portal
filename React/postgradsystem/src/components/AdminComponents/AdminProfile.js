@@ -115,7 +115,7 @@ function Admin(props) {
                 <DropdownItem header>My Account</DropdownItem>
                 <DropdownItem
                   onClick={() => {
-                    setfinishStatus(false);
+                    setPrevAndNextURL((prevURL) => [prevURL[1], "Log Out"]);
                   }}
                 >
                   Log Out
@@ -136,7 +136,6 @@ function Admin(props) {
                 </div>
               </span>
               <span id="heading">Admin Profile </span>
-              <span id="sub-heading">{prevAndNextURL[1]}</span>
               <span>
                 <div>
                   <br></br>

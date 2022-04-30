@@ -24,7 +24,36 @@ function Student(props) {
   const [isGUCian, setIsGUCian] = useState(false);
   const [isDropdownOpen, toggleDropdown] = useState(false);
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
+  const [finishStatus, setfinishStatus] = useState(false);
+  const [prevAndNextURL, setPrevAndNextURL] = useState(["", ""]);
 
+
+  const onBackButtonEvent = (e) => {
+    e.preventDefault();
+    console.log("I am in the back button");
+    if (!finishStatus) {
+        setfinishStatus(true);
+        setPrevAndNextURL((prev) => [prev[1], prev[0]]);
+      
+    }
+  };
+  const windowOpenAndClose = () => {
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener("popstate", onBackButtonEvent);
+  };
+
+  useEffect(() => {
+    windowOpenAndClose();
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
+  }, []);
+  useEffect(() => {
+    windowOpenAndClose();
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
+  }, [finishStatus]);
 
   const getUserInformation = () => {
     Axios.get(`http://localhost:9000/students/studentdata/${studentID}`).then(
@@ -77,14 +106,18 @@ function Student(props) {
                 <DropdownItem header>
                   My Account
                 </DropdownItem>
-                <DropdownItem onClick={() => {setURL("Personal Info");}}>
+                <DropdownItem onClick={() => {setfinishStatus(false);
+                      setPrevAndNextURL((prevURL) => [prevURL[1], "Personal Info"]);}}>
                   Personal Info
                 </DropdownItem>
-                <DropdownItem onClick={() => {setURL("Payment Info");}}>
+                <DropdownItem onClick={() => {setfinishStatus(false);
+                      setPrevAndNextURL((prevURL) => [prevURL[1], "Payment Info"]);
+                }}>
                   Payment Info
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem onClick={() => {setURL("Log Out");}}>
+                <DropdownItem onClick={() => {
+                      setPrevAndNextURL((prevURL) => [prevURL[1], "Log Out"]);}}>
                   Log Out
                 </DropdownItem>
               </DropdownMenu>
@@ -103,7 +136,6 @@ function Student(props) {
                 </div>
               </span>
               <span id="heading">Student Profile </span>
-              <span id="sub-heading">{URL}</span>
               <span>
                 <div>
                   <br></br>
@@ -121,9 +153,10 @@ function Student(props) {
                   return (
                     <li
                       key={index}
-                      className="row"
+                      className={`row ${(item.title===prevAndNextURL[1]) ? "active" : ""}`}
                       onClick={() => {
-                        setURL(item.title);
+                        setfinishStatus(false);
+                        setPrevAndNextURL((prevURL) => [prevURL[1], item.title]);
                       }}
                     >
                       <div id="icon">{item.icon}</div>
@@ -138,19 +171,19 @@ function Student(props) {
         </div>
 
         <div className="col-10 page">
-          {URL === "Theses" ? (
+          {prevAndNextURL[1] === "Theses" ? (
             <Thesis studentID={studentID} />
-          ) : URL === "Reports" ? (
+          ) : prevAndNextURL[1] === "Reports" ? (
             <Reports studentID={studentID}></Reports>
-          ) : URL === "Courses" ? (
+          ) : prevAndNextURL[1] === "Courses" ? (
             <Courses studentID={studentID}></Courses>
-          ) : URL === "Publications" ? (
+          ) : prevAndNextURL[1] === "Publications" ? (
             <Publications studentID={studentID}></Publications>
-          ) : URL === "Personal Info" ? (
+          ) : prevAndNextURL[1] === "Personal Info" ? (
             <EditProfile studentID={studentID}></EditProfile>
-          ) : URL === "Payment Info" ? (
+          ) : prevAndNextURL[1] === "Payment Info" ? (
             isGUCian ? (<GUCpayments studentID={studentID}></GUCpayments>) : (<NonGUCpayments studentID={studentID}></NonGUCpayments>)
-          ) : URL === "Log Out" ? (
+          ) : prevAndNextURL[1] === "Log Out" ? (
             <></>
           ) : null}
         </div>

@@ -60,10 +60,12 @@
 
 #heading {
     color: aliceblue;
-    font-weight: bolder;
+    font-size: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
 
 }
 
