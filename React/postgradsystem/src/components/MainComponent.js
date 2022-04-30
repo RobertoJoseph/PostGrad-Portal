@@ -3,12 +3,15 @@ import Home from "./HomeComponent";
 import { Route, Redirect, Routes } from "react-router-dom";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
-import { getStudents, addStudent } from "../redux/actionCreators";
+import {
+  getStudents,
+  addStudent,
+  addSupervisor,
+} from "../redux/actionCreators";
 import Student from "./StudentComponents/StudentProf";
 import SupervisorProf from "./SupervisorComponents/SupervisorProf";
-import Admin from "./AdminComponents/AdminProfile"
+import Admin from "./AdminComponents/AdminProfile";
 import ExaminerProf from "./ExaminerComponents/ExaminerProf";
-
 
 const mapStateToProps = (state) => {
   return {
@@ -39,6 +42,8 @@ const mapDispatchToProps = (dispatch) => ({
         isGucian
       )
     ),
+  addSupervisor: (firstName, lastName, email, password, faculty) =>
+    dispatch(addSupervisor(firstName, lastName, email, password, faculty)),
 });
 
 class Main extends Component {
@@ -58,6 +63,7 @@ class Main extends Component {
             element={
               <Home
                 addStudent={this.props.addStudent}
+                addSupervisor={this.props.addSupervisor}
                 resetFeedBackForm={this.props.resetFeedBackForm}
               ></Home>
             }
@@ -67,6 +73,7 @@ class Main extends Component {
             element={
               <Home
                 addStudent={this.props.addStudent}
+                addSupervisor={this.props.addSupervisor}
                 resetFeedBackForm={this.props.resetFeedBackForm}
               ></Home>
             }
@@ -84,7 +91,10 @@ class Main extends Component {
             path="/examiner/:examinerID"
             element={<ExaminerProf></ExaminerProf>}
           ></Route>
-          <Route path="/studentprofile/:studentID" element={<Student></Student>}></Route>
+          <Route
+            path="/studentprofile/:studentID"
+            element={<Student></Student>}
+          ></Route>
           <Route path="/admin/:adminID" element={<Admin></Admin>}></Route>
         </Routes>
       </div>

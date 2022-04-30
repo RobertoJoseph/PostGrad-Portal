@@ -59,12 +59,16 @@ class Register extends Component {
       values.address,
       values.isGucian
     );
-
-  
-
-    alert("HEY ");
-    // this.props.resetFeedBackForm();
   }
+  supRegister = (values) => {
+    this.props.addSupervisor(
+      values.firstName,
+      values.lastName,
+      values.email,
+      values.password,
+      values.faculty
+    );
+  };
 
   render() {
     return (
@@ -282,6 +286,129 @@ class Register extends Component {
                       </Col>
                     </Row>
                   </TabPane>
+
+                  <TabPane tabId="2">
+                    <Row>
+                      <Col>
+                        <Form
+                          model="supervisorForm"
+                          onSubmit={(values) => this.supRegister(values)}
+                          className="mt-3"
+                        >
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="firstName" md={3}>
+                                First Name
+                              </Label>
+                              <Col md={9}>
+                                <Control.text
+                                  id="firstName"
+                                  name="firstName"
+                                  type="text"
+                                  model=".firstName"
+                                  placeholder="First Name"
+                                  className="form-control"
+                                ></Control.text>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="lastName" md={3}>
+                                Last Name
+                              </Label>
+                              <Col md={9}>
+                                <Control.text
+                                  id="lastName"
+                                  name="lastName"
+                                  type="text"
+                                  model=".lastName"
+                                  placeholder="Last Name"
+                                  className="form-control"
+                                ></Control.text>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="email" md={3}>
+                                Email
+                              </Label>
+                              <Col md={9}>
+                                <Control.text
+                                  id="email"
+                                  name="email"
+                                  type="email"
+                                  model=".email"
+                                  placeholder="Email"
+                                  className="form-control"
+                                ></Control.text>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="password" md={3}>
+                                Password
+                              </Label>
+                              <Col md={9}>
+                                <Control.text
+                                  id="password"
+                                  name="password"
+                                  type="password"
+                                  model=".password"
+                                  placeholder="Password"
+                                  className="form-control"
+                                ></Control.text>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="faculty" md={3}>
+                                Faculty
+                              </Label>
+                              <Col md={9}>
+                                <Control.select
+                                  id="faculty"
+                                  name="faculty"
+                                  type="select"
+                                  model=".faculty"
+                                  placeholder="Faculty"
+                                  className="form-control"
+                                >
+                                  <option selected value="art">
+                                    Arts
+                                  </option>
+                                  <option value="cs">Computer Science</option>
+                                  <option value="eng">Engineering</option>
+                                  <option value="law">Law</option>
+                                  <option value="mngt">Management</option>
+                                  <option value="med">Medicine</option>
+                                  <option value="phar">Pharmacy</option>
+                                </Control.select>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+
+                          {/* <Link to="/student" className="link-underline">
+                            Submit
+                          </Link> */}
+                          {
+                            <Button
+                              type="submit"
+                              value="submit"
+                              color="primary"
+                              className="offset-md-10"
+                              id="studentForm"
+                            >
+                              Submit
+                            </Button>
+                          }
+                        </Form>
+                      </Col>
+                    </Row>
+                  </TabPane>
                 </TabContent>
               </div>
             </ModalBody>
@@ -292,4 +419,4 @@ class Register extends Component {
   }
 }
 
-export default (Register);
+export default Register;
