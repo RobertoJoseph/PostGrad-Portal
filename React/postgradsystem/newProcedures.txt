@@ -403,5 +403,25 @@ AS
     ON Thesis.payment_id = Payment.id;
 
 
+------------------
 
 
+---------------NEW--------------
+
+
+GO
+CREATE PROC ListThesesWithNoPayment 
+AS 
+    SELECT Thesis.* FROM Thesis
+    WHERE Thesis.payment_id IS NULL;
+                                
+ 
+----------------ALTER-------------
+
+GO
+CREATE PROC ListAllPayments 
+AS 
+    SELECT Payment.*, Thesis.title, Thesis.serialNumber FROM Payment
+    INNER JOIN Thesis
+    ON Thesis.payment_id = Payment.id
+    WHERE Payment.id NOT IN (   SELECT Installment.paymentID AS id FROM Installment )
