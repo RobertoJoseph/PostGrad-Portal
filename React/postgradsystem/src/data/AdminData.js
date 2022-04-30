@@ -33,7 +33,7 @@ export const AdminData=[
         cName:"nav-text"
     },
     {
-        title:"Installments",
+        title:"Payments",
         icon:<MdIcons.MdPayments/>,
         cName:"nav-text"
     }

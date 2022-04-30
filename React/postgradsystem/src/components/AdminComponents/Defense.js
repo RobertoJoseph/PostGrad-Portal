@@ -1,25 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Alert,
-  Row,
-  Col,
-  Table,
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
-import * as AiIcons from "react-icons/ai";
-import { Control, Form } from "react-redux-form";
+import { Table } from "reactstrap";
 import Axios from "axios";
 import "../../css/newNav.css";
 

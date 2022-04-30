@@ -5,27 +5,21 @@ import Axios from "axios";
 import * as HiIcons from "react-icons/hi";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
-import { Control, Form } from "react-redux-form";
 
 import {
   Card,
   CardBody,
   CardHeader,
   Button,
-  FormGroup,
-  Label,
-  Input,
   Modal,
   ModalHeader,
   ModalBody,
-  Alert,
   Table,
   DropdownToggle,
   ButtonDropdown,
   DropdownItem,
   DropdownMenu,
   Col,
-  Row,
 } from "reactstrap";
 
 function ListTheses(props) {

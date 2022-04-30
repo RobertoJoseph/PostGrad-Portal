@@ -48,5 +48,11 @@ router.get("/listongoingtheses/", adminoperations.ViewOnGOingTheses);
 
 router.get("/listexpiredtheses/", adminoperations.ViewExpiredTheses);
 
+router.get("/getpayments/", adminoperations.ListAllPayments);
+
+router.post("/issueinstallment", adminoperations.AdminIssueInstallPayment);
+
+
+
 
 module.exports = router;
