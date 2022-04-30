@@ -134,7 +134,7 @@ function ListTheses(props) {
     <div className="row">
       <div className="row">
         <label className="label mt-3">
-          <h3>Search {status + " " + resultCount}</h3>
+          <h3>Search {status} <span style={{fontSize: '12px', fontWeight:'lighter', fontStyle: 'italic'}}>Showing {" " + resultCount} Thesis</span></h3>
         </label>
         <Col sm={11}>
           <input
