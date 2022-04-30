@@ -71,7 +71,7 @@ function NonGUCpayments(props) {
                   {thesisPayment.map((item, index) => {
                     return (
                       <tr key={index} align="center">
-                        <th scope="row">{index}</th>
+                        <th scope="row">{index + 1}</th>
                         <td>{item.title}</td>
                         <td>  {new Intl.DateTimeFormat("en-US", {
                           year: "numeric",
