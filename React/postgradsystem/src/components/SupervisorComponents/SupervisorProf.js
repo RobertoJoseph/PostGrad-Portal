@@ -6,10 +6,17 @@ import { useParams } from "react-router-dom";
 import { SupervisorData } from "../../data/SupervisorData";
 import MyStudents from "./MyStudents"
 import Reports from "./Reports"
+import SupervisorEditProfile from "./SupervisorEditProfile"
 
 
 
 import * as MdIcons from "react-icons/md";
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import {
   Button,
   Modal,
@@ -34,6 +41,10 @@ function SupervisorProf() {
   const [userName, setUsername] = useState("");
   const [selectedStudent, setSelectedStudent] = useState({});
   const [prevAndNextURL, setPrevAndNextURL] = useState(["", ""]);
+  const [supervisorData, setSupervisorData] = useState([])
+  const [isDropdownOpen, toggleDropdown] = useState(false);
+  const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
+
 
   const viewStudentReports = (student) => {
     setURL("Reports");
@@ -45,6 +56,7 @@ function SupervisorProf() {
       (res) => {
         console.log(res.data);
         setUsername(res.data[0].firstName + " " + res.data[0].lastName);
+        setSupervisorData(res.data);
       }
     );
   };
@@ -66,14 +78,34 @@ function SupervisorProf() {
             <span style={{ fontWeight: "bolder", color: "#1C2D43" }}>
               Hello, {userName} &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <button
+            <ButtonDropdown
+              isOpen={isDropdownOpen}
+              toggle={setTheDropdown}
               className="edit"
-              onClick={() => {
-                setURL("My Profile");
-              }}
             >
-              <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
-            </button>
+              <DropdownToggle caret id="edit">
+                <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>My Account</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    setURL("My Profile");
+                  }}
+                >
+                  Personal Info
+                </DropdownItem>
+
+                <DropdownItem divider />
+                <DropdownItem
+                  onClick={() => {
+                    setURL("Log Out");
+                  }}
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           </NavItem>
         </Nav>
       </Navbar>
@@ -124,6 +156,8 @@ function SupervisorProf() {
             <MyStudents supervisorId={supervisorId} func={viewStudentReports}></MyStudents>
           ) : URL === "Reports" ? (
             <Reports student={selectedStudent} supervisorId={supervisorId}></Reports>
+          ) : URL === "My Profile" ? (
+            <SupervisorEditProfile supervisorData={supervisorData} supervisorId={supervisorId}></SupervisorEditProfile>
           ) : null}
         </div>
       </Row>

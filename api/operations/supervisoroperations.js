@@ -112,9 +112,9 @@ exports.CancelThesis = async function (req,res){
         .input("thesisSerialNo", sql.Int, req.params.thesisSerialNumber)
         .output("successBit",sql.Bit)
         .execute(`CancelThesis`)
-    ).recordset;
+    );
     console.log(result);
-    res.send(result);
+    res.send(result.output.successBit);
   } catch (err) {
     console.log(err);
   }
@@ -133,6 +133,27 @@ exports.SupervisorEvaluateReport = async function (req,res){
     ).recordset;
     console.log(result);
     res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.editPassword = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("id",sql.Int,req.params.supervisorId)
+        .input("oldpassword",sql.VarChar,req.body.oldPassword)
+        .input("newpassword",sql.VarChar,req.body.newPassword)
+        .output("success",sql.Bit)
+        .execute(`editSupervisorPassword`)
+    );
+    if (result.output.success) {
+      res.send({ isUpdated: true });
+    } else {
+      res.send({ isUpdated: false });
+    }
   } catch (err) {
     console.log(err);
   }
