@@ -16,10 +16,10 @@ function Courses(props) {
   }, []);
 
   return (
-    <div className="col-12 mt-3">
+    <div className="col-10 offset-1 mt-3">
       <Table striped>
         <thead>
-          <tr align="center">
+          <tr align="center" className="tableHeader">
             <th>#</th>
             <th>Course Name</th>
             <th>Credit hours</th>

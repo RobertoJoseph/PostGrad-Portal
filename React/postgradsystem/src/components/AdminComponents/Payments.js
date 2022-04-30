@@ -108,6 +108,11 @@ function Payments(props) {
     getAllPayments();
   }, []);
 
+  useEffect(() => {
+    getAllPayments();
+    getAllThesis();
+  }, [isIssued]);
+
   return (
     <IconContext.Provider value={{ color: "#fff" }}>
       <div className="row mt-5">

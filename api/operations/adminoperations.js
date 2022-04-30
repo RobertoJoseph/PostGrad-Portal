@@ -188,7 +188,7 @@ exports.AdminListAcceptPublication = async function (req, res) {
 exports.getAllThesis = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (await pool.request().execute(`AdminViewAllTheses`))
+    const result = (await pool.request().execute(`ListThesesWithNoPayment`))
       .recordset;
     res.send(result);
   } catch (erorr) {
@@ -276,6 +276,37 @@ exports.ListAllPayments = async function (req, res) {
     res.send(result);
   } catch (erorr) {
     console.log(erorr);
+    sql.close();
+  }
+};
+
+exports.ListUnlinkedTheses = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`ListUnlinkedTheses`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};
+
+exports.LinkThesis = async function (req, res) {
+  try {
+    console.log("STUDENT "+ req.body.studentID);
+    console.log("SUPERVISOR "+ req.body.supervisorID);
+    console.log("SERIAL "+ req.body.serialNumber);
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("studentID", sql.Int, req.body.studentID)
+      .input("SupervisorID", sql.Int, req.body.supervisorID)
+      .input("serialNumber", sql.Int, req.body.serialNumber)
+      .execute(`LinkThesis`);
+    res.send({ isIssued: true });
+  } catch (error) {
+    console.log(error);
     sql.close();
   }
 };
