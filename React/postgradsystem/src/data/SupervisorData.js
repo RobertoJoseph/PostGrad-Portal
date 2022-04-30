@@ -11,19 +11,7 @@ export const SupervisorData=[
         path:"/supervisorstudents",
         icon: <FaIcons.FaUserGraduate/>,
         cName:"nav-text"
-    },
-    {
-        title:"Defenses",
-        path:"/supervisortheses",
-        icon:<BsIcons.BsBook/>,
-        cName:"nav-text"
-    },
-    {
-        title:"Reports",
-        path:"/supervisorreports",
-        icon:<MdIcons.MdAssignmentLate/>,
-        cName:"nav-text"
-    },
+    }
     
     
 ]

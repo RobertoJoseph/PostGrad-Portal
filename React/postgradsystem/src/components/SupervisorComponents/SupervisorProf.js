@@ -8,6 +8,7 @@ import MyStudents from "./MyStudents"
 import Reports from "./Reports"
 
 
+
 import * as MdIcons from "react-icons/md";
 import {
   Button,
@@ -31,9 +32,15 @@ function SupervisorProf() {
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);
   const [userName, setUsername] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState({});
+  const [prevAndNextURL, setPrevAndNextURL] = useState(["", ""]);
 
+  const viewStudentReports = (student) => {
+    setURL("Reports");
+    setSelectedStudent(student);
+  };
   const getUserInformation = () => {
-    console.log("I am in the supervisorProf, the id is: "+ supervisorId);
+    console.log("I am in the supervisorProf, the id is: " + supervisorId);
     Axios.get(`http://localhost:9000/supervisor/supervisordata/${supervisorId}`).then(
       (res) => {
         console.log(res.data);
@@ -89,40 +96,35 @@ function SupervisorProf() {
                 </div>
               </span>
               {
-              
-              SupervisorData.map((item, index) => {
+
+                SupervisorData.map((item, index) => {
 
 
-                return (
-                  <li
-                    key={index}
-                    className="row"
-                    onClick={() => {
-                      setURL(item.title);
-                    }}
-                  >
-                    <div id="icon">{item.icon}</div>
-                    <div id="title" className="titleSize">
-                      {item.title}
-                    </div>
-                  </li>
-                );
-              })}
+                  return (
+                    <li
+                      key={index}
+                      className="row"
+                      onClick={() => {
+                        setURL(item.title);
+                      }}
+                    >
+                      <div id="icon">{item.icon}</div>
+                      <div id="title" className="titleSize">
+                        {item.title}
+                      </div>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>
 
         <div className="col-10 page">
           {URL === "My Students" ? (
-            <MyStudents supervisorId={supervisorId} />
-            ) 
-            : URL === "Reports" ? (
-            <Reports supervisorId={supervisorId}></Reports>
-          ) 
-          // : URL === "Thesis" ? (
-          //   <Courses studentID={studentID}></Courses>
-          // )
-          :null}
+            <MyStudents supervisorId={supervisorId} func={viewStudentReports}></MyStudents>
+          ) : URL === "Reports" ? (
+            <Reports student={selectedStudent}></Reports>
+          ) : null}
         </div>
       </Row>
     </div>
