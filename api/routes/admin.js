@@ -42,6 +42,7 @@ router.get(
   adminoperations.AdminListAcceptPublication
 );
 router.get("/getAllThesis", adminoperations.getAllThesis);
+router.get("/viewExamSupDefense", adminoperations.viewExamSupDefense);
 
 router.get("/listongoingtheses/", adminoperations.ViewOnGOingTheses);
 

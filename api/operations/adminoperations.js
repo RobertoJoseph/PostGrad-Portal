@@ -220,6 +220,11 @@ exports.ViewOnGOingTheses = async function (req, res) {
   try {
     let pool = await sql.connect(config);
     const result = (await pool.request().execute(`ViewOnGOingTheses`))
+//Ruby codes here
+exports.viewExamSupDefense = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`viewExamSupDefense`))
       .recordset;
     res.send(result);
   } catch (erorr) {

@@ -22,6 +22,7 @@ import Courses from "./Courses";
 import EnrolledStudents from "./EnrolledStudents";
 import { useNavigate } from "react-router-dom";
 import Installemnts from "./Installments";
+import Defense from "./Defense";
 
 function Admin(props) {
   const [supID, setSupID] = useState("");
@@ -179,7 +180,7 @@ function Admin(props) {
           ) : prevAndNextURL[1] === "Supervisors" ? (
             <Supervisors func={viewSupervisorThesis}></Supervisors>
           ) : prevAndNextURL[1] === "Defenses" ? (
-            <></>
+            <Defense></Defense>
           ) : prevAndNextURL[1] === "Installments" ? (
             <Installemnts></Installemnts>
           ) : prevAndNextURL[1] === "Log Out" ? (

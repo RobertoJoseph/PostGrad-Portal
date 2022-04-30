@@ -46,16 +46,16 @@ function Installemnts() {
         console.log(err);
       });
   };
-  const mappingThesis = () => {
-    let temp = [];
-    for (let i = 1; i <= thesis.length; i++) {
-      temp.push({
-        serialNumber: thesis[i].serialNumber,
-        title: thesis[i].title,
-      });
-    }
-    return temp;
-  };
+  //   const mappingThesis = () => {
+  //     let temp = [];
+  //     for (let i = 1; i <= thesis.length; i++) {
+  //       temp.push({
+  //         serialNumber: thesis[i].serialNumber,
+  //         title: thesis[i].title,
+  //       });
+  //     }
+  //     return temp;
+  //   };
 
   const createSelectItems = () => {
     let items = [];
