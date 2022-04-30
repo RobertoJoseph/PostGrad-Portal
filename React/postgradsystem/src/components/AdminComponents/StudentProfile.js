@@ -23,12 +23,17 @@ function StudentProfile(props) {
   const [isGUCian, setIsGUCian] = useState(false);
   const [courses, setCourse] = useState([]);
   const [courseCatalog, setCourseCatalog] = useState([]);
+  const [thesisCatalog, setThesisCatalog] = useState([]);
   const [isModalOpen, toggleModal] = useState(false);
   const [courseLinked, setCourseLinked] = useState(false);
+  const [thesisLinked, setThesisLinked] = useState(false);
   const [gradeAdded, setGradeAdded] = useState(false);
   const { register, handleSubmit } = useForm();
   const [isGradeModalOpen, toggleGradeModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(0);
+  const [supervisors, setSupervisors] = useState([]);
+
+
   const setTheModal = () => {
     toggleModal(!isModalOpen);
     setCourseLinked(false);
@@ -73,6 +78,35 @@ function StudentProfile(props) {
       });
   };
 
+  const linkThesis = (values) => {
+
+    var serialText = values.thesis;
+    var serialnumber = serialText.match(/\d/g);
+    serialnumber = serialnumber.join("");
+
+    var supervisor = values.supervisor;
+    var supID = supervisor.match(/\d/g);
+    supID = supID.join("");
+
+
+    console.log("THE SERIAL IS:  " + serialnumber);
+    console.log("THE SUPERR IS:  " + supID);
+
+
+    Axios.post("http://localhost:9000/admin/linkthesis/", {
+      serialNumber: serialnumber,
+      studentID: props.studentID,
+      supervisorID: supID,
+
+    })
+      .then((response) => {
+        setThesisLinked(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const getCourses = () => {
     Axios.get(
       `http://localhost:9000/students/studentcourses/${props.studentID}`
@@ -84,6 +118,18 @@ function StudentProfile(props) {
   const allCourses = () => {
     Axios.get(`http://localhost:9000/admin/courses/`).then((res) => {
       setCourseCatalog(res.data);
+    });
+  };
+
+  const allSupervisors = () => {
+    Axios.get(`http://localhost:9000/admin/listsupervisors/`).then((res) => {
+      setSupervisors(res.data);
+    });
+  };
+
+  const allTheses = () => {
+    Axios.get(`http://localhost:9000/admin/getunlinkedtheses/`).then((res) => {
+      setThesisCatalog(res.data);
     });
   };
 
@@ -111,6 +157,11 @@ function StudentProfile(props) {
   useEffect(() => {
     getCourses();
   }, [courseLinked, gradeAdded]);
+
+  useEffect(() => {
+    allTheses();
+    allSupervisors();
+  }, [thesisLinked]);
 
   return (
     <IconContext.Provider value={{ color: "#fff" }}>
@@ -206,6 +257,69 @@ function StudentProfile(props) {
                   </FormGroup>
                 </div>
               </div>
+              <div className="mt-5 mb-5 container">
+                <div>
+                  <Row id="data-title" mb={5}>
+                    Link A Thesis
+                  </Row>
+                  <div className="col-10 offset-1 mt-3 mb-3">
+
+                    <div className="mt-5">
+                      <Form onSubmit={handleSubmit(linkThesis)}>
+
+                        <FormGroup>
+                          <Row>
+                            <Label htmlFor="thesis" className="col-2">
+                              Select A Thesis
+                            </Label>
+                            <Col md={10}>
+                              <select
+                                id="thesis"
+                                name="thesis"
+                                type="select"
+                                ref={register}
+                                className="form-control"
+                              >
+                                {thesisCatalog.map((item, index) => {
+                                  return <option>{"#" + item.serialNumber + "  " + item.title}</option>;
+                                })}
+                              </select>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                        <FormGroup>
+                          <Row>
+                            <Label htmlFor="supervisor" className="col-2">
+                              Select A Supervisor
+                            </Label>
+                            <Col md={10}>
+                              <select
+                                id="supervisor"
+                                name="supervisor"
+                                type="select"
+                                ref={register}
+                                className="form-control"
+                              >
+                                {supervisors.map((item, index) => {
+                                  return <option>{"#" + item.id + "  " + item.firstName + " " + item.lastName }</option>;
+                                })}
+                              </select>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                        {thesisLinked ? (
+                          <Alert color="success">Thesis Linked Successfully</Alert>
+                        ) : null}
+                        <input
+                          type="submit"
+                          value="Link"
+                          className="form-control btn-primary"
+                        />
+                      </Form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           );
         })}
@@ -215,10 +329,10 @@ function StudentProfile(props) {
               <Row id="data-title" mb={5}>
                 Enrolled Courses
               </Row>
-              <div className="col-12 mt-3">
+              <div className="col-10 offset-1 mt-3">
                 <Table striped>
                   <thead>
-                    <tr align="center">
+                    <tr align="center" className="tableHeader">
                       <th>Course ID</th>
                       <th>Course Name</th>
                       <th>Credit hours</th>
@@ -237,7 +351,7 @@ function StudentProfile(props) {
                           <td>{item.fees}</td>
                           <td>
                             {item.grade ? (
-                              item.grade+"%"
+                              item.grade + "%"
                             ) : (
                               <Button
                                 color="success"

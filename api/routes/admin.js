@@ -53,7 +53,9 @@ router.get("/getpayments/", adminoperations.ListAllPayments);
 
 router.post("/issueinstallment", adminoperations.AdminIssueInstallPayment);
 
+router.get("/getunlinkedtheses/", adminoperations.ListUnlinkedTheses);
 
+router.post("/linkthesis", adminoperations.LinkThesis);
 
 
 module.exports = router;
