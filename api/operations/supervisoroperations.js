@@ -172,4 +172,17 @@ exports.editPassword = async function (req,res){
     console.log(err);
   }
 };
+exports.ViewAllProgressReports = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .execute(`viewAllProgressReports`)
+    ).recordset;
+      res.send(result)
+  } catch (err) {
+    console.log(err);
+  }
+};
 
