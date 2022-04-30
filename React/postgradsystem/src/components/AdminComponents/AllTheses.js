@@ -36,6 +36,8 @@ function ListTheses(props) {
   const [onGoingTheses, setOnGoingTheses] = useState([]);
   const [expiredTheses, setExpiredTheses] = useState([]);
   const [status, setStatus] = useState("All Theses");
+  const [resultCount, setReslutCount] = useState(0);
+
 
   const [selectedSerial, setSelectedSerial] = useState(0); //Id of the selected thesis
   const [isClicked, setIsClicked] = useState(0); // to check if the button is clicked
@@ -51,6 +53,12 @@ function ListTheses(props) {
     var word = currentWord.toLowerCase();
     return rows.filter((row) => row.title.toLowerCase().indexOf(word) > -1);
   };
+
+  const getLength = (rows) => {
+    let temp = search(rows);
+    setReslutCount(temp.length);
+    
+  }
 
   const setModalAcceptedPublications = () => {
     toggleAcceptedPublications(!acceptedPublications);
@@ -93,6 +101,7 @@ function ListTheses(props) {
     Axios.get(`http://localhost:9000/admin/listtheses/`).then((res) => {
       setAllTheses(res.data);
       setTheses(res.data);
+      setReslutCount(theses.length);
     });
   };
   const listOnGoingTheses = () => {
@@ -114,15 +123,20 @@ function ListTheses(props) {
   useEffect(() => {
     incrementExtension();
   }, [isClicked]);
+
   useEffect(() => {
     getPulications();
   }, [isClicked2]);
+
+  useEffect(() => {
+    getLength(theses)
+  }, [currentWord]);
 
   return (
     <div className="row">
       <div className="row">
         <label className="label mt-3">
-          <h3>Search {status}</h3>
+          <h3>Search {status +" "+ resultCount}</h3>
         </label>
         <Col sm={11}>
           <input
