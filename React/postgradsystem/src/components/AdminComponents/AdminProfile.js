@@ -136,7 +136,7 @@ function Admin(props) {
                 </div>
               </span>
               <span id="heading">Admin Profile </span>
-              <span id="sub-heading">{URL}</span>
+              <span id="sub-heading">{prevAndNextURL[1]}</span>
               <span>
                 <div>
                   <br></br>
@@ -147,7 +147,7 @@ function Admin(props) {
                 return (
                   <li
                     key={index}
-                    className="row"
+                    className={`row ${(item.title===prevAndNextURL[1]) ? "active" : ""}`}
                     onClick={() => {
                       setfinishStatus(false);
                       setPrevAndNextURL((prevURL) => [prevURL[1], item.title]);

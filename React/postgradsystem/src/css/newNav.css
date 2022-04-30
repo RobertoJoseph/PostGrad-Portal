@@ -15,7 +15,9 @@
     position: fixed;
 }
 
-
+.sidebarList  .active {
+    background-color: #0a4d8b;
+  }
 
 
 
