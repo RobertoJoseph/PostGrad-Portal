@@ -7,6 +7,7 @@ import { SupervisorData } from "../../data/SupervisorData";
 import MyStudents from "./MyStudents"
 import Reports from "./Reports"
 import SupervisorEditProfile from "./SupervisorEditProfile"
+import NewReports from "./NewReports"
 
 
 
@@ -158,6 +159,8 @@ function SupervisorProf() {
             <Reports student={selectedStudent} supervisorId={supervisorId}></Reports>
           ) : URL === "My Profile" ? (
             <SupervisorEditProfile supervisorData={supervisorData} supervisorId={supervisorId}></SupervisorEditProfile>
+          ) : URL === "All Reports" ? (
+            <NewReports supervisorId={supervisorId}></NewReports>
           ) : null}
         </div>
       </Row>

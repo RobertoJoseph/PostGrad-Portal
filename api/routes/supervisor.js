@@ -33,10 +33,13 @@ router.get(
   supervisoroperations.CancelThesis
 );
 router.post("/addDefense", supervisoroperations.SupervisorAddDefense);
+
 router.post("/addSupervisor", supervisoroperations.addSupervisor);
 
 router.post('/evaluate',supervisoroperations.SupervisorEvaluateReport);
 
 router.post('/changepassword/:supervisorId',supervisoroperations.editPassword);
+
+router.get('/viewallreports',supervisoroperations.ViewAllProgressReports);
 
 module.exports = router;
