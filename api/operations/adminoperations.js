@@ -188,7 +188,7 @@ exports.AdminListAcceptPublication = async function (req, res) {
 exports.getAllThesis = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (await pool.request().execute(`AdminViewAllTheses`))
+    const result = (await pool.request().execute(`ListThesesWithNoPayment`))
       .recordset;
     res.send(result);
   } catch (erorr) {
