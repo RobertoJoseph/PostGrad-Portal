@@ -16,4 +16,5 @@ router.post('/addDefense',supervisoroperations.SupervisorAddDefense);
 
 router.get('/cancelthesis/:thesisSerialNumber',supervisoroperations.CancelThesis);
 
+router.post('/evaluate',supervisoroperations.SupervisorEvaluateReport);
 module.exports = router;

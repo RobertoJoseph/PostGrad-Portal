@@ -119,3 +119,21 @@ exports.CancelThesis = async function (req,res){
     console.log(err);
   }
 };
+exports.SupervisorEvaluateReport = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("supervisorID", sql.Int, req.body.supervisorId)
+        .input("thesisSerialNo", sql.Int, req.body.thesisSerialNumber)
+        .input("progressReportNo", sql.Int, req.body.progressReportNumber)
+        .input("evaluation", sql.Int, req.body.evaluation)
+        .execute(`EvaluateReport`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
+};

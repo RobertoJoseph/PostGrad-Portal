@@ -123,7 +123,7 @@ function SupervisorProf() {
           {URL === "My Students" ? (
             <MyStudents supervisorId={supervisorId} func={viewStudentReports}></MyStudents>
           ) : URL === "Reports" ? (
-            <Reports student={selectedStudent}></Reports>
+            <Reports student={selectedStudent} supervisorId={supervisorId}></Reports>
           ) : null}
         </div>
       </Row>
