@@ -1,11 +1,7 @@
-export const StudentForm = {
+export const SupervisorForm = {
   firstName: "",
   lastName: "",
   email: "",
   password: "",
   faculty: "",
-  address: "",
-  isGucian: false,
 };
-
-

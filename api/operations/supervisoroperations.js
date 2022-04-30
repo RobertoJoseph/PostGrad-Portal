@@ -1,25 +1,24 @@
 var config = require("./dbconfig");
 const sql = require("mssql");
 
-
 exports.getSupervisorData = async function (req, res) {
-    try {
-      let pool = await sql.connect(config);
-      const result = (
-        await pool
-          .request()
-          .input("supervisorID", sql.Int, req.params.supervisorId)
-          .execute(`SupViewProfile`)
-      ).recordset;
-      console.log(result);
-      res.send(result);
-    } catch (err) {
-      console.log(err);
-      sql.close();
-    }
-  };
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("supervisorID", sql.Int, req.params.supervisorId)
+        .execute(`SupViewProfile`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};
 
-exports.showSupervisorStudents = async function (req,res){
+exports.showSupervisorStudents = async function (req, res) {
   try {
     let pool = await sql.connect(config);
     const result = (
@@ -35,7 +34,7 @@ exports.showSupervisorStudents = async function (req,res){
   }
 };
 
-exports.ViewStudentPublications = async function (req,res){
+exports.ViewStudentPublications = async function (req, res) {
   try {
     let pool = await sql.connect(config);
     const result = (
@@ -52,7 +51,7 @@ exports.ViewStudentPublications = async function (req,res){
   }
 };
 
-exports.supervisorListProgressReport = async function (req,res){
+exports.supervisorListProgressReport = async function (req, res) {
   try {
     let pool = await sql.connect(config);
     const result = (
@@ -69,14 +68,10 @@ exports.supervisorListProgressReport = async function (req,res){
   }
 };
 
-exports.getExaminers = async function (req,res){
+exports.getExaminers = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (
-      await pool
-        .request()
-        .execute(`getExaminers`)
-    ).recordset;
+    const result = (await pool.request().execute(`getExaminers`)).recordset;
     console.log(result);
     res.send(result);
   } catch (err) {
@@ -84,7 +79,7 @@ exports.getExaminers = async function (req,res){
   }
 };
 
-exports.SupervisorAddDefense = async function (req,res){
+exports.SupervisorAddDefense = async function (req, res) {
   try {
     let pool = await sql.connect(config);
     const result = (
@@ -103,14 +98,33 @@ exports.SupervisorAddDefense = async function (req,res){
     console.log(err);
   }
 };
-exports.CancelThesis = async function (req,res){
+exports.addSupervisor = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("firstName", sql.VarChar, req.body.firstName)
+        .input("lastName", sql.VarChar, req.body.lastName)
+        .input("password", sql.VarChar, req.body.password)
+        .input("faculty", sql.VarChar, req.body.faculty)
+        .input("email", sql.VarChar, req.body.email)
+        .execute(`SupervisorRegister`)
+    ).recordset;
+    console.log(result);
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+exports.CancelThesis = async function (req, res) {
   try {
     let pool = await sql.connect(config);
     const result = (
       await pool
         .request()
         .input("thesisSerialNo", sql.Int, req.params.thesisSerialNumber)
-        .output("successBit",sql.Bit)
+        .output("successBit", sql.Bit)
         .execute(`CancelThesis`)
     );
     console.log(result);
@@ -158,3 +172,4 @@ exports.editPassword = async function (req,res){
     console.log(err);
   }
 };
+

@@ -184,3 +184,98 @@ exports.AdminListAcceptPublication = async function (req, res) {
     sql.close();
   }
 };
+
+exports.getAllThesis = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`AdminViewAllTheses`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};
+
+exports.AdminIssueThesisPayment = async function (req, res) {
+  try {
+    console.log();
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("ThesisSerial", sql.Int, req.body.thesisSerialNumber)
+      .input("amount", sql.Decimal, req.body.amount)
+      .input("noOfInstallments", sql.Int, req.body.installment)
+      .input("fundPrecentage", sql.Decimal, req.body.fund)
+      .output("Success", sql.Bit)
+      .execute(`AdminIssueThesisPayment`);
+    res.send({ isIssued: true });
+  } catch (error) {
+    console.log(error);
+    sql.close();
+  }
+};
+
+exports.ViewOnGOingTheses = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`ViewOnGOingTheses`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};
+
+exports.viewExamSupDefense = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`viewExamSupDefense`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};
+
+exports.ViewExpiredTheses = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`ViewExpiredTheses`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};
+
+exports.AdminIssueInstallPayment = async function (req, res) {
+  try {
+    console.log();
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("paymentID", sql.Int, req.body.paymentNumber)
+      .input("installStartDate", sql.Date, req.body.date)
+      .execute(`AdminIssueInstallPayment`);
+    res.send({ isIssued: true });
+  } catch (error) {
+    console.log(error);
+    sql.close();
+  }
+};
+
+exports.ListAllPayments = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`ListAllPayments`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};

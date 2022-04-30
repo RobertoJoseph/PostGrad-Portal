@@ -4,29 +4,51 @@ import "../../css/Admin.css";
 import Axios from "axios";
 import * as HiIcons from "react-icons/hi";
 import * as AiIcons from "react-icons/ai";
+import * as FaIcons from "react-icons/fa";
 
 import {
   Card,
   CardBody,
   CardHeader,
   Button,
-  FormGroup,
-  Label,
-  Input,
   Modal,
   ModalHeader,
   ModalBody,
-  Alert,
   Table,
+  DropdownToggle,
+  ButtonDropdown,
+  DropdownItem,
+  DropdownMenu,
+  Col,
 } from "reactstrap";
 
 function ListTheses(props) {
-  const [theses, setTheses] = useState([]); // all theses
+  const [theses, setTheses] = useState([]); // view theses
+  const [allTheses, setAllTheses] = useState([]);
+  const [onGoingTheses, setOnGoingTheses] = useState([]);
+  const [expiredTheses, setExpiredTheses] = useState([]);
+  const [status, setStatus] = useState("All Theses");
+  const [resultCount, setResultCount] = useState(theses.length);
+
   const [selectedSerial, setSelectedSerial] = useState(0); //Id of the selected thesis
   const [isClicked, setIsClicked] = useState(0); // to check if the button is clicked
   const [isClicked2, setIsClicked2] = useState(0);
   const [publications, setPublications] = useState([]);
   const [acceptedPublications, toggleAcceptedPublications] = useState(false);
+  const [isDropdownOpen, toggleDropdown] = useState(false);
+  const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
+  const [currentWord, setCurrentWord] = useState("");
+
+  const search = (rows) => {
+    var word = currentWord.toLowerCase();
+    return rows.filter((row) => row.title.toLowerCase().indexOf(word) > -1);
+  };
+
+  const getLength = (rows) => {
+    let temp = search(rows);
+    setResultCount(temp.length);
+  };
+
   const setModalAcceptedPublications = () => {
     toggleAcceptedPublications(!acceptedPublications);
   };
@@ -66,23 +88,94 @@ function ListTheses(props) {
 
   const listTheses = () => {
     Axios.get(`http://localhost:9000/admin/listtheses/`).then((res) => {
+      setAllTheses(res.data);
       setTheses(res.data);
+      setResultCount(theses.length);
+    });
+  };
+  const listOnGoingTheses = () => {
+    Axios.get(`http://localhost:9000/admin/listongoingtheses/`).then((res) => {
+      setOnGoingTheses(res.data);
+    });
+  };
+  const listMissedTheses = () => {
+    Axios.get(`http://localhost:9000/admin/listexpiredtheses/`).then((res) => {
+      setExpiredTheses(res.data);
     });
   };
   useEffect(() => {
     listTheses();
+    listOnGoingTheses();
+    listMissedTheses();
   }, []);
 
   useEffect(() => {
     incrementExtension();
   }, [isClicked]);
+
   useEffect(() => {
     getPulications();
   }, [isClicked2]);
 
+  useEffect(() => {
+    getLength(theses);
+  }, [currentWord]);
+  useEffect(() => {
+    setResultCount(theses.length);
+  }, [theses]);
+
   return (
     <div className="row">
-      {theses.map((item, index) => {
+      <div className="row">
+        <label className="label mt-3">
+          <h3><span style={{fontWeight:'bold'}}>Search {status}</span> <span style={{fontSize: '12px', fontWeight:'lighter', fontStyle: 'italic'}}>Showing {" " + resultCount} Thesis</span></h3>
+        </label>
+        <Col sm={11}>
+          <input
+            type="text"
+            className="form-control"
+            value={currentWord}
+            placeholder="Search By Thesis Title"
+            onChange={(e) => {
+              setCurrentWord(e.target.value);
+            }}
+          ></input>
+        </Col>
+        <Col sm={1}>
+          <ButtonDropdown isOpen={isDropdownOpen} toggle={setTheDropdown}>
+            <DropdownToggle id="filter" caret>
+              <FaIcons.FaFilter></FaIcons.FaFilter>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                onClick={() => {
+                  setTheses(allTheses);
+                  setStatus("All Theses");
+                }}
+              >
+                All Theses
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  setTheses(onGoingTheses);
+                  setStatus("On-Going Theses");
+                }}
+              >
+                On-Going
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  setTheses(expiredTheses);
+                  setStatus("Expired Theses");
+                }}
+              >
+                Expired
+              </DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+        </Col>
+      </div>
+      {search(theses).map((item, index) => {
         return (
           <div key={index} className="col-6 mt-3 mb-3">
             <Card

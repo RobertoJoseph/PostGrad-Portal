@@ -35,6 +35,7 @@ export default function Home(props) {
           <div className=" col-12 col-md-6">
             <Register
               addStudent={props.addStudent}
+              addSupervisor={props.addSupervisor}
               resetFeedBackForm={props.resetFeedBackForm}
             ></Register>
           </div>

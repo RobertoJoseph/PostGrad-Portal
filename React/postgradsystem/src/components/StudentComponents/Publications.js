@@ -17,10 +17,7 @@ import {
   Alert,
 } from "reactstrap";
 import * as AiIcons from "react-icons/ai";
-import { Control, Form} from "react-redux-form";
-
-
-
+import { Control, Form } from "react-redux-form";
 
 function Publications(props) {
   const [publications, setPublications] = useState([]);
@@ -35,6 +32,7 @@ function Publications(props) {
   const setModalAddPublication = () => setModal(!modalAddPublication);
   const [isPublicationLinked, setIsPublicationLinked] = useState(false);
   const [isPublicationExists, setPublicationExists] = useState(false);
+  const [items, setItems] = useState([]);
 
   const addPublication = (values) => {
     Axios.post(
@@ -80,6 +78,10 @@ function Publications(props) {
   };
 
   const createSelectItems = () => {
+    //Make array carry the thesisTitle and its serialNumber
+
+  
+
     let items = [];
     for (let i = 0; i <= thesis.length; i++) {
       items.push(

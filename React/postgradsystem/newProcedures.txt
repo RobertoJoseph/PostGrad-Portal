@@ -375,3 +375,33 @@ AS
         INNER JOIN Course C ON C.id = NonGUCianTakeCourse.course_id
         Where NonGUCianTakeCourse.course_id = @courseID;
 ----------------------------
+
+
+
+-----------NEW-----------
+
+GO
+CREATE PROC ViewOnGOingTheses
+AS
+    SELECT * FROM Thesis T
+    Where T.endDate > GETDATE();
+
+GO
+CREATE PROC ViewExpiredTheses
+AS
+    SELECT * FROM Thesis T
+    Where T.endDate < GETDATE();
+
+-------------------------
+
+
+GO
+CREATE PROC ListAllPayments 
+AS 
+    SELECT Payment.*, Thesis.title, Thesis.serialNumber FROM Payment
+    INNER JOIN Thesis
+    ON Thesis.payment_id = Payment.id;
+
+
+
+

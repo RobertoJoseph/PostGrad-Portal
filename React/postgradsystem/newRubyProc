@@ -1,0 +1,20 @@
+
+--ALtered--
+CREATE PROC ViewExamSupDefense
+
+AS
+    select E.name , S.firstName, S.lastName, ExaminerEvaluateDefense.[date]
+    FROM ExaminerEvaluateDefense
+        INNER JOIN Examiner E ON E.id = ExaminerEvaluateDefense.examiner_id
+        INNER JOIN GUCianRegisterThesis ON ExaminerEvaluateDefense.thesisSerialNumber = GUCianRegisterThesis.thesisSerialNumber
+        INNER JOIN Supervisor S ON S.id = GUCianRegisterThesis.supervisor_id
+
+
+UNION
+
+    select E.name , S.firstName, S.lastName, ExaminerEvaluateDefense.[date]
+    FROM ExaminerEvaluateDefense
+        INNER JOIN Examiner E ON E.id = ExaminerEvaluateDefense.examiner_id
+        INNER JOIN NonGUCianRegisterThesis ON ExaminerEvaluateDefense.thesisSerialNumber = NonGUCianRegisterThesis.thesisSerialNumber
+        INNER JOIN Supervisor S ON S.id = NonGUCianRegisterThesis.supervisor_id
+

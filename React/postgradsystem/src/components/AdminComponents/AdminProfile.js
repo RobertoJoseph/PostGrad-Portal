@@ -20,7 +20,8 @@ import Students from "./AllStudents";
 import StudentProfile from "./StudentProfile";
 import Courses from "./Courses";
 import EnrolledStudents from "./EnrolledStudents";
-import { useNavigate } from "react-router-dom";
+import Defense from "./Defense";
+import Payments from "./Payments";
 
 function Admin(props) {
   const [supID, setSupID] = useState("");
@@ -178,9 +179,9 @@ function Admin(props) {
           ) : prevAndNextURL[1] === "Supervisors" ? (
             <Supervisors func={viewSupervisorThesis}></Supervisors>
           ) : prevAndNextURL[1] === "Defenses" ? (
-            <></>
-          ) : prevAndNextURL[1] === "Installments" ? (
-            <></>
+            <Defense></Defense>
+          ) : prevAndNextURL[1] === "Payments" ? (
+            <Payments></Payments>
           ) : prevAndNextURL[1] === "Log Out" ? (
             <></>
           ) : prevAndNextURL[1] === "Supervisor's Theses" ? (
