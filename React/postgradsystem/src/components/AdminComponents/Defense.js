@@ -66,9 +66,9 @@ function Defense() {
         <br></br>
 
         <hr></hr>
-        <Table hover size="md" striped>
-          <thead>
-            <tr>
+        <Table className="ttableHeader" hover size="md" striped>
+          <thead className="tableHeader">
+            <tr className="tableHeader">
               <th>#</th>
               <th>{"          "}Examiner Name</th>
               <th>{"          "}Supervisor Name</th>
