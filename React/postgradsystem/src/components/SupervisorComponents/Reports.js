@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "../../css/Navbar.css";
 import Axios from "axios";
 import styled from "styled-components";
+import { Control } from "react-redux-form";
 import {
     Card,
     CardTitle,
@@ -23,6 +24,7 @@ import {
     Table,
 } from "reactstrap";
 
+
 function Reports(props) {
     const [clickedId, setClickedId] = useState(0);
     const [isModalOpen, toggleModal] = useState(false);
@@ -30,11 +32,14 @@ function Reports(props) {
     const [reports, setReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState({});
     const [isThesisCancelled, setThesisCancelled] = useState(false);
+    const [value, setValue] = useState(0);
+
 
     const clicked = (thesisSerialNumber) => {
         for (let i = 0; i < reports.length; i++) {
             if (reports[i].thesisSerialNumber == thesisSerialNumber) {
                 setSelectedReport(reports[i]);
+                setValue(selectedReport.evaluation)
             }
         }
         console.log(selectedReport);
@@ -50,12 +55,22 @@ function Reports(props) {
                 console.log(res.data)
             })
     }
-    const thesisButton = ()=>{
+    const thesisButton = () => {
         Axios.get(`http://localhost:9000/supervisor/cancelthesis/${props.student.thesisSerialNumber}`)
-        .then((res) => {
-            setThesisCancelled(res.data);
-            console.log(res.data)
+            .then((res) => {
+                setThesisCancelled(res.data);
+                console.log(res.data)
+            })
+    }
+    const handleSubmit = (values) => {
+        Axios.post(`http://localhost:9000/supervisor/evaluate`, {
+            supervisorId: props.supervisorId,
+            thesisSerialNumber: props.student.thesisSerialNumber,
+            progressReportNumber: selectedReport.progressReportNumber,
+            evaluation: value
         })
+            .then((res) => {
+            })
     }
 
     useEffect(() => {
@@ -64,7 +79,6 @@ function Reports(props) {
 
     return (
         <div>
-
             <div>
                 <div className="mt-3 mb-3 container">
                     <Row className="justify-content-center">
@@ -118,9 +132,12 @@ function Reports(props) {
                                         </Col>
                                     </Row>
                                 </FormGroup>
+                                {isThesisCancelled ? (
+                                    <Alert color="success">Thesis Cancelled Successfully</Alert>
+                                ) : null}
                                 <Row className="justify-content-center">
                                     <Col md={3}>
-                                        <Button variant="danger" onClick={()=>{thesisButton()}}>Cancel Thesis</Button>
+                                        <Button variant="danger" onClick={() => { thesisButton() }}>Cancel Thesis</Button>
                                     </Col>
                                 </Row>
                             </div>
@@ -192,26 +209,54 @@ function Reports(props) {
                         </a>
                     }
                 >
-                    Reports
+                    Evaluate Report No. {selectedReport.progressReportNumber}
                 </ModalHeader>
                 <ModalBody>
-                    <div><label className="label">Report No.:
-                        <span>{selectedReport.progressReportNumber}</span></label>
+                    <div>
+                        <Form
+                            onSubmit={(values) => {
+                                handleSubmit(values);
+                            }}
+                        >
+                            <FormGroup>
+                                <Row>
+                                    <Label htmlFor="description" className="label" md={{ size: 5 }}>
+                                        Report description:
+                                    </Label>
+                                </Row>
+                                <Row>
+                                    <Col md={11}>
+                                        <Input
+                                            id="description"
+                                            name="description"
+                                            type="text"
+                                            value={selectedReport.description}
+                                        ></Input>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label className="label">
+                                    Grade:<span style={{ fontWeight: "bold" }}>{value}</span>{" "}
+                                </Label>
+                                <Control
+                                    type="range"
+                                    min={0}
+                                    max={10}
+                                    className="slider red"
+                                    model=".grade"
+                                    onChange={(values) => {
+                                        setValue(values.target.value);
+                                    }}
+                                ></Control>
+                            </FormGroup>
+                            <input
+                                type="submit"
+                                value="Evaluate"
+                                className="form-control btn-primary"
+                            />
+                        </Form>
                     </div>
-                    <div><label className="label">Student Name: </label>
-                        <span>{selectedReport.firstName + " " + selectedReport.lastName}</span>
-                    </div>
-                    <div><label className="label">Date: </label>
-                        <span>{selectedReport.date}</span>
-                    </div>
-                    <div><label className="label">Description: </label>
-                        <span>{selectedReport.description}</span>
-                    </div>
-                    <div><label className="label">State: </label>
-                        <span>{selectedReport.state}</span>
-                    </div>
-                    <label className="label">Evaluation: </label>
-                    <input type="number" class="form-control" placeholder={selectedReport.evaluation}></input>
                 </ModalBody>
             </Modal>
         </div>

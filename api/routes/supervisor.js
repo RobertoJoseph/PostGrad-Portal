@@ -35,4 +35,8 @@ router.get(
 router.post("/addDefense", supervisoroperations.SupervisorAddDefense);
 router.post("/addSupervisor", supervisoroperations.addSupervisor);
 
+router.post('/evaluate',supervisoroperations.SupervisorEvaluateReport);
+
+router.post('/changepassword/:supervisorId',supervisoroperations.editPassword);
+
 module.exports = router;
