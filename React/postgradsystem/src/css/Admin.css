@@ -59,10 +59,12 @@
 
 #heading {
     color: aliceblue;
-    font-weight: bolder;
+    font-size: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
 
 }
 
@@ -140,3 +142,14 @@
     outline: none;
     border: none;
  }
+
+ .tableHeader {
+  background-color: #1C2D43;
+  font-size: large;
+  color: white;
+
+}
+
+.sidebarList  .active {
+  background-color: #0a4d8b;
+}
