@@ -83,7 +83,7 @@ function Courses(props) {
                     <th scope="row">{"#" + item.id}</th>
                     <td>{item.code}</td>
                     <td>{item.creditHours}</td>
-                    <td>{item.fees}</td>
+                    <td>{"$"+""+item.fees}</td>
                     <td>
                       <Button
                         color="success"
