@@ -215,3 +215,27 @@ exports.AdminIssueThesisPayment = async function (req, res) {
     sql.close();
   }
 };
+
+exports.ViewOnGOingTheses = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`ViewOnGOingTheses`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};
+
+exports.ViewExpiredTheses = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = (await pool.request().execute(`ViewExpiredTheses`))
+      .recordset;
+    res.send(result);
+  } catch (erorr) {
+    console.log(erorr);
+    sql.close();
+  }
+};

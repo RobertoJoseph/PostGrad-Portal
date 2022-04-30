@@ -128,3 +128,15 @@
 
 
   }
+
+  #filter{
+    border: none;
+    background-color: white;
+    color:#1C2D43;
+ }
+
+ #filter:hover, #filter:focus{
+    color:#2955C8;
+    outline: none;
+    border: none;
+ }
