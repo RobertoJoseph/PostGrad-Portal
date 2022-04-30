@@ -52,7 +52,7 @@ function Defense() {
       <div className="col-12 mt-3">
         <div>
           <label className="label">
-            <h3 style={{ fontWeight: "bold" }}>Search</h3>
+            <h3 style={{ fontWeight: "bold" }}>Search Defense By Date</h3>
           </label>
 
           <input
@@ -82,7 +82,13 @@ function Defense() {
                   <th scope="row">{index + 1}</th>
                   <td>{item.name}</td>
                   <td>{item.firstName + " " + item.lastName}</td>
-                  <td>{item.date}</td>
+                  <td>
+                    {new Intl.DateTimeFormat("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                    }).format(new Date(Date.parse(item.date)))}
+                  </td>
                 </tr>
               );
             })}
