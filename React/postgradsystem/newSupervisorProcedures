@@ -1,0 +1,199 @@
+------------- Supervisor Procedures ----------------------
+
+
+GO
+create proc supervisorListProgressReport
+@studentId int
+as
+select GS.firstName as firstName,Gs.lastName as lastName, GPR.progressReportNumber as progressReportNumber, GPR.date as date, GPR.description,
+GPR.evaluation as evaluation,GPR.state, GPR.thesisSerialNumber, T.title as ThesisTitle
+from GUCianProgressReport GPR inner join GucianStudent GS on GPR.student_id=GS.id inner join thesis T on T.serialNumber=GPR.thesisSerialNumber where GPR.student_id=@studentId
+UNION
+select NGS.firstName as firstName, NGS.lastName as lastName, NGPR.progressReportNumber as progressReportNumber, NGPR.date as date, NGPR.description,
+NGPR.evaluation as evaluation, NGPR.state, NGPR.thesisSerialNumber, T.title as ThesisTitle
+from NonGUCianProgressReport NGPR inner join NonGucianStudent NGS on NGPR.student_id=NGS.id inner join thesis T on T.serialNumber=NGPR.thesisSerialNumber where NGPR.student_id=@studentId
+
+
+
+GO
+create proc viewAllProgressReports
+as
+select GPR.student_Id as studentId,GPR.progressReportNumber,GPR.date,GS.firstName,GS.lastName from GUCianProgressReport GPR inner join GucianStudent GS on GPR.student_id=GS.id where GPR.supervisor_id is null
+Union
+select NGPR.student_Id as studentId,NGPR.progressReportNumber,NGPR.date,NGS.firstName,NGS.lastName from NonGUCianProgressReport NGPR inner join NonGucianStudent NGS on NGPR.student_id=NGS.id where NGPR.supervisor_id is null
+
+
+
+GO
+create proc SupervisorChooseProgressReport
+@studentId int,@progressReportNumber int,@supervisorId int,@success bit output
+as
+if exists(select * from GUCianProgressReport where @studentId=student_id and @progressReportNumber=progressReportNumber)
+begin
+update GUCianProgressReport set supervisor_id = @supervisorId where student_id=@studentId and @progressReportNumber=progressReportNumber
+set @success =1
+end
+else
+set @success=0
+if exists(select * from nonGUCianProgressReport where @studentId=student_id and @progressReportNumber=progressReportNumber)
+begin 
+update NonGUCianProgressReport set supervisor_id = @supervisorId where student_id=@studentId and @progressReportNumber=progressReportNumber
+set @success = 1
+end
+else
+set @success=0
+
+
+
+GO
+CREATE Proc SupervisorViewMyStudents
+@id int
+As
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName,gs.id as StudentId,t.serialNumber as thesisSerialNumber
+From Thesis t inner join GUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join GucianStudent gs on sr.GUCianID=gs.id
+where s.id = @id
+union
+Select s.firstname as SupervisorFirstname,s.lastname as SupervisorLastName,t.title as ThesisTitle,t.years as Years,gs.firstName as StudentFirstName,gs.lastName as StudentLastName,gs.id as StudentId,t.serialNumber as thesisSerialNumber
+From Thesis t inner join NonGUCianRegisterThesis sr on t.serialNumber=sr.thesisSerialNumber
+inner join Supervisor s on s.id=sr.supervisor_id inner join NonGucianStudent gs on sr.nongucianID=gs.id
+where s.id = @id
+
+
+
+GO
+create proc SupervisorAddDefense
+@thesisSerialNumber int,@examinerId int,@defenseDate date,@defenseLocation varchar(50),@comment varchar(300)
+as
+insert into Defense values(@thesisSerialNumber,@defenseDate,@defenseLocation,null)
+insert into ExaminerEvaluateDefense values(@DefenseDate,@ThesisSerialNumber,@examinerId,@comment)
+
+
+
+GO
+create proc getExaminers
+as 
+select E.id as examinerId,E.name as examinerName from Examiner E
+
+
+
+GO
+create proc CancelThesis
+@ThesisSerialNo int,@successBit bit output
+as
+if(exists(
+select *
+from GUCianProgressReport
+where thesisSerialNumber = @ThesisSerialNo
+))
+begin
+declare @gucianEval int
+set @gucianEval = (
+select top 1 evaluation
+from GUCianProgressReport
+where thesisSerialNumber = @ThesisSerialNo
+order by progressReportNumber desc
+)
+if(@gucianEval = 0)
+begin
+delete from Thesis where serialNumber = @ThesisSerialNo
+set @successBit = 1
+end
+end
+else
+begin
+declare @nonGucianEval int
+set @nonGucianEval = (
+select top 1 evaluation
+from NonGUCianProgressReport
+where thesisSerialNumber = @ThesisSerialNo
+order by progressReportNumber desc
+)
+if(@nonGucianEval = 0)
+begin
+delete from Thesis where serialNumber = @ThesisSerialNo
+set @successBit = 1
+end
+end
+
+
+
+GO
+CREATE Proc EvaluateReport
+@supervisorID int,
+@thesisSerialNo int,
+@progressReportNo int,
+@evaluation int
+As
+if(exists(select * from Thesis where serialNumber=@thesisSerialNo ))
+begin
+if(exists(select * from GUCianRegisterThesis where thesisSerialNumber=@thesisSerialNo and
+supervisor_id=@supervisorID))
+begin
+declare @gucSid int
+select @gucSid=GUCianID
+from GUCianRegisterThesis
+where thesisserialnumber=@thesisSerialNo
+update GUCianProgressReport
+set evaluation=@evaluation
+where student_id=@gucSid and thesisSerialNumber=@thesisSerialNo and progressReportNumber=@progressReportNo
+end
+else if(exists(select * from NonGUCianRegisterThesis where thesisSerialNumber=@thesisSerialNo and
+supervisor_id=@supervisorID))
+begin
+declare @nonGucSid int
+select @nonGucSid=NonGUCianID
+from NonGUCianRegisterThesis
+where thesisSerialNumber=@thesisSerialNo
+update NonGUCianProgressReport
+set evaluation=@evaluation
+where student_id=@nonGucSid and thesisSerialNumber=@thesisSerialNo and progressreportnumber=@progressReportNo
+end
+end
+
+
+
+GO
+create proc SupervisorEvaluateReport
+@studentId int,@progressReportNumber int,@grade int,@success bit output
+as
+set @success=0
+if exists(select * from GUCianProgressReport where @studentId=student_id and @progressReportNumber=progressReportNumber)
+begin
+update GUCianProgressReport set evaluation=@grade where @studentId=student_id and @progressReportNumber=progressReportNumber
+set @success=1
+end
+else
+if exists(select * from nonGUCianProgressReport where @studentId=student_id and @progressReportNumber=progressReportNumber)
+begin
+update nonGUCianProgressReport set evaluation=@grade where @studentId=student_id and @progressReportNumber=progressReportNumber
+set @success=1
+end
+select * from GUCianProgressReport
+declare @succ bit
+exec SupervisorEvaluateReport 2,2,7,@succ output
+print @succ
+
+
+
+
+create proc editSupervisorPassword
+@id int,@oldpassword varchar(20),@newpassword varchar(20),@success bit output
+as
+declare @currentPassword varchar(20)
+set @currentPassword = (
+select top 1 password
+from PostGradUser
+where @id=id
+)
+if(@oldpassword=@currentPassword)
+begin
+set @success=1
+update PostGradUser
+set password = @newpassword
+where @id = id
+end
+else
+set @success=0
+
+
