@@ -39,25 +39,27 @@ function NewReports(props) {
                 setReports(res.data);
             })
     }
-    const clickButton = (studentId,progressReportNumber)=>{
-        console.log(studentId);
-        console.log(progressReportNumber)
-        Axios.post(`http://localhost:9000/supervisor/choosereport`,{
+    const clickButton = (studentId, progressReportNumber) => {
+        setReportChosen(false)
+        Axios.post(`http://localhost:9000/supervisor/choosereport`, {
             studentId,
             progressReportNumber,
-            supervisorId:props.supervisorId
+            supervisorId: props.supervisorId
         })
-        .then((res) => {
-            setReportChosen(res.data.succeeded);
-            console.log(res.data.succeeded+" "+isReportChosen);
-        })
+            .then((res) => {
+                setReportChosen(res.data.succeeded);
+                console.log(res.data.succeeded + " " + isReportChosen);
+            })
     }
-    const setState = ()=>{
+    const setState = () => {
         setReportChosen(true);
     }
     useEffect(() => {
         getReports();
-    }, [setReportChosen]);
+    }, []);
+    useEffect(() => {
+        getReports();
+    }, [isReportChosen]);
 
 
     return (
@@ -106,6 +108,9 @@ function NewReports(props) {
                                     })}
                                 </tbody>
                             </Table>
+                            {isReportChosen ? (
+                                <Alert color="success">Report got added to your reports successfully!</Alert>
+                            ) : null}
                         </Row>
                     </div>
                 </Col>
