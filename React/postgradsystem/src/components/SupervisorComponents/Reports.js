@@ -24,6 +24,7 @@ import {
 } from "reactstrap";
 
 function Reports(props) {
+
   const [clickedId, setClickedId] = useState(0);
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);

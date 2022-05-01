@@ -42,4 +42,7 @@ router.post("/changepassword/:supervisorId", supervisoroperations.editPassword);
 
 router.get("/viewallreports", supervisoroperations.ViewAllProgressReports);
 
+router.post('/choosereport',supervisoroperations.ChooseProgressReport);
+
 module.exports = router;
+
