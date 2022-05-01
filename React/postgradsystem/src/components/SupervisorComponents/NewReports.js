@@ -30,6 +30,7 @@ function NewReports(props) {
     const setTheModal = () => toggleModal(!isModalOpen);
     const [reports, setReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState({});
+    const [isReportChosen, setReportChosen] = useState(false);
 
 
     const getReports = () => {
@@ -38,10 +39,25 @@ function NewReports(props) {
                 setReports(res.data);
             })
     }
-
+    const clickButton = (studentId,progressReportNumber)=>{
+        console.log(studentId);
+        console.log(progressReportNumber)
+        Axios.post(`http://localhost:9000/supervisor/choosereport`,{
+            studentId,
+            progressReportNumber,
+            supervisorId:props.supervisorId
+        })
+        .then((res) => {
+            setReportChosen(res.data.succeeded);
+            console.log(res.data.succeeded+" "+isReportChosen);
+        })
+    }
+    const setState = ()=>{
+        setReportChosen(true);
+    }
     useEffect(() => {
         getReports();
-    }, [selectedReport]);
+    }, [setReportChosen]);
 
 
     return (
@@ -79,7 +95,7 @@ function NewReports(props) {
                                                 <td>
                                                     <Button
                                                         onClick={() => {
-                                                            //clickButton(item.student_id, item.progressReportNumber);
+                                                            clickButton(item.studentId, item.progressReportNumber);
                                                         }}
                                                     >
                                                         Take Report

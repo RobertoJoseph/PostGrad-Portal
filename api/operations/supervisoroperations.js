@@ -93,7 +93,7 @@ exports.SupervisorAddDefense = async function (req, res) {
         .execute(`SupervisorAddDefense`)
     ).recordset;
     console.log(result);
-    res.send(result);
+    res.send(result); 
   } catch (err) {
     console.log(err);
   }
@@ -186,3 +186,25 @@ exports.ViewAllProgressReports = async function (req,res){
   }
 };
 
+exports.ChooseProgressReport = async function (req,res){
+  try {
+    let pool = await sql.connect(config);
+    const result = (
+      await pool
+        .request()
+        .input("studentId",sql.Int,req.body.studentId)
+        .input("progressReportNumber",sql.Int,req.body.progressReportNumber)
+        .input("supervisorId",sql.Int,req.body.supervisorId)
+        .output("success",sql.Bit)
+        .execute(`SupervisorChooseProgressReport`)
+    );
+    if (result.output.success) {
+      res.send({ succeeded: true });
+    } else {
+      res.send({ succeeded: false });
+    }
+    console.log(res.data)
+  } catch (err) {
+    console.log(err);
+  }
+};
