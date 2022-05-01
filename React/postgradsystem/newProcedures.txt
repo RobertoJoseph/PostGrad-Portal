@@ -403,5 +403,70 @@ AS
     ON Thesis.payment_id = Payment.id;
 
 
+------------------
 
 
+---------------NEW--------------
+
+
+GO
+CREATE PROC ListThesesWithNoPayment 
+AS 
+    SELECT Thesis.* FROM Thesis
+    WHERE Thesis.payment_id IS NULL;
+                                
+ 
+----------------ALTER-------------
+
+GO
+CREATE PROC ListAllPayments 
+AS 
+    SELECT Payment.*, Thesis.title, Thesis.serialNumber FROM Payment
+    INNER JOIN Thesis
+    ON Thesis.payment_id = Payment.id
+    WHERE Payment.id NOT IN (   SELECT Installment.paymentID AS id FROM Installment )
+
+
+
+
+
+
+---------------------NEW--------------------
+
+
+
+GO
+CREATE PROC ListUnlinkedTheses 
+AS 
+    SELECT Thesis.* FROM Thesis
+    WHERE Thesis.serialNumber NOT IN (  SELECT GUCianRegisterThesis.thesisSerialNumber AS serialNumber
+                                        FROM GUCianRegisterThesis
+                                        UNION
+                                        SELECT NonGUCianRegisterThesis.thesisSerialNumber AS serialNumber 
+                                        FROM NonGUCianRegisterThesis);
+
+
+ 
+
+
+ GO
+ CREATE PROC LinkThesis
+ @serialNumber INT,
+ @studentID INT,
+ @SupervisorID INT
+ AS
+ BEGIN
+    IF EXISTS(select * from GUCianStudent where id = @studentID)
+        BEGIN 
+            INSERT INTO GUCianRegisterThesis(GUCianID, supervisor_id, thesisSerialNumber)
+            VALUES (@studentID, @SupervisorID, @serialNumber)
+        END
+    ELSE 
+        BEGIN 
+            INSERT INTO NonGUCianRegisterThesis(NonGUCianID, supervisor_id, thesisSerialNumber)
+            VALUES (@studentID, @SupervisorID, @serialNumber)
+        END
+END;
+
+
+-------------------------

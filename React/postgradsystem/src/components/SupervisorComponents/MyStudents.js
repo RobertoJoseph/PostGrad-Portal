@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import {
   Row,
   Button,
-  Form,
   FormGroup,
   Label,
   Input,
@@ -19,21 +18,21 @@ import {
   Alert,
   Table,
 } from "reactstrap";
+import { Control, Form } from "react-redux-form";
 
 function MyStudents(props) {
   const [students, setStudents] = useState([]);
   const [clickedId, setClickedId] = useState(0);
   const [isPublicationModalOpen, togglePublicationModal] = useState(false);
-  const setPublicationModal = () => togglePublicationModal(!isPublicationModalOpen);
+  const setPublicationModal = () =>
+    togglePublicationModal(!isPublicationModalOpen);
   const [isDefenseModalOpen, toggleDefenseModal] = useState(false);
   const setDefenseModal = () => toggleDefenseModal(!isDefenseModalOpen);
   const [publications, setPublications] = useState([]);
   const [examiners, setExaminers] = useState([]);
-  const [examinerId, setExaminerId] = useState(0);
+  const [examinerId, setExaminerId] = useState(16);
   const [examinerName, setExaminerName] = useState("");
   const [isDefenseAdded, setDefenseAdded] = useState(false);
-  const { register, handleSubmit } = useForm();
-
 
   const publicationButtton = (id) => {
     setClickedId(id);
@@ -44,39 +43,11 @@ function MyStudents(props) {
     setClickedId(serialNumber);
     getExaminers();
     setDefenseModal();
-    console.log(examiners)
+    console.log(examiners);
   };
   const reportsButton = (student) => {
-      props.func(student);
-  }
-
-  const Button = styled.button`
-    background-color: #243b55;
-    color: white;
-    padding: 5px 15px;
-    border-radius: 5px;
-    outline: 0;
-    margin: 10px 0px;
-    cursor: pointer;
-    box-shadow: 0px 2px 2px lightgray;
-    transition: ease background-color 250ms;
-    &:hover {
-      background-color: #243b55;
-    }
-    &:disabled {
-      cursor: default;
-      opacity: 0.7;
-    }
-  `;
-
-  const ButtonToggle = styled(Button)`
-    opacity: 0.7;
-    ${({ active }) =>
-      active &&
-      `
-    opacity: 1; 
-  `}
-  `;
+    props.func(student);
+  };
 
   const getStudents = () => {
     Axios.get(
@@ -93,24 +64,22 @@ function MyStudents(props) {
     });
   };
   const getExaminers = () => {
-    Axios.get(
-      `http://localhost:9000/supervisor/examiners`
-    ).then((res) => {
+    Axios.get(`http://localhost:9000/supervisor/examiners`).then((res) => {
       setExaminers(res.data);
     });
   };
 
   const Submit1 = (values) => {
-    console.log(values.examinerName);
+    console.log("VALUESSSS" + values);
     setExaminerName(values.examinerName);
-    console.log(values.defenseDate)
-    Submit2();
+    console.log(values.defenseDate);
+
     Axios.post("http://localhost:9000/supervisor/addDefense", {
       thesisSerialNumber: clickedId,
       examinerId: examinerId,
       defenseDate: values.defenseDate,
       defenseLocation: values.defenseLocation,
-      comment: values.comment
+      comment: values.comment,
     })
       .then((response) => {
         setDefenseAdded(true);
@@ -118,21 +87,38 @@ function MyStudents(props) {
       .catch((error) => {
         console.log(error);
       });
-  }
-  const Submit2 = (values) => {
-    for (let i = 0; i < examiners.length; i++) {
-      if (examiners[i].examinerName === examinerName) {
-        setExaminerId(examiners[i].examinerId)
-      }
+  };
+  // const Submit2 = (values) => {
+  //   for (let i = 0; i < examiners.length; i++) {
+  //     if (examiners[i].examinerName === examinerName) {
+  //       setExaminerId(examiners[i].examinerId);
+  //       break;
+  //     }
+  //   }
+  //   console.log(examinerId);
+  // };
+
+  const createSelectItems = () => {
+    //Make array carry the thesisTitle and its serialNumber
+
+    let items = [];
+    for (let i = 0; i <= examiners.length; i++) {
+      items.push(
+        <option key={i} value={i}>
+          {examiners[i] ? examiners[i].examinerName : null}
+        </option>
+      );
     }
-    console.log(examinerId);
-  }
+    return items;
+  };
 
   useEffect(() => {
     getStudents();
-    getPublications();
     getExaminers();
-    Submit2();
+  }, []);
+
+  useEffect(() => {
+    getPublications();
   }, [clickedId, examinerId, isDefenseAdded, examinerName]);
 
   return (
@@ -192,7 +178,12 @@ function MyStudents(props) {
           })}
         </tbody>
       </Table>
-      <Modal size="lg" centered isOpen={isPublicationModalOpen} toggle={setPublicationModal} >
+      <Modal
+        size="lg"
+        centered
+        isOpen={isPublicationModalOpen}
+        toggle={setPublicationModal}
+      >
         <ModalHeader
           style={{ backgroundColor: "#081A2D", color: "white" }}
           toggle={setPublicationModal}
@@ -245,7 +236,12 @@ function MyStudents(props) {
           </Table>{" "}
         </ModalBody>
       </Modal>
-      <Modal size="lg" centered isOpen={isDefenseModalOpen} toggle={setDefenseModal} >
+      <Modal
+        size="lg"
+        centered
+        isOpen={isDefenseModalOpen}
+        toggle={setDefenseModal}
+      >
         <ModalHeader
           style={{ backgroundColor: "#081A2D", color: "white" }}
           toggle={setDefenseModal}
@@ -258,65 +254,69 @@ function MyStudents(props) {
           Add Defense
         </ModalHeader>
         <ModalBody>
-          <Form onSubmit={handleSubmit(Submit1)}>
+          <Form model="defenseForm" onSubmit={(values) => Submit1(values)}>
             <FormGroup>
               <Row>
-                <Label htmlFor="defenseDate" className="col-3">
-                  Select Date:
-                </Label>
-                <input type="date" className="col-7" id="defenseDate" name="defenseDate" ref={register} />
+                <Label htmlFor="defenseDate">Select Date:</Label>
+                <Control
+                  type="date"
+                  name="defenseDate"
+                  id="defenseDate"
+                  placeholder="Enter Date"
+                  className="form-control"
+                  model=".defenseDate"
+                ></Control>
               </Row>
             </FormGroup>
             <FormGroup>
               <Row>
-                <Label htmlFor="defenseLocation" className="col-3">
-                  Select Location:
-                </Label>
-                <input type="text" className="col-7" name="defenseLocation" id="defenseLocation" ref={register} />
+                <Label htmlFor="defenseLocation">Select Location:</Label>
+                <Control.text
+                  type="text"
+                  className="form-control"
+                  name="defenseLocation"
+                  id="defenseLocation"
+                  model=".defenseLocation"
+                />
               </Row>
             </FormGroup>
             <FormGroup>
               <Row>
-                <Label htmlFor="comment" className="col-3">
-                  Leave a comment:
-                </Label>
-                <input type="text" className="col-7" id="comment" name="comment" ref={register}>
-                </input>
+                <Label htmlFor="comment">Leave a comment:</Label>
+                <Control.text
+                  type="text"
+                  className="form-control"
+                  id="comment"
+                  name="comment"
+                  model=".comment"
+                ></Control.text>
               </Row>
             </FormGroup>
             <FormGroup>
-              <Row>
-                <Label htmlFor="examinerName" className="col-3">
-                  Select Examiner:
-                </Label>
-                <Col md={8}>
-                  <select
-                    id="examinerName"
-                    name="examinerName"
-                    type="select"
-                    ref={register}
-                    className="form-control col-9"
-                  >
-                    {examiners.map((item, index) => {
-                      return <option>{item.examinerName}</option>;
-                    })}
-                  </select>
-                </Col>
-              </Row>
+              <Label htmlFor="examinerName">Select Examiner:</Label>
+              <Control.select
+                id="examinerName"
+                name="examinerName"
+                type="select"
+                model=".examinerName"
+                className="form-control"
+                onChange={(e) => {
+                  console.log("HEYYEYYE: " + e.target.value);
+                  setExaminerId(examiners[e.target.value].examinerId);
+                }}
+              >
+                {createSelectItems()}
+              </Control.select>
             </FormGroup>
 
             {isDefenseAdded ? (
               <Alert color="success">Defense Added Successfully</Alert>
             ) : null}
-            <input
-              type="submit"
-              value="Add Defense"
-              className="form-control btn-primary"
-            />
+            <Input type="submit" className="btn-primary" value="Submit"></Input>
           </Form>
         </ModalBody>
       </Modal>
-    </div >
+    </div>
   );
 }
 export default MyStudents;

@@ -28,7 +28,7 @@ router.get(
 
 router.get("/examiners", supervisoroperations.getExaminers);
 
-router.get(
+router.post(
   "/cancelthesis/:thesisSerialNumber",
   supervisoroperations.CancelThesis
 );
@@ -36,12 +36,13 @@ router.post("/addDefense", supervisoroperations.SupervisorAddDefense);
 
 router.post("/addSupervisor", supervisoroperations.addSupervisor);
 
-router.post('/evaluate',supervisoroperations.SupervisorEvaluateReport);
+router.post("/evaluate", supervisoroperations.SupervisorEvaluateReport);
 
-router.post('/changepassword/:supervisorId',supervisoroperations.editPassword);
+router.post("/changepassword/:supervisorId", supervisoroperations.editPassword);
 
-router.get('/viewallreports',supervisoroperations.ViewAllProgressReports);
+router.get("/viewallreports", supervisoroperations.ViewAllProgressReports);
 
 router.post('/choosereport',supervisoroperations.ChooseProgressReport);
 
 module.exports = router;
+

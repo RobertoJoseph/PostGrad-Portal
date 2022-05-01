@@ -120,49 +120,47 @@ exports.addSupervisor = async function (req, res) {
 exports.CancelThesis = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (
-      await pool
-        .request()
-        .input("thesisSerialNo", sql.Int, req.params.thesisSerialNumber)
-        .output("successBit", sql.Bit)
-        .execute(`CancelThesis`)
-    );
+    const result = await pool
+      .request()
+      .input("thesisSerialNo", sql.Int, req.params.thesisSerialNumber)
+      .output("successBit", sql.Bit)
+      .execute(`CancelThesis`);
     console.log(result);
     res.send(result.output.successBit);
   } catch (err) {
     console.log(err);
   }
 };
-exports.SupervisorEvaluateReport = async function (req,res){
+exports.SupervisorEvaluateReport = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (
-      await pool
-        .request()
-        .input("supervisorID", sql.Int, req.body.supervisorId)
-        .input("thesisSerialNo", sql.Int, req.body.thesisSerialNumber)
-        .input("progressReportNo", sql.Int, req.body.progressReportNumber)
-        .input("evaluation", sql.Int, req.body.evaluation)
-        .execute(`EvaluateReport`)
-    ).recordset;
-    console.log(result);
-    res.send(result);
+    const result = await pool
+      .request()
+      .input("studentId", sql.Int, req.body.studentID)
+      .input("progressReportNumber", sql.Int, req.body.progressReportNumber)
+      .input("grade", sql.Int, req.body.evaluation)
+      .output("success", sql.Bit)
+      .execute(`SupervisorEvaluateReport`);
+    // console.log(result);
+    if (result.output.success) {
+      res.send({ isEvaluated: true });
+    } else {
+      res.send({ isEvaluated: false });
+    }
   } catch (err) {
     console.log(err);
   }
 };
-exports.editPassword = async function (req,res){
+exports.editPassword = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (
-      await pool
-        .request()
-        .input("id",sql.Int,req.params.supervisorId)
-        .input("oldpassword",sql.VarChar,req.body.oldPassword)
-        .input("newpassword",sql.VarChar,req.body.newPassword)
-        .output("success",sql.Bit)
-        .execute(`editSupervisorPassword`)
-    );
+    const result = await pool
+      .request()
+      .input("id", sql.Int, req.params.supervisorId)
+      .input("oldpassword", sql.VarChar, req.body.oldPassword)
+      .input("newpassword", sql.VarChar, req.body.newPassword)
+      .output("success", sql.Bit)
+      .execute(`editSupervisorPassword`);
     if (result.output.success) {
       res.send({ isUpdated: true });
     } else {
@@ -172,15 +170,12 @@ exports.editPassword = async function (req,res){
     console.log(err);
   }
 };
-exports.ViewAllProgressReports = async function (req,res){
+exports.ViewAllProgressReports = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (
-      await pool
-        .request()
-        .execute(`viewAllProgressReports`)
-    ).recordset;
-      res.send(result)
+    const result = (await pool.request().execute(`viewAllProgressReports`))
+      .recordset;
+    res.send(result);
   } catch (err) {
     console.log(err);
   }
@@ -208,3 +203,4 @@ exports.ChooseProgressReport = async function (req,res){
     console.log(err);
   }
 };
+
