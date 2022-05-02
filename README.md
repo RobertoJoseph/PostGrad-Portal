@@ -6,7 +6,10 @@ This is a project of our Database Course. It is a system that keeps track of stu
 * ReactJS
 * Express
 * NodeJs
-* ReactStrap
+* Reactstrap
+
+###Other tools
+* Git is a version control system for tracking changes in source code during software development.
 
 ## Contributers
 * Roberto Joseph
@@ -39,8 +42,7 @@ This is a project of our Database Course. It is a system that keeps track of stu
 <img width="1440" alt="Screen Shot 2022-05-02 at 8 32 53 PM" src="https://user-images.githubusercontent.com/67745591/166305219-149d310d-13fd-42cc-a727-299152c54d28.png">
 
 9- Supervisor Choose Progress Report
-<img width="1440" alt="Screen Shot 2022-05-02 at 8 36 19 PM" src="https://user-images.githubusercontent.com/67745591/166305331-10a0d45a-cda9-432f-b070-66e5c395581f.png">
-
+<img width="1440" alt="Screen Shot 2022-05-02 at 8 38 23 PM" src="https://user-images.githubusercontent.com/67745591/166305561-e71676ca-5e75-446e-8ae1-1c6cf60d089b.png">
 
 
 
