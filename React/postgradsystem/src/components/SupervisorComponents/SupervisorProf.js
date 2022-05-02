@@ -4,12 +4,10 @@ import { Row } from "reactstrap";
 import { Route, Redirect, Routes } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { SupervisorData } from "../../data/SupervisorData";
-import MyStudents from "./MyStudents"
-import Reports from "./Reports"
-import SupervisorEditProfile from "./SupervisorEditProfile"
-import NewReports from "./NewReports"
-
-
+import MyStudents from "./MyStudents";
+import Reports from "./Reports";
+import SupervisorEditProfile from "./SupervisorEditProfile";
+import NewReports from "./NewReports";
 
 import * as MdIcons from "react-icons/md";
 import {
@@ -33,7 +31,6 @@ import {
 } from "reactstrap";
 import Axios from "axios";
 function SupervisorProf() {
-  const [URL, setURL] = useState("");
   const [Active, setActive] = useState("");
 
   let { supervisorId } = useParams();
@@ -41,25 +38,51 @@ function SupervisorProf() {
   const setTheModal = () => toggleModal(!isModalOpen);
   const [userName, setUsername] = useState("");
   const [selectedStudent, setSelectedStudent] = useState({});
-  const [prevAndNextURL, setPrevAndNextURL] = useState(["", ""]);
-  const [supervisorData, setSupervisorData] = useState([])
+  const [prevAndNextURL, setPrevAndNextURL] = useState(["", "My Students"]);
+  const [supervisorData, setSupervisorData] = useState([]);
   const [isDropdownOpen, toggleDropdown] = useState(false);
+  const [finishStatus, setfinishStatus] = useState(false);
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
 
+  const onBackButtonEvent = (e) => {
+    e.preventDefault();
+
+    if (!finishStatus) {
+      setfinishStatus(true);
+      setPrevAndNextURL((prev) => [prev[1], prev[0]]);
+    }
+  };
+  const windowOpenAndClose = () => {
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener("popstate", onBackButtonEvent);
+  };
+
+  useEffect(() => {
+    windowOpenAndClose();
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
+  }, []);
+  useEffect(() => {
+    windowOpenAndClose();
+    return () => {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    };
+  }, [finishStatus]);
 
   const viewStudentReports = (student) => {
-    setURL("Reports");
+    setPrevAndNextURL((prev) => [prev[1], "Reports"]);
     setSelectedStudent(student);
   };
   const getUserInformation = () => {
     console.log("I am in the supervisorProf, the id is: " + supervisorId);
-    Axios.get(`http://localhost:9000/supervisor/supervisordata/${supervisorId}`).then(
-      (res) => {
-        console.log(res.data);
-        setUsername(res.data[0].firstName + " " + res.data[0].lastName);
-        setSupervisorData(res.data);
-      }
-    );
+    Axios.get(
+      `http://localhost:9000/supervisor/supervisordata/${supervisorId}`
+    ).then((res) => {
+      console.log(res.data);
+      setUsername(res.data[0].firstName + " " + res.data[0].lastName);
+      setSupervisorData(res.data);
+    });
   };
 
   useEffect(() => {
@@ -91,7 +114,7 @@ function SupervisorProf() {
                 <DropdownItem header>My Account</DropdownItem>
                 <DropdownItem
                   onClick={() => {
-                    setURL("My Profile");
+                    setPrevAndNextURL((prev) => [prev[1], "My Profile"]);
                   }}
                 >
                   Personal Info
@@ -100,7 +123,7 @@ function SupervisorProf() {
                 <DropdownItem divider />
                 <DropdownItem
                   onClick={() => {
-                    setURL("Log Out");
+                    setPrevAndNextURL((prev) => [prev[1], "Log Out"]);
                   }}
                 >
                   Log Out
@@ -128,38 +151,43 @@ function SupervisorProf() {
                   <br></br>
                 </div>
               </span>
-              {
-
-                SupervisorData.map((item, index) => {
-
-
-                  return (
-                    <li
-                      key={index}
-                      className="row"
-                      onClick={() => {
-                        setURL(item.title);
-                      }}
-                    >
-                      <div id="icon">{item.icon}</div>
-                      <div id="title" className="titleSize">
-                        {item.title}
-                      </div>
-                    </li>
-                  );
-                })}
+              {SupervisorData.map((item, index) => {
+                return (
+                  <li
+                    key={index}
+                    className="row"
+                    onClick={() => {
+                      setPrevAndNextURL((prev) => [prev[1], item.title]);
+                    }}
+                  >
+                    <div id="icon">{item.icon}</div>
+                    <div id="title" className="titleSize">
+                      {item.title}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
 
         <div className="col-10 page">
-          {URL === "My Students" ? (
-            <MyStudents supervisorId={supervisorId} func={viewStudentReports}></MyStudents>
-          ) : URL === "Reports" ? (
-            <Reports student={selectedStudent} supervisorId={supervisorId}></Reports>
-          ) : URL === "My Profile" ? (
-            <SupervisorEditProfile supervisorData={supervisorData} supervisorId={supervisorId}></SupervisorEditProfile>
-          ) : URL === "All Reports" ? (
+          {prevAndNextURL[1] === "My Students" ? (
+            <MyStudents
+              supervisorId={supervisorId}
+              func={viewStudentReports}
+            ></MyStudents>
+          ) : prevAndNextURL[1] === "Reports" ? (
+            <Reports
+              student={selectedStudent}
+              supervisorId={supervisorId}
+            ></Reports>
+          ) : prevAndNextURL[1] === "My Profile" ? (
+            <SupervisorEditProfile
+              supervisorData={supervisorData}
+              supervisorId={supervisorId}
+            ></SupervisorEditProfile>
+          ) : prevAndNextURL[1] === "All Reports" ? (
             <NewReports supervisorId={supervisorId}></NewReports>
           ) : null}
         </div>

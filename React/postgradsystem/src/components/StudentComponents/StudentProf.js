@@ -1,6 +1,12 @@
 import "../../css/newNav.css";
 import React, { useEffect, useState } from "react";
-import { Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import {
+  Row,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import Thesis from "./Thesis";
 import { useParams } from "react-router-dom";
 import { StudentData } from "../../data/StudentData";
@@ -14,9 +20,6 @@ import * as MdIcons from "react-icons/md";
 import { Nav, NavItem, Navbar, NavbarBrand } from "reactstrap";
 import Axios from "axios";
 
-
-
-
 function Student(props) {
   const [URL, setURL] = useState("");
   let { studentID } = useParams();
@@ -25,16 +28,14 @@ function Student(props) {
   const [isDropdownOpen, toggleDropdown] = useState(false);
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
   const [finishStatus, setfinishStatus] = useState(false);
-  const [prevAndNextURL, setPrevAndNextURL] = useState(["", ""]);
-
+  const [prevAndNextURL, setPrevAndNextURL] = useState(["", "Theses"]);
 
   const onBackButtonEvent = (e) => {
     e.preventDefault();
     console.log("I am in the back button");
     if (!finishStatus) {
-        setfinishStatus(true);
-        setPrevAndNextURL((prev) => [prev[1], prev[0]]);
-      
+      setfinishStatus(true);
+      setPrevAndNextURL((prev) => [prev[1], prev[0]]);
     }
   };
   const windowOpenAndClose = () => {
@@ -65,15 +66,13 @@ function Student(props) {
   };
 
   const checkGUCian = () => {
-    Axios.post(`http://localhost:9000/students/isGUCian/${studentID}`,{}).then(
-        (res) => {
-          if (res.data.isGUCian) {
-            setIsGUCian(true);
-
-          }
-
+    Axios.post(`http://localhost:9000/students/isGUCian/${studentID}`, {}).then(
+      (res) => {
+        if (res.data.isGUCian) {
+          setIsGUCian(true);
         }
-      );
+      }
+    );
   };
 
   useEffect(() => {
@@ -103,21 +102,35 @@ function Student(props) {
                 <MdIcons.MdAccountCircle size="50px"></MdIcons.MdAccountCircle>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>
-                  My Account
-                </DropdownItem>
-                <DropdownItem onClick={() => {setfinishStatus(false);
-                      setPrevAndNextURL((prevURL) => [prevURL[1], "Personal Info"]);}}>
+                <DropdownItem header>My Account</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    setfinishStatus(false);
+                    setPrevAndNextURL((prevURL) => [
+                      prevURL[1],
+                      "Personal Info",
+                    ]);
+                  }}
+                >
                   Personal Info
                 </DropdownItem>
-                <DropdownItem onClick={() => {setfinishStatus(false);
-                      setPrevAndNextURL((prevURL) => [prevURL[1], "Payment Info"]);
-                }}>
+                <DropdownItem
+                  onClick={() => {
+                    setfinishStatus(false);
+                    setPrevAndNextURL((prevURL) => [
+                      prevURL[1],
+                      "Payment Info",
+                    ]);
+                  }}
+                >
                   Payment Info
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem onClick={() => {
-                      setPrevAndNextURL((prevURL) => [prevURL[1], "Log Out"]);}}>
+                <DropdownItem
+                  onClick={() => {
+                    setPrevAndNextURL((prevURL) => [prevURL[1], "Log Out"]);
+                  }}
+                >
                   Log Out
                 </DropdownItem>
               </DropdownMenu>
@@ -142,30 +155,29 @@ function Student(props) {
                   <br></br>
                 </div>
               </span>
-              {
+              {StudentData.map((item, index) => {
+                if (item.title === "Courses") {
+                  if (isGUCian) return false;
+                }
 
-                StudentData.map((item, index) => {
-
-                  if (item.title === "Courses") {
-                    if (isGUCian) return false;
-                  }
-
-                  return (
-                    <li
-                      key={index}
-                      className={`row ${(item.title===prevAndNextURL[1]) ? "active" : ""}`}
-                      onClick={() => {
-                        setfinishStatus(false);
-                        setPrevAndNextURL((prevURL) => [prevURL[1], item.title]);
-                      }}
-                    >
-                      <div id="icon">{item.icon}</div>
-                      <div id="title" className="titleSize">
-                        {item.title}
-                      </div>
-                    </li>
-                  );
-                })}
+                return (
+                  <li
+                    key={index}
+                    className={`row ${
+                      item.title === prevAndNextURL[1] ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      setfinishStatus(false);
+                      setPrevAndNextURL((prevURL) => [prevURL[1], item.title]);
+                    }}
+                  >
+                    <div id="icon">{item.icon}</div>
+                    <div id="title" className="titleSize">
+                      {item.title}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
@@ -182,7 +194,11 @@ function Student(props) {
           ) : prevAndNextURL[1] === "Personal Info" ? (
             <EditProfile studentID={studentID}></EditProfile>
           ) : prevAndNextURL[1] === "Payment Info" ? (
-            isGUCian ? (<GUCpayments studentID={studentID}></GUCpayments>) : (<NonGUCpayments studentID={studentID}></NonGUCpayments>)
+            isGUCian ? (
+              <GUCpayments studentID={studentID}></GUCpayments>
+            ) : (
+              <NonGUCpayments studentID={studentID}></NonGUCpayments>
+            )
           ) : prevAndNextURL[1] === "Log Out" ? (
             <></>
           ) : null}

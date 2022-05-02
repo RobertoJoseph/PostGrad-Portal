@@ -1,0 +1,98 @@
+
+--Thesis Insertion
+INSERT INTO
+    Thesis
+    (
+    TYPE,
+    field,
+    title,
+    startDate,
+    endDate,
+    defenseDate,
+    grade,
+    payment_id,
+    noExtension
+    )
+VALUES
+    (
+        'PhD',
+        'Computer Science',
+        'Thesis on Quantuam Computing',
+        '2021-01-01',
+        '2023-02-01',
+        '2023-09-07',
+        60.4,
+        NUll,
+        0
+    ),
+    (
+        'Masters',
+        'Physics',
+        'Thesis on Physics',
+        '2021-02-01',
+        '2029-02-15',
+        '2024-02-01',
+        80,
+        NULL,
+        1
+    ),
+    (
+        'Master',
+        'Math',
+        'Thesis on Complexity',
+        '2009-10-12',
+        '2029-02-01',
+        '2025-12-11',
+        25,
+        NUll,
+        0
+    ),
+    (
+        'PhD',
+        'Chemistery',
+        'Thesis on Chemistery',
+        '2009-10-12',
+        '2029-02-01',
+        '2025-12-11',
+        25,
+        NUll,
+        0
+    ),
+    (
+        'Master',
+        'Bio-Informatics',
+        'Thesis on Germs',
+        '2009-10-12',
+        '2029-02-01',
+        '2025-12-11',
+        25,
+        NUll,
+        0
+    )
+select *
+from Examiner
+select *
+from Thesis
+
+--Front END add defense for thesis
+
+
+-- INSERT INTO
+--     ExaminerEvaluateDefense
+--     (
+--     date,
+--     thesisSerialNumber,
+--     examiner_id
+--     )
+-- VALUES
+--     ( '2023-09-07', 21, 43),
+--     ('2024-02-01', 22, 43),
+--     ('2025-12-11', 23, 43),
+--     ('2025-12-11', 24, 43),
+--     ('2025-12-11', 25, 43)
+select * from Examiner
+
+delete from Supervisor 
+where Supervisor.id = 27
+
+select * from PostGradUser INNER JOIN NonGUCianStudent ON PostGradUser.id = NonGUCianStudent.id

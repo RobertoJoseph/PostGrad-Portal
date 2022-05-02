@@ -169,9 +169,7 @@ function ExaminerEditProfile(props) {
             {console.log("This is infoUpdated: " + infoUpdated)}
             {infoUpdated ? (
               <Alert color="success">Password Updated Successfully</Alert>
-            ) : (
-              <Alert color="danger">Password Update Failed</Alert>
-            )}
+            ) : null}
           </ModalBody>
         </Modal>
       </div>

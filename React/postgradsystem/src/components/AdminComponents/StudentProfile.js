@@ -33,7 +33,6 @@ function StudentProfile(props) {
   const [selectedCourse, setSelectedCourse] = useState(0);
   const [supervisors, setSupervisors] = useState([]);
 
-
   const setTheModal = () => {
     toggleModal(!isModalOpen);
     setCourseLinked(false);
@@ -65,8 +64,9 @@ function StudentProfile(props) {
   };
 
   const linkCourse = (values) => {
+    console.log(props.studentID);
     console.log("Course Name: " + values.course);
-    Axios.post("http://localhost:9000/admin/linkcourse/", {
+    Axios.post("http://localhost:9000/admin/linkcourse", {
       courseName: values.course,
       studentID: props.studentID,
     })
@@ -79,7 +79,6 @@ function StudentProfile(props) {
   };
 
   const linkThesis = (values) => {
-
     var serialText = values.thesis;
     var serialnumber = serialText.match(/\d/g);
     serialnumber = serialnumber.join("");
@@ -88,16 +87,13 @@ function StudentProfile(props) {
     var supID = supervisor.match(/\d/g);
     supID = supID.join("");
 
-
     console.log("THE SERIAL IS:  " + serialnumber);
     console.log("THE SUPERR IS:  " + supID);
-
 
     Axios.post("http://localhost:9000/admin/linkthesis/", {
       serialNumber: serialnumber,
       studentID: props.studentID,
       supervisorID: supID,
-
     })
       .then((response) => {
         setThesisLinked(true);
@@ -263,10 +259,8 @@ function StudentProfile(props) {
                     Link A Thesis
                   </Row>
                   <div className="col-10 offset-1 mt-3 mb-3">
-
                     <div className="mt-5">
                       <Form onSubmit={handleSubmit(linkThesis)}>
-
                         <FormGroup>
                           <Row>
                             <Label htmlFor="thesis" className="col-2">
@@ -281,7 +275,14 @@ function StudentProfile(props) {
                                 className="form-control"
                               >
                                 {thesisCatalog.map((item, index) => {
-                                  return <option>{"#" + item.serialNumber + "  " + item.title}</option>;
+                                  return (
+                                    <option>
+                                      {"#" +
+                                        item.serialNumber +
+                                        "  " +
+                                        item.title}
+                                    </option>
+                                  );
                                 })}
                               </select>
                             </Col>
@@ -301,14 +302,25 @@ function StudentProfile(props) {
                                 className="form-control"
                               >
                                 {supervisors.map((item, index) => {
-                                  return <option>{"#" + item.id + "  " + item.firstName + " " + item.lastName }</option>;
+                                  return (
+                                    <option>
+                                      {"#" +
+                                        item.id +
+                                        "  " +
+                                        item.firstName +
+                                        " " +
+                                        item.lastName}
+                                    </option>
+                                  );
                                 })}
                               </select>
                             </Col>
                           </Row>
                         </FormGroup>
                         {thesisLinked ? (
-                          <Alert color="success">Thesis Linked Successfully</Alert>
+                          <Alert color="success">
+                            Thesis Linked Successfully
+                          </Alert>
                         ) : null}
                         <input
                           type="submit"
@@ -430,10 +442,7 @@ function StudentProfile(props) {
             toggle={setTheGradeModal}
             close={
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <a
-                className="close link-underline"
-                onClick={setTheGradeModal}
-              >
+              <a className="close link-underline" onClick={setTheGradeModal}>
                 <i class="fa fa-times" aria-hidden="true"></i>
               </a>
             }

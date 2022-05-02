@@ -102,7 +102,12 @@ function MyStudents(props) {
     //Make array carry the thesisTitle and its serialNumber
 
     let items = [];
+
+    items.push(<option>Select Examiner</option>);
     for (let i = 0; i <= examiners.length; i++) {
+      if (examiners[i] == undefined) {
+        break;
+      }
       items.push(
         <option key={i} value={i}>
           {examiners[i] ? examiners[i].examinerName : null}
@@ -125,7 +130,7 @@ function MyStudents(props) {
     <div className="col-12 mt-3">
       <Table striped style={{ backgroundColor: "white", height: "300px" }}>
         <thead>
-          <tr>
+          <tr className="tableHeader" align="center">
             <th>#</th>
             <th>Student Name</th>
             <th>Thesis Title</th>
@@ -139,7 +144,7 @@ function MyStudents(props) {
         <tbody>
           {students.map((item, index) => {
             return (
-              <tr key={index} id={index}>
+              <tr key={index} id={index} align="center">
                 <th scope="row">{index}</th>
                 <td>{item.StudentFirstName + " " + item.StudentLastName}</td>
                 <td>{item.ThesisTitle}</td>
@@ -149,6 +154,7 @@ function MyStudents(props) {
                     onClick={() => {
                       publicationButtton(item.StudentId);
                     }}
+                    style={{ widht: "75%" }}
                   >
                     View
                   </Button>
@@ -159,6 +165,7 @@ function MyStudents(props) {
                       console.log("id is: " + item.StudentId);
                       defenseButton(item.thesisSerialNumber);
                     }}
+                    style={{ widht: "80%" }}
                   >
                     Add
                   </Button>
@@ -169,6 +176,7 @@ function MyStudents(props) {
                       console.log(item);
                       reportsButton(item);
                     }}
+                    style={{ widht: "75%" }}
                   >
                     View
                   </Button>
@@ -299,7 +307,7 @@ function MyStudents(props) {
                 name="examinerName"
                 type="select"
                 model=".examinerName"
-                className="form-control"
+                className="form-select"
                 onChange={(e) => {
                   console.log("HEYYEYYE: " + e.target.value);
                   setExaminerId(examiners[e.target.value].examinerId);

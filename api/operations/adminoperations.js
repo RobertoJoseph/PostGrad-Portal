@@ -122,6 +122,7 @@ exports.addCourse = async function (req, res) {
 
 exports.linkCourse = async function (req, res) {
   try {
+    console.log("This is the body; " + req.body.studentID);
     let pool = await sql.connect(config);
     const result = await pool
       .request()

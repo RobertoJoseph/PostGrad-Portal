@@ -60,6 +60,12 @@ function Thesis(props) {
 
   return (
     <div className="row">
+      {thesis.length == 0 ? (
+        <div className="centerDiv">
+          <h1 className="hea">No Thesis Found</h1>
+          <img src="../empty.png" style={{ height: "260px" }}></img>
+        </div>
+      ) : null}
       {thesis.map((item, index) => {
         return (
           <div key={index} className="col-6 mt-3 mb-3">

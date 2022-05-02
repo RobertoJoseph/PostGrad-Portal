@@ -235,3 +235,20 @@ article.mainfeature {
   border-radius: 12px;
  
 }
+
+.hea{
+  font-size:65px;
+  font-weight: bold;
+  color: black;
+  top: 10px;
+  position: relative;
+}
+.centerDiv{
+  text-align: center;
+  font-weight: bold;
+  justify-content: center;
+  position: relative;
+  top: 160px;
+  
+
+}

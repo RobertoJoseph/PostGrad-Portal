@@ -144,7 +144,7 @@ function Defense(props) {
                     </dl>
                     {/* Compare between two dates if the endDate>=today ==> create Button else null */}
                     {/* --------------- */}
-                    <div className="offset-9">
+                    <div>
                       <Button
                         onClick={() =>
                           handleMoreInfoButton(
@@ -174,7 +174,7 @@ function Defense(props) {
                 </a>
               }
             >
-              Add Progress Report
+             Evaluate Defense
             </ModalHeader>
             <ModalBody>
               <Form

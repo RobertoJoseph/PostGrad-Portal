@@ -36,6 +36,7 @@ function Courses(props) {
   };
 
   const addCourse = (values) => {
+    console.log(values);
     Axios.post("http://localhost:9000/admin/addcourse", {
       courseName: values.name,
       creditHours: values.credit,
@@ -83,7 +84,7 @@ function Courses(props) {
                     <th scope="row">{"#" + item.id}</th>
                     <td>{item.code}</td>
                     <td>{item.creditHours}</td>
-                    <td>{"$"+""+item.fees}</td>
+                    <td>{"$" + "" + item.fees}</td>
                     <td>
                       <Button
                         color="success"

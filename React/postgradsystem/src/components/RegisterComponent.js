@@ -14,12 +14,14 @@ import {
   NavItem,
   NavLink,
   FormGroup,
+  Alert,
 } from "reactstrap";
 import { Control, Form, Errors, actions } from "react-redux-form";
 import { IconContext } from "react-icons";
 import classnames from "classnames";
 import * as FaIcons from "react-icons/fa";
 import { Navigate } from "react-router-dom";
+import Login from "./LoginComponent";
 
 class Register extends Component {
   constructor(props) {
@@ -28,6 +30,7 @@ class Register extends Component {
     this.state = {
       isModalOpen: false,
       intialTab: "1",
+      isRegistered: false,
     };
 
     this.changeTab = this.changeTab.bind(this);
@@ -61,7 +64,9 @@ class Register extends Component {
       values.address,
       values.isGucian
     );
-    
+    this.setState({
+      isRegistered: true,
+    });
   }
   supRegister = (values) => {
     this.props.addSupervisor(
@@ -294,6 +299,12 @@ class Register extends Component {
                               Submit
                             </Button>
                           }
+                          {this.state.isRegistered ? (
+                            <Alert color="success">
+                              <strong>Success!</strong> You have been registered
+                              successfully.
+                            </Alert>
+                          ) : null}
                         </Form>
                       </Col>
                     </Row>

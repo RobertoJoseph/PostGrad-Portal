@@ -31,9 +31,7 @@ export const addStudent =
       isGucian: isGucian,
     };
     return Axios.post("http://localhost:9000/students/addStudent", newStudent)
-      .then((res) => {
-        alert("Successfuly Added an Student");
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });

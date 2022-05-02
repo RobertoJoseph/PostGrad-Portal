@@ -33,7 +33,7 @@ function Admin(props) {
   const [isDropdownOpen, toggleDropdown] = useState(false);
   const setTheDropdown = () => toggleDropdown(!isDropdownOpen);
   const [finishStatus, setfinishStatus] = useState(false);
-  const [prevAndNextURL, setPrevAndNextURL] = useState(["", ""]);
+  const [prevAndNextURL, setPrevAndNextURL] = useState(["", "Supervisors"]);
 
   const onBackButtonEvent = (e) => {
     e.preventDefault();

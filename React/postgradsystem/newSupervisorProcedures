@@ -185,6 +185,7 @@ end
 drop proc EvaluateReport
 
 
+drop proc SupervisorEvaluateReport
 
 GO
 create proc SupervisorEvaluateReport
@@ -209,6 +210,8 @@ begin
     update nonGUCianProgressReport set evaluation=@grade where @studentId=student_id and @progressReportNumber=progressReportNumber
     set @success=1
 end
+
+
 select *
 from GUCianProgressReport
 declare @succ bit

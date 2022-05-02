@@ -30,17 +30,18 @@ function Reports(props) {
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);
   const [reports, setReports] = useState([]);
-  const [selectedReport, setSelectedReport] = useState({});
+  const [selectedReport, setSelectedReport] = useState([]);
   const [isThesisCancelled, setThesisCancelled] = useState(false);
   const [value, setValue] = useState(0);
   const [isEvaluated, setIsEvaluated] = useState(false);
   const clicked = (thesisSerialNumber, progressReportNumber) => {
     setIsEvaluated(false);
     setTheModal();
+    console.log(thesisSerialNumber);
+    //SerialNUm is 10 and Progress Report Number is 20
     for (let i = 0; i < reports.length; i++) {
-      if (reports[i].thesisSerialNumber == thesisSerialNumber) {
+      if (reports[i].progressReportNumber == progressReportNumber) {
         setSelectedReport(reports[i]);
-        // setValue(selectedReport.evaluation);
         break;
       }
     }
@@ -81,6 +82,9 @@ function Reports(props) {
   useEffect(() => {
     getReports();
   }, [isEvaluated]);
+  useEffect(() => {
+    getReports();
+  }, [isThesisCancelled]);
 
   return (
     <div>
@@ -207,7 +211,10 @@ function Reports(props) {
                             <td>
                               <Button
                                 onClick={() => {
-                                  clicked(item.thesisSerialNumber);
+                                  clicked(
+                                    item.thesisSerialNumber,
+                                    item.progressReportNumber
+                                  );
                                 }}
                                 style={{ width: "75%" }}
                               >
