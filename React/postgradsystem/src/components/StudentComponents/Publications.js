@@ -79,11 +79,12 @@ function Publications(props) {
 
   const createSelectItems = () => {
     //Make array carry the thesisTitle and its serialNumber
-
-  
-
     let items = [];
+    items.push(<option>Select Thesis</option>);
     for (let i = 0; i <= thesis.length; i++) {
+      if (thesis[i] == undefined) {
+        break;
+      }
       items.push(
         <option key={i} value={i}>
           {thesis[i] ? thesis[i].title : null}

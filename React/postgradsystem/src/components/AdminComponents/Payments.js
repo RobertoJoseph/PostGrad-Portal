@@ -25,7 +25,9 @@ function Payments(props) {
   const [installmentsIssued, setInstallmentsIssued] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
   const [thesis, setThesis] = useState([]);
-  const [thesisSerialNumber, setThesisSerialNumber] = useState(1);
+  const [thesisSerialNumber, setThesisSerialNumber] = useState(
+    thesis.length != 0 ? thesis[0].serialNumber : 0
+  );
   const [isIssued, setIsIssued] = useState(false);
 
   const getAllThesis = () => {
@@ -74,7 +76,12 @@ function Payments(props) {
 
   const createSelectItems = () => {
     let items = [];
+    items.push(<option>Select Thesis</option>);
+
     for (let i = 0; i <= thesis.length; i++) {
+      if (thesis[i] == undefined) {
+        break;
+      }
       items.push(
         <option key={i} value={i}>
           {thesis[i]
@@ -88,7 +95,11 @@ function Payments(props) {
 
   const createPaymentSelect = () => {
     let items = [];
+    items.push(<option>Select Payment Order</option>);
     for (let i = 0; i <= payments.length; i++) {
+      if (payments[i] == undefined) {
+        break;
+      }
       items.push(
         <option key={i} value={i}>
           {payments[i]
@@ -112,6 +123,9 @@ function Payments(props) {
     getAllPayments();
     getAllThesis();
   }, [isIssued]);
+  useEffect(() => {
+    getAllPayments();
+  }, [installmentsIssued]);
 
   return (
     <IconContext.Provider value={{ color: "#fff" }}>
@@ -156,7 +170,12 @@ function Payments(props) {
                           id="exampleSelect"
                           className="form-control"
                           onChange={(e) => {
+                            getAllThesis();
                             const selectedOption = e.target.value;
+                            console.log(
+                              "HERE IS THE SELECTED OPTION",
+                              selectedOption
+                            );
                             setThesisSerialNumber(
                               thesis[selectedOption].serialNumber
                             );

@@ -23,7 +23,7 @@ function Reports(props) {
           <div className="col-12 mt-3">
       <Table striped>
         <thead>
-          <tr align="center">
+          <tr align="center" className="tableHeader">
             <th>#</th>
             <th>Thesis Title</th>
             <th >Evaluation</th>

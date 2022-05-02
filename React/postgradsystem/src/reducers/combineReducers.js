@@ -18,6 +18,7 @@ const allReducers = combineReducers({
     installments: "7",
     defenseForm: "8",
     evaluateProgressReport: "9",
+    examinerForm: "10",
   }),
 });
 export default allReducers;

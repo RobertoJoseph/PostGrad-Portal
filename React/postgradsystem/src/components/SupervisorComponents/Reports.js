@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import "../../css/Navbar.css";
+import "../../css/newNav.css";
+
 import Axios from "axios";
 import styled from "styled-components";
 import { Control, Form } from "react-redux-form";
@@ -24,7 +26,6 @@ import {
 } from "reactstrap";
 
 function Reports(props) {
-
   const [clickedId, setClickedId] = useState(0);
   const [isModalOpen, toggleModal] = useState(false);
   const setTheModal = () => toggleModal(!isModalOpen);
@@ -158,6 +159,7 @@ function Reports(props) {
                       onClick={() => {
                         thesisButton();
                       }}
+                      style={{ width: "75%" }}
                     >
                       Cancel Thesis
                     </Button>
@@ -175,12 +177,9 @@ function Reports(props) {
                   Progress Reports
                 </Row>
                 <Row>
-                  <Table
-                    striped
-                    style={{ backgroundColor: "white", height: "300px" }}
-                  >
+                  <Table striped>
                     <thead>
-                      <tr>
+                      <tr className="tableHeader" align="center">
                         <th>#</th>
                         <th>Report No.</th>
                         <th>Date</th>
@@ -193,7 +192,7 @@ function Reports(props) {
                     <tbody>
                       {reports.map((item, index) => {
                         return (
-                          <tr key={index} id={index}>
+                          <tr key={index} id={index} align="center">
                             <th scope="row">{index}</th>
                             <td>{item.progressReportNumber}</td>
                             <td>
@@ -210,6 +209,7 @@ function Reports(props) {
                                 onClick={() => {
                                   clicked(item.thesisSerialNumber);
                                 }}
+                                style={{ width: "75%" }}
                               >
                                 View
                               </Button>
@@ -264,6 +264,7 @@ function Reports(props) {
                       name="description"
                       type="text"
                       model=".description"
+                      className="form-control"
                       value={selectedReport.description}
                     ></Control.text>
                   </Col>

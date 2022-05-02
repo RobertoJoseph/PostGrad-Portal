@@ -1,34 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { IconContext } from 'react-icons';
+import React, { useState, useEffect } from "react";
+import { IconContext } from "react-icons";
 import {
-  Nav, NavItem, NavLink, TabContent, TabPane, Col, Table, Badge
-} from 'reactstrap';
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+  Col,
+  Table,
+  Badge,
+} from "reactstrap";
 import Axios from "axios";
 import "../../css/newNav.css";
 import "../../css/Navbar.css";
 
-
-
 function NonGUCpayments(props) {
-
   const [thesisPayment, setThesisPayment] = useState([]);
   const [coursePayment, setCoursePayment] = useState([]);
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab, setActiveTab] = useState("1");
 
   const getThesisPayments = () => {
-    Axios.get(`http://localhost:9000/students/thesispayments/${props.studentID}`).then(
-      (res) => {
-        setThesisPayment(res.data);
-      }
-    );
+    Axios.get(
+      `http://localhost:9000/students/thesispayments/${props.studentID}`
+    ).then((res) => {
+      setThesisPayment(res.data);
+    });
   };
 
   const getCoursePayments = () => {
-    Axios.get(`http://localhost:9000/students/coursepayments/${props.studentID}`).then(
-      (res) => {
-        setCoursePayment(res.data);
-      }
-    );
+    Axios.get(
+      `http://localhost:9000/students/coursepayments/${props.studentID}`
+    ).then((res) => {
+      setCoursePayment(res.data);
+    });
   };
 
   useEffect(() => {
@@ -36,25 +40,29 @@ function NonGUCpayments(props) {
     getCoursePayments();
   }, []);
 
-
   return (
-    <IconContext.Provider value={{ color: '#fff' }}>
-      <div className='row mt-5'>
-        <Col md={{ size: 10, offset: 1 }} >
-
+    <IconContext.Provider value={{ color: "#fff" }}>
+      <div className="row mt-5">
+        <Col md={{ size: 10, offset: 1 }}>
           <Nav tabs>
-            <NavItem className='tab'>
-              <NavLink id={activeTab === '1' ? 'act' : ''} onClick={() => setActiveTab('1')}>
+            <NavItem className="tab">
+              <NavLink
+                id={activeTab === "1" ? "act" : ""}
+                onClick={() => setActiveTab("1")}
+              >
                 Theses Payments
               </NavLink>
             </NavItem>
-            <NavItem className='tab'>
-              <NavLink id={activeTab === '2' ? 'act' : ''} onClick={() => setActiveTab('2')}>
+            <NavItem className="tab">
+              <NavLink
+                id={activeTab === "2" ? "act" : ""}
+                onClick={() => setActiveTab("2")}
+              >
                 Courses Payments
               </NavLink>
             </NavItem>
           </Nav>
-          <TabContent activeTab={activeTab} className='content'>
+          <TabContent activeTab={activeTab} className="content">
             <TabPane tabId="1">
               <Table striped>
                 <thead>
@@ -73,15 +81,24 @@ function NonGUCpayments(props) {
                       <tr key={index} align="center">
                         <th scope="row">{index + 1}</th>
                         <td>{item.title}</td>
-                        <td>  {new Intl.DateTimeFormat("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "2-digit",
-                        }).format(new Date(Date.parse(item.date)))}</td>
+                        <td>
+                          {" "}
+                          {new Intl.DateTimeFormat("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "2-digit",
+                          }).format(new Date(Date.parse(item.date)))}
+                        </td>
                         <td>{item.amount}</td>
                         <td>
-                          {item.isPaid ? (<Badge color='success'>Paid</Badge>) :
-                            (new Date(item.date).getTime() >= new Date().getTime() ? (<Badge color='primary'>Upcoming</Badge>) : <Badge color='danger'>Missed</Badge>)}
+                          {item.isPaid ? (
+                            <Badge color="success">Paid</Badge>
+                          ) : new Date(item.date).getTime() >=
+                            new Date().getTime() ? (
+                            <Badge color="primary">Upcoming</Badge>
+                          ) : (
+                            <Badge color="danger">Missed</Badge>
+                          )}
                         </td>
                       </tr>
                     );
@@ -90,9 +107,9 @@ function NonGUCpayments(props) {
               </Table>
             </TabPane>
             <TabPane tabId="2">
-            <Table striped>
+              <Table striped>
                 <thead>
-                  <tr align="center">
+                  <tr align="center" className="tableHeader">
                     <th>Intsallment No.</th>
                     <th>Course Name</th>
                     <th>Deadline</th>
@@ -107,15 +124,24 @@ function NonGUCpayments(props) {
                       <tr key={index} align="center">
                         <th scope="row">{index + 1}</th>
                         <td>{item.code}</td>
-                        <td>  {new Intl.DateTimeFormat("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "2-digit",
-                        }).format(new Date(Date.parse(item.date)))}</td>
+                        <td>
+                          {" "}
+                          {new Intl.DateTimeFormat("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "2-digit",
+                          }).format(new Date(Date.parse(item.date)))}
+                        </td>
                         <td>{item.amount}</td>
                         <td>
-                          {item.isPaid ? (<Badge color='success'>Paid</Badge>) :
-                            (new Date(item.date).getTime() >= new Date().getTime() ? (<Badge color='primary'>Upcoming</Badge>) : <Badge color='danger'>Missed</Badge>)}
+                          {item.isPaid ? (
+                            <Badge color="success">Paid</Badge>
+                          ) : new Date(item.date).getTime() >=
+                            new Date().getTime() ? (
+                            <Badge color="primary">Upcoming</Badge>
+                          ) : (
+                            <Badge color="danger">Missed</Badge>
+                          )}
                         </td>
                       </tr>
                     );
@@ -126,11 +152,8 @@ function NonGUCpayments(props) {
           </TabContent>
         </Col>
       </div>
-
     </IconContext.Provider>
-
   );
-
 }
 
 export default NonGUCpayments;

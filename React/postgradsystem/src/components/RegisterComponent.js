@@ -19,6 +19,7 @@ import { Control, Form, Errors, actions } from "react-redux-form";
 import { IconContext } from "react-icons";
 import classnames from "classnames";
 import * as FaIcons from "react-icons/fa";
+import { Navigate } from "react-router-dom";
 
 class Register extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ class Register extends Component {
   }
 
   handleSubmit(values) {
+    console.log(values);
     this.props.addStudent(
       values.firstName,
       values.lastName,
@@ -59,6 +61,7 @@ class Register extends Component {
       values.address,
       values.isGucian
     );
+    
   }
   supRegister = (values) => {
     this.props.addSupervisor(
@@ -67,6 +70,15 @@ class Register extends Component {
       values.email,
       values.password,
       values.faculty
+    );
+  };
+  examinerReg = (values) => {
+    this.props.addExaminer(
+      values.name,
+      values.email,
+      values.password,
+      values.fieldOfWork,
+      values.isEgyptian
     );
   };
 
@@ -388,6 +400,127 @@ class Register extends Component {
                                   <option value="phar">Pharmacy</option>
                                 </Control.select>
                               </Col>
+                            </Row>
+                          </FormGroup>
+
+                          {/* <Link to="/student" className="link-underline">
+                            Submit
+                          </Link> */}
+                          {
+                            <Button
+                              type="submit"
+                              value="submit"
+                              color="primary"
+                              className="offset-md-10"
+                              id="studentForm"
+                            >
+                              Submit
+                            </Button>
+                          }
+                        </Form>
+                      </Col>
+                    </Row>
+                  </TabPane>
+
+                  <TabPane tabId="3">
+                    <Row>
+                      <Col>
+                        <Form
+                          model="examinerForm"
+                          onSubmit={(values) => this.examinerReg(values)}
+                          className="mt-3"
+                        >
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="name" md={3}>
+                                Name
+                              </Label>
+                              <Col md={9}>
+                                <Control.text
+                                  id="name"
+                                  name="name"
+                                  type="text"
+                                  model=".name"
+                                  placeholder="Enter Your Name"
+                                  className="form-control"
+                                ></Control.text>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="email" md={3}>
+                                Email
+                              </Label>
+                              <Col md={9}>
+                                <Control.text
+                                  id="email"
+                                  name="email"
+                                  type="email"
+                                  model=".email"
+                                  placeholder="Email"
+                                  className="form-control"
+                                ></Control.text>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="password" md={3}>
+                                Password
+                              </Label>
+                              <Col md={9}>
+                                <Control.text
+                                  id="password"
+                                  name="password"
+                                  type="password"
+                                  model=".password"
+                                  placeholder="Password"
+                                  className="form-control"
+                                ></Control.text>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                          <FormGroup>
+                            <Row>
+                              <Label htmlFor="fieldOfWork" md={3}>
+                                Field Of Work
+                              </Label>
+                              <Col md={9}>
+                                <Control.select
+                                  id="fieldOfWork"
+                                  name="fieldOfWork"
+                                  type="select"
+                                  model=".fieldOfWork"
+                                  placeholder="Field Of Work"
+                                  className="form-control"
+                                >
+                                  <option selected value="art">
+                                    Arts
+                                  </option>
+                                  <option value="cs">Computer Science</option>
+                                  <option value="eng">Engineering</option>
+                                  <option value="law">Law</option>
+                                  <option value="mngt">Management</option>
+                                  <option value="med">Medicine</option>
+                                  <option value="phar">Pharmacy</option>
+                                </Control.select>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                          <FormGroup check>
+                            <Row>
+                              <Label check md={{ offset: 3 }}>
+                                <Control.checkbox
+                                  type="checkbox"
+                                  id="gucisEgyptianian"
+                                  name="isEgyptian"
+                                  model=".isEgyptian"
+                                ></Control.checkbox>
+                                {"        "}{" "}
+                                <strong> {"         "} Is Egyptian</strong>
+                              </Label>
                             </Row>
                           </FormGroup>
 

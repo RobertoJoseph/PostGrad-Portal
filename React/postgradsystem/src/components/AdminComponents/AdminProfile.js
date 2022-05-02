@@ -39,9 +39,8 @@ function Admin(props) {
     e.preventDefault();
     console.log("I am in the back button");
     if (!finishStatus) {
-        setfinishStatus(true);
-        setPrevAndNextURL((prev) => [prev[1], prev[0]]);
-      
+      setfinishStatus(true);
+      setPrevAndNextURL((prev) => [prev[1], prev[0]]);
     }
   };
   const windowOpenAndClose = () => {
@@ -76,7 +75,8 @@ function Admin(props) {
   const getUserInformation = () => {
     Axios.get(`http://localhost:9000/admin/admindata/${adminID}`).then(
       (res) => {
-        setUsername(res.data[0].Name);
+        console.log(res);
+        setUsername(res.data[0].name);
       }
     );
   };
@@ -146,7 +146,9 @@ function Admin(props) {
                 return (
                   <li
                     key={index}
-                    className={`row ${(item.title===prevAndNextURL[1]) ? "active" : ""}`}
+                    className={`row ${
+                      item.title === prevAndNextURL[1] ? "active" : ""
+                    }`}
                     onClick={() => {
                       setfinishStatus(false);
                       setPrevAndNextURL((prevURL) => [prevURL[1], item.title]);

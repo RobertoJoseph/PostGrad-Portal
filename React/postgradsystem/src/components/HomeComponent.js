@@ -37,6 +37,7 @@ export default function Home(props) {
               addStudent={props.addStudent}
               addSupervisor={props.addSupervisor}
               resetFeedBackForm={props.resetFeedBackForm}
+              addExaminer={props.addExaminer}
             ></Register>
           </div>
           <div className="col-12 col-md-6">
@@ -47,3 +48,5 @@ export default function Home(props) {
     </div>
   );
 }
+
+

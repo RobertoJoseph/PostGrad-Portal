@@ -4,9 +4,9 @@ import { Route, Redirect, Routes } from "react-router-dom";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 import {
-  getStudents,
   addStudent,
   addSupervisor,
+  addExaminer,
 } from "../redux/actionCreators";
 import Student from "./StudentComponents/StudentProf";
 import SupervisorProf from "./SupervisorComponents/SupervisorProf";
@@ -44,6 +44,8 @@ const mapDispatchToProps = (dispatch) => ({
     ),
   addSupervisor: (firstName, lastName, email, password, faculty) =>
     dispatch(addSupervisor(firstName, lastName, email, password, faculty)),
+  addExaminer: (name, email, password, fieldOfWork, isEgyptian) =>
+    dispatch(addExaminer(name, email, password, fieldOfWork, isEgyptian)),
 });
 
 class Main extends Component {
@@ -65,6 +67,7 @@ class Main extends Component {
                 addStudent={this.props.addStudent}
                 addSupervisor={this.props.addSupervisor}
                 resetFeedBackForm={this.props.resetFeedBackForm}
+                addExaminer={this.props.addExaminer}
               ></Home>
             }
           ></Route>
@@ -75,6 +78,7 @@ class Main extends Component {
                 addStudent={this.props.addStudent}
                 addSupervisor={this.props.addSupervisor}
                 resetFeedBackForm={this.props.resetFeedBackForm}
+                addExaminer={this.props.addExaminer}
               ></Home>
             }
           ></Route>

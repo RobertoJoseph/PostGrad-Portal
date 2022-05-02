@@ -19,9 +19,6 @@ import {
 import * as TiIcons from "react-icons/ti";
 import { useForm } from "react-hook-form";
 
-
-
-
 function Thesis(props) {
   const { register, handleSubmit } = useForm();
   const [thesis, setThesis] = useState([]);
@@ -76,7 +73,7 @@ function Thesis(props) {
                 style={{ backgroundColor: "#151F31" }}
               >
                 <span style={{ color: "white" }}>
-                  Thesis&nbsp;&nbsp;No. {index + 1}&nbsp; :&nbsp;&nbsp;{" "}
+                  Thesis&nbsp;&nbsp;No. {item.serialNumber}&nbsp; :&nbsp;&nbsp;{" "}
                   {item.title}
                 </span>
               </CardHeader>

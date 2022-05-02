@@ -58,3 +58,20 @@ export const addSupervisor =
         console.log(err);
       });
   };
+export const addExaminer =
+  (name, email, password, fieldOfWork, isEgyptian) => (dispatch) => {
+    const newExaminer = {
+      name: name,
+      email: email,
+      password: password,
+      fieldOfWork: fieldOfWork,
+      isEgyptian: isEgyptian,
+    };
+    return Axios.post("http://localhost:9000/examiner/addExaminer", newExaminer)
+      .then((res) => {
+        alert("Successfuly Added an Examiner");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };

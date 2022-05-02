@@ -35,7 +35,7 @@ import { useHistory } from 'react-router-dom'
 
 
 function ExaminerProf(props) {
-  const [URL, setURL] = useState("");
+  const [URL, setURL] = useState("Defenses");
   const [Active, setActive] = useState("");
   let { examinerID } = useParams();
   const [isModalOpen, toggleModal] = useState(false);

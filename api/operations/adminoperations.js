@@ -199,7 +199,7 @@ exports.getAllThesis = async function (req, res) {
 
 exports.AdminIssueThesisPayment = async function (req, res) {
   try {
-    console.log();
+    console.log(req.body);
     let pool = await sql.connect(config);
     const result = await pool
       .request()
@@ -271,8 +271,7 @@ exports.AdminIssueInstallPayment = async function (req, res) {
 exports.ListAllPayments = async function (req, res) {
   try {
     let pool = await sql.connect(config);
-    const result = (await pool.request().execute(`ListAllPayments`))
-      .recordset;
+    const result = (await pool.request().execute(`ListAllPayments`)).recordset;
     res.send(result);
   } catch (erorr) {
     console.log(erorr);
@@ -294,9 +293,9 @@ exports.ListUnlinkedTheses = async function (req, res) {
 
 exports.LinkThesis = async function (req, res) {
   try {
-    console.log("STUDENT "+ req.body.studentID);
-    console.log("SUPERVISOR "+ req.body.supervisorID);
-    console.log("SERIAL "+ req.body.serialNumber);
+    console.log("STUDENT " + req.body.studentID);
+    console.log("SUPERVISOR " + req.body.supervisorID);
+    console.log("SERIAL " + req.body.serialNumber);
     let pool = await sql.connect(config);
     const result = await pool
       .request()

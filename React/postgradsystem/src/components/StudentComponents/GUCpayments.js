@@ -34,7 +34,7 @@ function GUCpayments(props) {
 
               <Table striped>
                 <thead>
-                  <tr align="center">
+                  <tr align="center" className='tableHeader'>
                     <th>Intsallment No.</th>
                     <th>Thesis Title</th>
                     <th>Deadline</th>

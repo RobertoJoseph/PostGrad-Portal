@@ -69,3 +69,21 @@ exports.addCommentAndGrade = async function (req, res) {
     sql.close();
   }
 };
+
+exports.ExaminerRegister = async function (req, res) {
+  try {
+    let pool = await sql.connect(config);
+    const result = await pool
+      .request()
+      .input("name", sql.VarChar, req.body.name)
+      .input("email", sql.VarChar, req.body.email)
+      .input("password", sql.VarChar, req.body.password)
+      .input("fieldOfWork", sql.VarChar, req.body.fieldOfWork)
+      .input("isNational", sql.Bit, req.body.isEgyptian)
+      .execute(`ExaminerRegister`);
+    res.send({ isRegistered: false });
+  } catch (err) {
+    console.log(err);
+    sql.close();
+  }
+};

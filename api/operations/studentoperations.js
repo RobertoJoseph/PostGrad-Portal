@@ -39,17 +39,19 @@ exports.editMyProfile = async function (req, res) {
 
 exports.StudentRegister = async function (req, res) {
   try {
+    console.log(req.body.firstName);
     let pool = await sql.connect(config);
     const result = await pool
       .request()
-      .input("firstName", sql.VarChar, req.body.firstName)
-      .input("lastName", sql.VarChar, req.body.lastName)
+      .input("first_name", sql.VarChar, req.body.firstName)
+      .input("last_name", sql.VarChar, req.body.lastName)
       .input("password", sql.VarChar, req.body.password)
       .input("faculty", sql.VarChar, req.body.faculty)
       .input("gucian", sql.Bit, req.body.isGucian)
       .input("email", sql.VarChar, req.body.email)
       .input("address", sql.VarChar, req.body.address)
       .execute(`StudentRegister`);
+    res.send(result);
   } catch (error) {
     console.log(error);
     sql.close();
@@ -386,7 +388,6 @@ exports.checkGUCian = async function (req, res) {
     sql.close();
   }
 };
-
 
 exports.ViewThesisPaymentsInstall = async function (req, res) {
   try {
