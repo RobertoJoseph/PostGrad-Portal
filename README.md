@@ -8,7 +8,7 @@ This is a project of our Database Course. It is a system that keeps track of stu
 * NodeJs
 * Reactstrap
 
-###Other tools
+### Other tools
 * Git is a version control system for tracking changes in source code during software development.
 
 ## Contributers
