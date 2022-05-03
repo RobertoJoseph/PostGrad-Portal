@@ -14,7 +14,7 @@ The portal has it's DBMS implemented as specified by the user stories from our D
 ### Installation
 1- Clone the project
 ``` java
-git clone https://localhost:9000/admin/student
+git clone https://github.com/RobertoJoseph/UI-PostGrad-Portal.git
 ```
 ---
 
