@@ -4,10 +4,9 @@ This is our take on the PostGrad System project from Database I course at the GU
 The portal has it's DBMS implemented as specified by the user stories from our DB project.
 
 ## Tools
-* ReactJS
-* Express
-* NodeJs
-* Reactstrap
+* React.js
+* Express.js
+* Node.js
 
 ### Other tools
 * Git is a version control system for tracking changes in source code during software development.
