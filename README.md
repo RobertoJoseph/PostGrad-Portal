@@ -17,9 +17,8 @@ This is a project of our Database Course. It is a system that keeps track of stu
 * Ahmed Heidar
 
 ### Usage
-``` java
-git clone 
-```
+![carbon](https://user-images.githubusercontent.com/67745591/166574434-724e59fa-41ea-4351-ab1e-9199b058ee6d.png)
+
 
 ## Samples
 1- Home Page
