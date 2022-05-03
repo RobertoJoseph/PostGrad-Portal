@@ -16,6 +16,11 @@ This is a project of our Database Course. It is a system that keeps track of stu
 * Kareem Heidar
 * Ahmed Heidar
 
+### Usage
+``` java
+git clone 
+```
+
 ## Samples
 1- Home Page
 
