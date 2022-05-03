@@ -1,6 +1,7 @@
 # UI-PostGrad-Portal Single Page Application
 ## Description
-This is a project of our Database Course. It is a system that keeps track of students' thesis (Masters or Ph.D.), publications, progress reports. There is an ability of the Examiner and Supervisor to register. The supervisor's role is supervising the student's thesis and the examiner examines the defenses. There is an admin login where he can see all content in the system like running thesis of a specific student, also issuing payment, installments.
+This is our take on the PostGrad System project from Database I course at the GUC. It's a single page web application that keeps track of students doing their postgrad studies. The system helps students manage their Masters and PHD. programs, as well as taking prerequisite courses. The system also allows supervisors and examiners to monitor and control their students' theses and reports. Admins also have their own accounts where they can login to manage and perform all the necessary tasks. 
+The portal has it's DBMS implemented as specified by the user stories from our DB project.
 
 ## Tools
 * ReactJS
