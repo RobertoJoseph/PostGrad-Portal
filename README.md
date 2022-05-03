@@ -11,14 +11,20 @@ This is a project of our Database Course. It is a system that keeps track of stu
 ### Other tools
 * Git is a version control system for tracking changes in source code during software development.
 
-## Contributers
-* Roberto Joseph
-* Kareem Heidar
-* Ahmed Heidar
+### Installation
+1- Clone the project
+``` java
+git clone https://localhost:9000/admin/student
+```
+---
 
-### Usage
-![carbon](https://user-images.githubusercontent.com/67745591/166574434-724e59fa-41ea-4351-ab1e-9199b058ee6d.png)
+2- Run `npm i` in the Project folder
 
+3- Execute [Database Folder](https://github.com/RobertoJoseph/UI-PostGrad-Portal/tree/main/Database) to be able to use our database
+
+4- Run `npm start` in `postgradsystem` (to run the project)
+
+---
 
 ## Samples
 1- Home Page
@@ -56,6 +62,11 @@ This is a project of our Database Course. It is a system that keeps track of stu
 9- Supervisor Choose Progress Report
 
 <img width="1440" alt="Screen Shot 2022-05-02 at 8 38 23 PM" src="https://user-images.githubusercontent.com/67745591/166305561-e71676ca-5e75-446e-8ae1-1c6cf60d089b.png">
+
+## Contributers
+* Roberto Joseph
+* Kareem Heidar
+* Ahmed Heidar
 
 
 
