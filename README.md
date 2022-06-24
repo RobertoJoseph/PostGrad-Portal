@@ -7,6 +7,7 @@ The portal has it's DBMS implemented as specified by the user stories from our D
 * React.js
 * Express.js
 * Node.js
+* MSSQL
 
 ### Other tools
 * Git is a version control system for tracking changes in source code during software development.
